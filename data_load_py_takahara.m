@@ -28,7 +28,10 @@ function [s_use,f] = data_load_py_takahara(dataname,datanameH)
         data(A(6,i)+1,A(5,i)+1,rem(i-1,Nf)+1,2) = A(4,i)/180*pi;
     end
     % dBでの散乱画像の表示
-    % show_s_dB(data(:,:,[2 11:10:101],:));
+      show_s_sample(data(:,:,[2 11:10:101],:));
+      show_s_scaled(data(:,:,[2 11:10:101],:));
+    %show_s_sample(data);
+     %show_s_scaled(data);
     dataH=zeros(Nx,Ny,Nf,2);
     % dataH = zeros(1,1,Nf,2);
     % for i = 1:Nf
