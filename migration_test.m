@@ -10,22 +10,24 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
 
 % load measured data
-dataname = 'data/20220617';
+dataFolder='data\';
+dataFile='0718_nanimonashi_default';
+dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
 % [s,f] = data_load_XY_raw(dataname);
-[s,f] = data_load_XY(dataname,dataHname);
+[s,f] = data_load_py(dataname,dataHname);
 
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)
 s = s(:,:,index);
 f = f(index);
-[Nx,Ny,Nf] = size(s);
+[Nx,Ny,Nf] = size(s);%Nf-1になっているのでは？
 x_int = 0.005; % x-interval
 y_int = 0.005; % y-interval
 z_int = 0.005; % z-interval
 h = 0.28; % height of antennas
-g = 0.19; % gap from caliblation point to tip of antenna
+g = 0.19; % gap from caliblation point to アンテナの先端
 d = 0.06; % distance between antennas
 nu = physconst('Lightspeed'); % light speed
 er = 4; % relative permittivity
@@ -33,15 +35,16 @@ er = 4; % relative permittivity
 x = 0:x_int:x_int*(Nx-1); % x-positions
 y = 0:y_int:y_int*(Ny-1); % y-positions
 z = 0.2:z_int:0.65; % z-positions
-Nz = size(z,2);
+Nz = size(z,2);%zの要素数→zについていくつ値をとったか
 %% 周波数などもろもろの補正
 
 %s_cd = s; % 補正済み散乱係数　moved
 f = round(f); % 変な端数の丸め
-
+% ./ →対応する各要素で割り算すればいい
 s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
 
 % 周波数ごとの距離減衰 点散乱源を仮定した補正f^4　面反射の場合はf^2
+%対応する要素で掛け算する
 s_cd = s_cd.*reshape(f.^4,1,1,Nf);
 
 s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
@@ -61,8 +64,9 @@ freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 
 
 % 逆フーリエ変換で時間領域に変換
-START_FREQ = f(1);
+START_FREQ = f(1);%初期周波数まじで一つ値ずれてる
 df = f(2)-f(1); % 周波数ステップ幅
+%floor:その値以下で最も近い整数
 N_head = floor(START_FREQ/df); % START_FREQまでの埋めるべき周波数点数
 % Nfft = N_head+Nf;
 Nfft = 1024;
@@ -71,9 +75,11 @@ s_shifted = zeros(Nx,Ny,Nfft); % 埋める周波数を含めた周波数応答�
 % ind([157 200])=0;
 % ind = ind>0;
 % s_cd(:,:,ind)=0;
-s_shifted(:,:,N_head+1:N_head+Nf) = s_cd(:,:,:);
-s_time = ifft(s_shifted,Nfft,3);
+%TODO 高原ここらへんからわからんくなった
+s_shifted(:,:,N_head+1:N_head+Nf) = s_cd(:,:,:);%周波数軸で見ればいい
+s_time = ifft(s_shifted,Nfft,3);%逆フーリエ変換
 time_data = mag2db(squeeze(sum(abs(s_time),[1 2]))); % xyの次元をまとめた時の時間領域の特性
+%時間領域の幅
 T = 1/df; % 時間領域の最大値
 dt = T/Nfft; % 伝搬時間分解能
 L = T*nu; % 空間領域の最大値
@@ -81,6 +87,7 @@ dl = L/Nfft; % 伝搬距離分解能
 t = (0:Nfft-1)*dt; % 伝搬時間
 l = (0:Nfft-1)*dl; % 伝搬距離
 z = [l(l/2<h+g)/2 l(l/2>h+g)/2/sqrt(er)+(h+g)*(1-1/sqrt(er))];
+%結局使われているのこっちで草
 z = l/2;
 % s_time = s_time.*reshape((l/2).^4,1,1,Nfft); % 伝搬距離による減衰の補正（自由空間を仮定）
 
@@ -92,34 +99,35 @@ z = l/2;
 
 % 表面と容器底面の散乱を除去
 time_data = db2mag(time_data);
-[~,I1] = max(time_data); % 1つ目のピークを探索
-gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
-gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
-s_time_filtered = s_time-s_time.*gwin;
-time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
-
-[~,I2] = max(time_data_filtered); % 2つ目のピークを探索
-gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
-gwin = circshift(gwin,I2,3); % ガウス窓をピークの位置にシフト
-s_time_filtered = s_time_filtered-s_time_filtered.*gwin;
-time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
+%最も大きいデータのインデントをとってきている
+% [~,I1] = max(time_data); % 1つ目のピークを探索
+% gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
+% gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
+% s_time_filtered = s_time-s_time.*gwin;
+% time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
+% 
+% [~,I2] = max(time_data_filtered); % 2つ目のピークを探索
+% gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
+% gwin = circshift(gwin,I2,3); % ガウス窓をピークの位置にシフト
+% s_time_filtered = s_time_filtered-s_time_filtered.*gwin;
+% time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
 % figure;
 % plot(l/2,time_data_filtered);
 % xlabel('distance[m]');
 % ylabel('amplitude[dB]');
 % ある深さ幅の位相と振幅表示
-index_distance = find(0.4<l/2 & l/2<0.65);
+index_distance = find(0.3<l/2 & l/2<0.7);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
-show_volume((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理前の表示
-show_volume((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv);
+show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);
 
 % plot(l(index_distance)/2,squeeze(mean(abs(s_time(:,:,index_distance)),[1 2]))');
 
-s_cd_filtered = fft(s_time_filtered,Nfft,3);
+% s_cd_filtered = fft(s_time_filtered,Nfft,3);
 
 
 %% 位相復元
@@ -479,8 +487,7 @@ d_sum = sum(d,2); % それぞれの角度でのゲインを足し合わせる
 [M,I] = max(d_sum); % 最もゲインが高い角度を確認
 d = circshift(d,181-I,1); % 中央(181セル目)が最大になるようにシフト
 f_load = A(1,2:end);
-display(size(f));
-display(size(f_load));
+
 Nf = size(f,2);
 index = zeros(1,Nf); % 使用する周波数のインデックス
 

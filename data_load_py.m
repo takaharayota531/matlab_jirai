@@ -1,43 +1,29 @@
 % XY-stageのデータを読み込む
-% dataを複素数状の配列に変換して読み込んでいる
-function [s_use,f] = data_load_XY(dataname,datanameH)
+
+function [s_use,f] = data_load_py(dataname,datanameH)
 disp('Data loading ...');
-tic %ストップウォッチのタイマーを開始
-%horzcat:配列を水平に連結
+tic
 filename = horzcat(dataname,'.txt');
 filenameH = horzcat(datanameH,'.txt');
 
-fileID = fopen(filename,'r');
-formatSpec = '%d %f %f %f %d %d';
-%[6,inf]の意味は列6を無限に読みこんでくるということ
-%こいつ読みだされるときに転置している
-A = fscanf(fileID,formatSpec,[6 inf]);%ここをcsv readmatrix 転置気を付ける
+A = readmatrix(filename)';
+ fileID = fopen(filenameH,'r');
+ formatSpec = '%d %f %f %f %d %d';
+ H = fscanf(fileID,formatSpec,[6 inf]);
 
-fileID = fopen(filenameH,'r');
-formatSpec = '%d %f %f %f %d %d';
-H = fscanf(fileID,formatSpec,[6 inf]);
-disp(size(A,2));
-N = size(A,2);%列の長さデータ数
-%下は+1しないとデータサイズに対応できない
+N = size(A,2);
 Nx = A(6,end)+1;
 Ny = A(5,end)+1;
-
-Nf =N/Nx/Ny;%データの一セット
-
-F_int = A(2,2)-A(2,1);%周波数の差分をとっている
-F_s = A(2,1);%基本周波数
-f = squeeze(A(2,1:Nf));%長さ1の次元を削除している
-
-
-data = zeros(Nx,Ny,Nf,2);%振幅と位相を格納している
-A([1 5 6],:) = round(A([1 5 6],:));%何か知らんがもうすでに整数の値をもう一回丸めている
-
-
+Nf = N/Nx/Ny;
+F_int = A(2,2)-A(2,1);
+F_s = A(2,1);
+f = squeeze(A(2,1:Nf));
+data = zeros(Nx,Ny,Nf,2);
+A([1 5 6],:) = round(A([1 5 6],:));
 
 for i = 1:N
-    %rem→i-1をNfで割ったときの余り
-    data(A(6,i)+1,A(5,i)+1,rem(i-1,Nf)+1,1)=A(3,i);
-    data(A(6,i)+1,A(5,i)+1,rem(i-1,Nf)+1,2) = A(4,i)/180*pi;%ラジアンに直してる臭い
+    data(A(6,i)+1,A(5,i)+1,rem(i-1,Nf)+1,1) = A(3,i);
+    data(A(6,i)+1,A(5,i)+1,rem(i-1,Nf)+1,2) = A(4,i)/180*pi;
 end
 % dBでの散乱画像の表示
 % show_s_dB(data(:,:,[2 11:10:101],:));
@@ -51,13 +37,11 @@ end
 % dataH(:,:,:,2) = dataH(:,:,:,2)-dataH(1,1,:,2); % 位相のみの引き算（アンテナの位相中心分の補正)
 
 % 複素数に変換
-% .^ →要素単位のべき乗
-% .* →乗算
 data_comp = 10.^(data(:,:,:,1)/10).*exp(1i*data(:,:,:,2));
 dataH_comp = 10.^(dataH(1,1,:,1)/10).*exp(1i*dataH(1,1,:,2));
 
 % 補正用のデータを複素で引く
-%data_comp = data_comp - dataH_comp;
+  data_comp = data_comp - dataH_comp;
 
 % dataを振幅と位相に分解
 % data(:,:,:,1) = mag2db(abs(data_comp));
@@ -75,8 +59,8 @@ s = data_comp; % 振幅のdB化,正規化せずに使う
 % s_use = s(:,:,62:2:81);
 % s_use = s(:,:,[2 11:10:101]);
 % s_use = s(:,:,2:2:20); % 大体8.0~8.8GHz
-s_use = s(:,:,1:end);%なんでここ2からしか使ってないんや
-f = f;
+s_use = s(:,:,1:end);
+f = f(1:end);
 toc
 end
 
