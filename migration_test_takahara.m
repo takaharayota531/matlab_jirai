@@ -11,12 +11,12 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0718_nanimonashi_default';
+dataFile='0719_metal25_under2cm';
 dataname = append(dataFolder,dataFile);
-dataHname = 'hosei(1-21GHz401points)_paralell';
+dataHname = 'data/0718_nanimonashi_default';
 
 % [s,f] = data_load_XY_raw(dataname);
-[s,f] = data_load_XY(dataname,dataHname);
+[s,f] = data_load_py_takahara(dataname,dataHname);
 
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)

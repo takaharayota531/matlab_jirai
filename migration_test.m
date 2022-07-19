@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0718_nanimonashi_default';
+dataFile='0719_metal25_under2cm';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
