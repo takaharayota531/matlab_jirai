@@ -52,7 +52,6 @@ dataH_comp = 10.^(dataH(1,1,:,1)/10).*exp(1i*dataH(1,1,:,2));
 % 補正用のデータを複素で引く
   data_comp = data_comp - dataH_comp;
 
-  
 % for i=1:Nf
 % data_comp(:,:,i)=uint8(filter2(movSubFilter,data_comp(:,:,i)));  
 % end
