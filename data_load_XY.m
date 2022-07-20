@@ -16,7 +16,6 @@ A = fscanf(fileID,formatSpec,[6 inf]);%ここをcsv readmatrix 転置気を付�
 fileID = fopen(filenameH,'r');
 formatSpec = '%d %f %f %f %d %d';
 H = fscanf(fileID,formatSpec,[6 inf]);
-disp(size(A,2));
 N = size(A,2);%列の長さデータ数
 %下は+1しないとデータサイズに対応できない
 Nx = A(6,end)+1;
@@ -57,7 +56,7 @@ data_comp = 10.^(data(:,:,:,1)/10).*exp(1i*data(:,:,:,2));
 dataH_comp = 10.^(dataH(1,1,:,1)/10).*exp(1i*dataH(1,1,:,2));
 
 % 補正用のデータを複素で引く
-%data_comp = data_comp - dataH_comp;
+data_comp = data_comp - dataH_comp;
 
 % dataを振幅と位相に分解
 % data(:,:,:,1) = mag2db(abs(data_comp));

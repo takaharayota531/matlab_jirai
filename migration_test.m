@@ -11,11 +11,11 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0719_metal25_under2cm';
+dataFile='0719_nanimonashi_default';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
-% [s,f] = data_load_XY_raw(dataname);
+% [s,f] = data_load_XY(dataname,dataHname);
 [s,f] = data_load_py_sub(dataname,dataHname);
 
 f = round(f); % correct digit
