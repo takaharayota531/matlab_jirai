@@ -15,8 +15,9 @@ dataFile='0719_nanimonashi_default';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
-% [s,f] = data_load_XY(dataname,dataHname);
-[s,f] = data_load_py_sub(dataname,dataHname);
+ [s,f] = data_load_XY(dataname,dataHname);
+ % [s,f] = data_load_py(dataname,dataHname);
+%[s,f] = data_load_py_sub(dataname,dataHname);
 
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)
@@ -121,7 +122,7 @@ index_distance = find(0.3<l/2 & l/2<0.7);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+%show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);
 

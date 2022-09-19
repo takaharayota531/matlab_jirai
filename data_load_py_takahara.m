@@ -59,7 +59,7 @@ function [s_use,f] = data_load_py_takahara(dataname,datanameH)
     % data = standard(data); % 振幅[dB]の最小値を0，中央値を1にする
     
     % 振幅をdBのまま複素数に変換
-    s = data(:,:,:,1).*exp(1i*data(:,:,:,2));
+    %s = data(:,:,:,1).*exp(1i*data(:,:,:,2));
     s = data_comp; % 振幅のdB化,正規化せずに使う 
     % データを10周波数ずつにすべて表示して保存する
     % print_all(s,dataname);
@@ -68,8 +68,7 @@ function [s_use,f] = data_load_py_takahara(dataname,datanameH)
     % s_use = s(:,:,62:2:81);
     % s_use = s(:,:,[2 11:10:101]);
     % s_use = s(:,:,2:2:20); % 大体8.0~8.8GHz
-    s_use = s(:,:,1:end);
-    f = f(1:end);
+    s_use = s;
     toc
     end
     

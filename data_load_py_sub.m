@@ -73,8 +73,7 @@ s = data_comp; % 振幅のdB化,正規化せずに使う
 % s_use = s(:,:,62:2:81);
 % s_use = s(:,:,[2 11:10:101]);
 % s_use = s(:,:,2:2:20); % 大体8.0~8.8GHz
-s_use = s(:,:,1:end);
-f = f(1:end);
+s_use = s;
 toc
 end
 

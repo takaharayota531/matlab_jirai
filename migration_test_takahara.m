@@ -1,3 +1,4 @@
+
 % migration x,y,fからx,y,zに変換周波数領域→時間領域に変換して位置に変換
 %clc:すべてのテキストをクリア
 %clear ワークスペースからアイテムを削除
@@ -11,12 +12,12 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0719_metal25_under2cm';
+dataFile='0914_metalpipe_90degree_15_15_2';
 dataname = append(dataFolder,dataFile);
-dataHname = 'data/0718_nanimonashi_default';
+dataHname = 'hosei(1-21GHz401points)_paralell';
 
 % [s,f] = data_load_XY_raw(dataname);
-[s,f] = data_load_py_takahara(dataname,dataHname);
+[s,f] = data_load_py(dataname,dataHname);
 
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)
@@ -117,7 +118,7 @@ time_data = db2mag(time_data);
 % xlabel('distance[m]');
 % ylabel('amplitude[dB]');
 % ある深さ幅の位相と振幅表示
-index_distance = find(0.3<l/2 & l/2<1);
+index_distance = find(0.2<l/2 & l/2<0.4);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
