@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0914_metalpipe_90degree_15_15_2';
+dataFile='0918_metalpipe_15_0_8';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
@@ -140,7 +140,7 @@ phase_rot = reshape(l(index_distance)-0.2,1,1,[])/nu.*reshape(f,1,1,1,[])*2*pi;
 K = PR.*exp(-1i*phase_rot);
 % K = ones(size(PR_mig)).*exp(-1i*phase_rot);
 % K(:,:,:,1:(end-1))=PR_mig(:,:,:,1:end-1).*conj(PR_mig(:,:,:,2:end));
-show_retrieved(K(:,:,:,:),f);
+show_retrieved(K(:,:,:,:),f,z);
 
 % show_volume_all(abs(PR(:,:,:,1)),x,y,l(index_distance)/2,jet)
 % show_volume_all(abs(PR(:,:,:,40)),x,y,l(index_distance)/2,jet)
@@ -148,7 +148,7 @@ show_retrieved(K(:,:,:,:),f);
 % show_volume_all(abs(PR(:,:,:,120)),x,y,l(index_distance)/2,jet)
 % show_volume_all(abs(PR(:,:,:,160)),x,y,l(index_distance)/2,jet)
 % show_volume_all(abs(PR(:,:,:,200)),x,y,l(index_distance)/2,jet)
-show_volume_all(angle(K(:,:,:,1)),x,y,l(index_distance)/2,hsv)
+
 show_volume_all(angle(K(:,:,:,40)),x,y,l(index_distance)/2,hsv)
 show_volume_all(angle(K(:,:,:,80)),x,y,l(index_distance)/2,hsv)
 show_volume_all(angle(K(:,:,:,120)),x,y,l(index_distance)/2,hsv)
