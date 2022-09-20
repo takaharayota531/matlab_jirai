@@ -23,10 +23,8 @@ function show_volume_angle(v,x,y,z,cmap,dataname)
     %caxis(axes,[min(v,[],'all') max(v,[],'all')]);
     coValue=10;
     minValue=min(v,[],'all');
-    minValue
     maxValue=max(v,[],'all')/coValue;
-    maxValue
-    
+  
     %caxis(axes,[maxValue max(v,[],'all')]);
     caxis(axes,[min(v,[],'all') max(v,[],'all')]);
     axes.XLim = [min(x) max(x)];
