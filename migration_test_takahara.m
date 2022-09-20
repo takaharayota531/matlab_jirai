@@ -1,4 +1,3 @@
-
 % migration x,y,fからx,y,zに変換周波数領域→時間領域に変換して位置に変換
 %clc:すべてのテキストをクリア
 %clear ワークスペースからアイテムを削除
@@ -12,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0918_metalpipe_15_0_8';
+dataFile='0914_metalpipe_90degree_15_15_2';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
@@ -20,14 +19,14 @@ dataHname = 'hosei(1-21GHz401points)_paralell';
 [s,f] = data_load_py(dataname,dataHname);
 
 f = round(f); % correct digit
-index = 1:200; % 周波数選択(1:1GHz~400:21GHz)
+index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる
 s = s(:,:,index);
 f = f(index);
 [Nx,Ny,Nf] = size(s);%Nf-1になっているのでは？
 x_int = 0.005; % x-interval
 y_int = 0.005; % y-interval
 z_int = 0.005; % z-interval
-h = 0.28; % height of antennas
+h = 0.2; % height of antennas
 g = 0.19; % gap from caliblation point to アンテナの先端
 d = 0.06; % distance between antennas
 nu = physconst('Lightspeed'); % light speed
@@ -54,11 +53,11 @@ freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 % freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
 
 % データ全体の周波数領域の特徴をプロット
-% figure;
-% plot(f,freq_data);
-% xlabel('frequency[Hz]');
-% ylabel('amplitude[dB]');
-% xlim([1 11]*1e9);
+%figure;
+%plot(f,freq_data);
+%xlabel('frequency[Hz]');
+%ylabel('amplitude[dB]');
+%xlim([1 11]*1e9);
 %% 時間領域分析、処理  ここまで実行する
 
 % 周波数点数（周波数分解能）を補間によって増加
@@ -87,16 +86,16 @@ L = T*nu; % 空間領域の最大値
 dl = L/Nfft; % 伝搬距離分解能
 t = (0:Nfft-1)*dt; % 伝搬時間
 l = (0:Nfft-1)*dl; % 伝搬距離
-z = [l(l/2<h+g)/2 l(l/2>h+g)/2/sqrt(er)+(h+g)*(1-1/sqrt(er))];
+%z = [l(l/2<h+g)/2 l(l/2>h+g)/2/sqrt(er)+(h+g)*(1-1/sqrt(er))];
 %結局使われているのこっちで草
-z = l/2;
+%z = l/2;
 % s_time = s_time.*reshape((l/2).^4,1,1,Nfft); % 伝搬距離による減衰の補正（自由空間を仮定）
 
 % データ全体の時間領域の傾向をプロット
 % figure;
-% plot(l/2,time_data);
-% xlabel('distance[m]');
-% ylabel('amplitude[dB]');
+%plot(l/2,time_data);
+%xlabel('distance[m]');
+%ylabel('amplitude[dB]');
 
 % 表面と容器底面の散乱を除去
 time_data = db2mag(time_data);
@@ -118,7 +117,7 @@ time_data = db2mag(time_data);
 % xlabel('distance[m]');
 % ylabel('amplitude[dB]');
 % ある深さ幅の位相と振幅表示
-index_distance = find(0.3<l/2 & l/2<0.5);
+index_distance = find( 0.4<l/2&l/2<1);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示

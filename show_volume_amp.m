@@ -1,7 +1,7 @@
 function show_volume_amp(v,x,y,z,cmap,dataname)
 
 length = size(v);
-v = permute(v,[2 1 3]);
+v = permute(v,[2 1 3]);%x,yを入れ替えている
 
 fig = uifigure('Position',[500 100 560 700]);%figureの大きさ
 axes = uiaxes(fig,'Position',[20 200 520 470]);%直行座標軸自体の大きさ
@@ -23,12 +23,12 @@ colorbar(axes);
 
 coValue=5;
 minValue=min(v,[],'all');
-minValue
-maxValue=max(v,[],'all')/coValue;
-maxValue
 
-caxis(axes,[maxValue max(v,[],'all')]);
-%caxis(axes,[min(v,[],'all') max(v,[],'all')]);
+maxValue=max(v,[],'all')/coValue;
+
+
+%caxis(axes,[maxValue max(v,[],'all')]);
+caxis(axes,[min(v,[],'all') max(v,[],'all')]);
 axes.XLim = [min(x) max(x)];
 axes.YLim = [min(y) max(y)];
 axes.ZLim = [min(z) max(z)];
