@@ -1,5 +1,6 @@
 % XY-stageのデータを読み込む
 
+%地面だけのデータを引くだけの関数(失敗前提)
 function [s_use,f] = data_load_py_takahara(dataname,datanameH)
     disp('Data loading ...');
     tic

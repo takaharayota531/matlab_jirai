@@ -14,10 +14,11 @@ dataFolder='data\';
 dataFile='0918_metalpipe_15_0_8';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
-
+dataH_nanimonashi='data/0926_nanimonashi_ydirection';
 % [s,f] = data_load_XY_raw(dataname);
+%[s,f] = data_load_without_correction(dataname,dataHname);
+%[s,f]=data_load_py_takahara(dataname,dataH_nanimonashi);
 [s,f] = data_load_py(dataname,dataHname);
-
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる
 s = s(:,:,index);
@@ -100,11 +101,11 @@ l = (0:Nfft-1)*dl; % 伝搬距離
 % 表面と容器底面の散乱を除去
 time_data = db2mag(time_data);
 %最も大きいデータのインデントをとってきている
-% [~,I1] = max(time_data); % 1つ目のピークを探索
-% gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
-% gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
-% s_time_filtered = s_time-s_time.*gwin;
-% time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
+[~,I1] = max(time_data); % 1つ目のピークを探索
+gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
+gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
+s_time_filtered = s_time-s_time.*gwin;
+time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 % 
 % [~,I2] = max(time_data_filtered); % 2つ目のピークを探索
 % gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
@@ -112,15 +113,25 @@ time_data = db2mag(time_data);
 % s_time_filtered = s_time_filtered-s_time_filtered.*gwin;
 % time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
-% figure;
-% plot(l/2,time_data_filtered);
-% xlabel('distance[m]');
-% ylabel('amplitude[dB]');
+
+ figure;
+ plot(l/2,s_time_filtered);
+ xlabel('distance[m]');
+ ylabel('amplitude[dB]');
+
+ figure;
+ plot(l/2,time_data_filtered);
+ xlabel('distance[m]');
+ ylabel('amplitude[dB]');
+ 
+%% 表示プロット 
 % ある深さ幅の位相と振幅表示
-index_distance = find( 0.4<l/2&l/2<1);
+index_distance = find( 0.3<l/2&l/2<0.4);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
-show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
+show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+show_volume_amp(db_magnitude,x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
 show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);

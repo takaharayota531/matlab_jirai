@@ -2,6 +2,7 @@ function show_retrieved(K,f,z)
 [Nx,Ny,Nz,Nf] = size(K);
 N = Nx*Ny*Nz;
 Nh = Nx*Ny;
+
 z = reshape(repmat(reshape(z,1,[]),Nh,1),1,[]);
 K = reshape(K,[Nx*Ny*Nz, Nf]).';
 col = 1;
