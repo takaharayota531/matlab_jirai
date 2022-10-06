@@ -49,16 +49,21 @@ s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
 s_cd = s_cd.*reshape(f.^4,1,1,Nf);
 
 s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
-
+%平均してから対数をとるか、対数を取ってから平均
 freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
-% freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
+figure;
+plot(f,freq_data);
+xlabel('frequency[Hz]');
+ylabel('amplitude[dB]');
+xlim([1 11]*1e9);
+freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
 
 % データ全体の周波数領域の特徴をプロット
-%figure;
-%plot(f,freq_data);
-%xlabel('frequency[Hz]');
-%ylabel('amplitude[dB]');
-%xlim([1 11]*1e9);
+figure;
+plot(f,freq_data);
+xlabel('frequency[Hz]');
+ylabel('amplitude[dB]');
+xlim([1 11]*1e9);
 %% 時間領域分析、処理  ここまで実行する
 
 % 周波数点数（周波数分解能）を補間によって増加
@@ -76,11 +81,16 @@ s_shifted = zeros(Nx,Ny,Nfft); % 埋める周波数を含めた周波数応答�
 % ind([157 200])=0;
 % ind = ind>0;
 % s_cd(:,:,ind)=0;
+%% ifft
 %TODO 高原ここらへんからわからんくなった
 s_shifted(:,:,N_head+1:N_head+Nf) = s_cd(:,:,:);%周波数軸で見ればいい
 s_time = ifft(s_shifted,Nfft,3);%逆フーリエ変換
 time_data = mag2db(squeeze(sum(abs(s_time),[1 2]))); % xyの次元をまとめた時の時間領域の特性
-%時間領域の幅
+ figure;
+ plot(time_data);
+ xlabel('time[s]');
+ ylabel('amplitude[dB]');
+%% 時間領域の幅
 T = 1/df; % 時間領域の最大値
 dt = T/Nfft; % 伝搬時間分解能
 L = T*nu; % 空間領域の最大値
@@ -102,9 +112,20 @@ l = (0:Nfft-1)*dl; % 伝搬距離
 time_data = db2mag(time_data);
 %最も大きいデータのインデントをとってきている
 [~,I1] = max(time_data); % 1つ目のピークを探索
-gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
+gwin = gaussian(l/2,0.08); % ガウスウィンドウを作成
+ figure;
+ plot(squeeze(gwin));
 gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
-s_time_filtered = s_time-s_time.*gwin;
+ figure;
+ plot(time_data);
+ %% plot
+%  [xw,yw,zw]=meshgrid(0:x_int:x_int*(Nx-1), 0:y_int:y_int*(Ny-1),0:100:1024);
+%  d=slice(xw,yw,zw,s_time,0,0,500);
+%  shading flat;
+%  axis vis3d;
+%  colormap(jet);
+ %% cal
+s_time_filtered = (s_time-s_time.*gwin);
 time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 % 
 % [~,I2] = max(time_data_filtered); % 2つ目のピークを探索
@@ -114,10 +135,6 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 % time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
 
- figure;
- plot(l/2,s_time_filtered);
- xlabel('distance[m]');
- ylabel('amplitude[dB]');
 
  figure;
  plot(l/2,time_data_filtered);
