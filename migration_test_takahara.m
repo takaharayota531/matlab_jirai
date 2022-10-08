@@ -84,12 +84,16 @@ s_shifted = zeros(Nx,Ny,Nfft); % 埋める周波数を含めた周波数応答�
 %% ifft
 %TODO 高原ここらへんからわからんくなった
 s_shifted(:,:,N_head+1:N_head+Nf) = s_cd(:,:,:);%周波数軸で見ればいい
+
+plot(squeeze(s_shifted(1,1,:)));
+%%
 s_time = ifft(s_shifted,Nfft,3);%逆フーリエ変換
 time_data = mag2db(squeeze(sum(abs(s_time),[1 2]))); % xyの次元をまとめた時の時間領域の特性
  figure;
  plot(time_data);
  xlabel('time[s]');
  ylabel('amplitude[dB]');
+ s_changed_time=make_average(s_time);
 %% 時間領域の幅
 T = 1/df; % 時間領域の最大値
 dt = T/Nfft; % 伝搬時間分解能
@@ -135,21 +139,22 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 % time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
 
-
  figure;
- plot(l/2,time_data_filtered);
+ plot(l/2,squeeze(s_time_filtered(1,1,:)));
+ xlim([0,1.0]);
  xlabel('distance[m]');
  ylabel('amplitude[dB]');
  
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
-index_distance = find( 0.3<l/2&l/2<0.4);
+index_distance = find( 0.2<l/2&l/2<0.4);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
+show_volume_amp(abs(s_changed_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+show_volume_angle((angle(s_changed_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
 show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_amp(db_magnitude,x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);
 
