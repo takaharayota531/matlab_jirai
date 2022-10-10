@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='0918_metalpipe_15_0_8';
+dataFile='1009_metalpipe_(15,0,2.5)';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
