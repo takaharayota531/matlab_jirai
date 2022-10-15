@@ -51,22 +51,20 @@ s_cd = s_cd.*reshape(f.^4,1,1,Nf);
 s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
 s_cd_sq=squeeze(s_cd);
 
-%% データプロット
-%平均してから対数をとるか、対数を取ってから平均
-%  freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
-% figure;
-% plot(f,freq_data);
-% xlabel('frequency[Hz]');
-% ylabel('amplitude[dB]');
-% xlim([1 11]*1e9);
-freq_data = 10*log10(squeeze(mean(abs(s_cd),1)));
+%% ランダムデータ抽出
 
-% データ全体の周波数領域の特徴をプロット
-figure;
-plot(f,freq_data);
-xlabel('frequency[Hz]');
-ylabel('amplitude[dB]');
-xlim([1 11]*1e9);
+sparse_k=20;%スパース
+[datanum_n,freq_point]=size(s_cd_sq);
+sampling_data=zeros(datanum_n,freq_point);
+index=randperm(datanum_n,sparse_k);
+index
+for i=1:sparse_k 
+    sampling_data(index(i),:)=s_cd_sq(index(i),:);
+end
+
+
+
+
 %% 時間領域分析、処理  ここまで実行する
 
 % 周波数点数（周波数分解能）を補間によって増加
@@ -87,11 +85,13 @@ s_shifted = zeros(Nx,Nfft); % 埋める周波数を含めた周波数応答格�
 %% ifft
 %TODO 高原ここらへんからわからんくなった
 s_shifted(:,N_head+1:N_head+Nf) = s_cd_sq(:,:);%周波数軸で見ればいい
+s_shifted_sampled(:,N_head+1:N_head+Nf) = sampling_data(:,:);%周波数軸で見ればいい
 
 % plot(squeeze(s_shifted(1,1,:)));
 %%
 s_time = ifft(s_shifted,Nfft,2);%逆フーリエ変換
-time_data = mag2db(squeeze(sum(abs(s_time),1))); % xyの次元をまとめた時の時間領域の特性
+s_time_sampled=ifft(s_shifted_sampled,Nfft,2);
+time_data = mag2db(squeeze(sum(abs(s_time_sampled),1))); % xyの次元をまとめた時の時間領域の特性
  figure;
  plot(time_data);
  xlabel('time[s]');
@@ -117,37 +117,6 @@ l = (0:Nfft-1)*dl; % 伝搬距離
 
 % 表面と容器底面の散乱を除去
 time_data = db2mag(time_data);
-%最も大きいデータのインデントをとってきている
-[~,I1] = max(time_data); % 1つ目のピークを探索
-gwin = gaussian_1dim(l/2,0.08); % ガウスウィンドウを作成
- figure;
- plot(squeeze(gwin));
-gwin = circshift(gwin,I1,3); % ガウス窓をピークの位置にシフト
- figure;
- plot(time_data);
- %% plot
-%  [xw,yw,zw]=meshgrid(0:x_int:x_int*(Nx-1), 0:y_int:y_int*(Ny-1),0:100:1024);
-%  d=slice(xw,yw,zw,s_time,0,0,500);
-%  shading flat;
-%  axis vis3d;
-%  colormap(jet);
- %% cal
-s_time_filtered = (s_time-s_time.*gwin);
-time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),1)));
-% 
-% [~,I2] = max(time_data_filtered); % 2つ目のピークを探索
-% gwin = gaussian(l/2,0.02); % ガウスウィンドウを作成
-% gwin = circshift(gwin,I2,3); % ガウス窓をピークの位置にシフト
-% s_time_filtered = s_time_filtered-s_time_filtered.*gwin;
-% time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
-
-
- figure;
- plot(l/2,squeeze(s_time_filtered(1,1,:)));
- xlim([0,1.0]);
- xlabel('distance[m]');
- ylabel('amplitude[dB]');
- 
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
 index_distance = find( 0.2<l/2&l/2<0.4);
@@ -155,15 +124,20 @@ index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 
 
-s_time_filtered_sq=squeeze(s_time_filtered);
+%s_time_filtered_sq=squeeze(s_time_filtered);
 s_time_sq=squeeze(s_time);
+s_time_sampled_sq=squeeze(s_time_sampled);
 %% true plot
 f=figure;
 f1=figure;
-show_w(s_time_filtered_sq(:,index_distance),f);
+f2=figure;
+f3=figure;
+show_w(s_time_sq(:,index_distance),f);
 show_w(s_time_sq(:,index_distance),f1);
-
-
+show_w(s_time_sampled_sq(:,index_distance),f);
+show_w(s_time_sampled_sq(:,index_distance),f1);
+% show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+% show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 
 % show_volume_amp(abs(s_changed_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
 % show_volume_angle((angle(s_changed_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
@@ -187,7 +161,7 @@ show_w(s_time_sq(:,index_distance),f1);
 
 % 0を頂点とするガウス関数出力
 function f = gaussian_1dim(x,s)
-    N = size(x,1);
+    N = size(x,2);
     Nxc = floor(N/2);
     f = exp(-(x-x(Nxc)).^2/2/s^2); % ガウス分布
     f = circshift(f,-Nxc+1,2);
