@@ -128,6 +128,9 @@ index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 s_time_sq=squeeze(s_time);
 s_time_sampled_sq=squeeze(s_time_sampled);
 
+%% model_check
+model_check=make_model_alongline(8,s_time_sq);
+
 %% interpolate
  scattering_interpolated=interpolate_calculate(s_time_sampled_sq,index,Nfft,x_int,sparse_k);
 %% true plot
