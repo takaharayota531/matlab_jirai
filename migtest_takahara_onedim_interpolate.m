@@ -127,15 +127,18 @@ index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 %s_time_filtered_sq=squeeze(s_time_filtered);
 s_time_sq=squeeze(s_time);
 s_time_sampled_sq=squeeze(s_time_sampled);
+
+%% interpolate
+ scattering_interpolated=interpolate_calculate(s_time_sampled_sq,index,Nfft,x_int,sparse_k);
 %% true plot
 f=figure;
 f1=figure;
-f2=figure;
-f3=figure;
-show_w(s_time_sq(:,index_distance),f);
-show_w(s_time_sq(:,index_distance),f1);
-show_w(s_time_sampled_sq(:,index_distance),f);
-show_w(s_time_sampled_sq(:,index_distance),f1);
+% f2=figure;
+% f3=figure;
+show_w(scattering_interpolated(:,index_distance),f);
+%show_w(scattering_interpolated(:,index_distance),f1);
+ %show_w(s_time_sampled_sq(:,index_distance),f2);
+ show_w(s_time_sampled_sq(:,index_distance),f1);
 % show_volume_amp((abs(s_time(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
 % show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 
