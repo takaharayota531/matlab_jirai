@@ -132,12 +132,14 @@ s_time_sampled_sq=squeeze(s_time_sampled);
 model_check=make_model_alongline(8,s_time_sq);
 
 %% interpolate
- scattering_interpolated=interpolate_calculate(s_time_sampled_sq,index,Nfft,x_int,sparse_k);
+ a=10000;
+ scattering_interpolated=interpolate_calculate(s_time_sampled_sq,index,dl,x_int,sparse_k,a);
 %% true plot
 f=figure;
 f1=figure;
 % f2=figure;
 % f3=figure;
+sca=mag2db(abs(scattering_interpolated));
 show_w(scattering_interpolated(:,index_distance),f);
 %show_w(scattering_interpolated(:,index_distance),f1);
  %show_w(s_time_sampled_sq(:,index_distance),f2);

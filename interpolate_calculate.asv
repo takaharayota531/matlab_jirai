@@ -22,18 +22,17 @@ toc
 end
 
 function s = calc_scattering(sampled_sq,dl, x_int, index, x_u, z_u,k,d_point,a)
-    sum_exp=0;
+    sum_s=0;
     sum_s_amp=0;
-    sum_s_angle=0;
+    sum_ex_angle=0;
     for i=1:k
         for j=1:d_point
             tmp_exp = exp(-a*calculate_distance(dl, x_int, x_u, z_u, index(i), j).^2);
             sum_s_amp=sum_s_amp+abs(sampled_sq(index(i),j))*tmp_exp;
-             sum_s_angle=sum_s_angle+sampled_sq(index(i),j)*tmp_exp;
+             sum_s_angle=sum_s+sampled_sq(index(i),j)*tmp_exp;
             sum_exp=sum_exp+tmp_exp;
         end
     end
-    sum_s=sum_s_amp*exp(1i*angle(sum_s_angle));
     s=sum_s/sum_exp;
 
 end
