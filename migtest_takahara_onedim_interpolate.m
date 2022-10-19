@@ -53,7 +53,7 @@ s_cd_sq=squeeze(s_cd);
 
 %% ランダムデータ抽出
 
-sparse_k=20;%スパース
+sparse_k=5;%スパース
 [datanum_n,freq_point]=size(s_cd_sq);
 sampling_data=zeros(datanum_n,freq_point);
 index=randperm(datanum_n,sparse_k);
@@ -127,7 +127,9 @@ index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 %s_time_filtered_sq=squeeze(s_time_filtered);
 s_time_sq=squeeze(s_time);
 s_time_sampled_sq=squeeze(s_time_sampled);
-
+%% init_model
+f1=figure;
+show_w(s_time_sq(:,index_distance),f1);
 %% model_check
 model_check=make_model_alongline(8,s_time_sq);
 
@@ -139,6 +141,7 @@ f=figure;
 f1=figure;
 % f2=figure;
 % f3=figure;
+show_w(s_time_sq(:,index_distance),f1);
 sca=mag2db(abs(scattering_interpolated));
 show_w(scattering_interpolated(:,index_distance),f);
 %show_w(scattering_interpolated(:,index_distance),f1);
