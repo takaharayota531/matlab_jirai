@@ -32,6 +32,7 @@ function s = data_fill(s,sample_list)
     a = a/n;
     d = d/n;
     
+    % 距離による重みづけを行う
     function [a,d] = fill_exp(s_a,s_d,x,y,sample_list)
     rr = 0; %重みづけの分母
     a = 0; %振幅
@@ -50,6 +51,8 @@ function s = data_fill(s,sample_list)
         end
     end
     
+
+    % データがあるか測定
     function a = search_sample(x,y,sample_list)
     n = size(sample_list,2);
     a = 0;
