@@ -11,6 +11,7 @@ function h = calc_h(k,model)
     Ix = [Nx-r+1:Nx,1:Nx,1:r];
     Iy = [Ny-r+1:Ny,1:Ny,1:r];
     %この二式が全然わからん　todo高原
+    %ここの式反対側を参照しないように書き換えておく
     for x = 1:Nx
         for y = 1:Ny
             kp = squeeze(sum((model==1).*k(Ix(x:x+m-1),Iy(y:y+m-1),:),[1 2]));
