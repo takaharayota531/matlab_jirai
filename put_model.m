@@ -15,7 +15,7 @@ function put_model(h,model)
         end
     end
 
-    fontSize=12;
+    fontsize=12;
     m=size(model);
     figure;
     im=imagesc(h_p);

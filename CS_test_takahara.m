@@ -7,7 +7,7 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% 初期設定
-dataname= 'data/0725_metalSphere_(20,20,2)';
+dataname= 'data\1023_jirai_(15,15,3)';
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
 [s,f] = data_load_py(dataname,dataHname);
@@ -40,4 +40,10 @@ m = size(model,1);
 l = 1;
 gap = floor((m+l-2)/2);
 h = circshift(h,[gap gap]);
-figure;surf(1:50,1:50,h);
+figure;%surf(1:50,1:50,h);
+
+%% 最適化
+model=make_model_sphere(7,3);
+[s_result,his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
+show_history_10_scaled(h_his,1,model);
+
