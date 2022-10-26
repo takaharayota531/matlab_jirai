@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
-dataFile='1009_metalpipe_(15,0,2.5)';
+dataFile='0918_metalpipe_15_0_8';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
@@ -150,8 +150,8 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 index_distance = find( 0.2<l/2&l/2<0.4);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
-show_volume_amp(abs(s_changed_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle((angle(s_changed_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
 show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
 show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
