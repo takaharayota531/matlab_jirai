@@ -22,7 +22,7 @@ function h = calc_h(k,model)
     
     [M I] = max(h,[],'all','linear');
     pos = [mod(I,(Nx-m+1)) floor(I/(Nx-m+1))];
-     display_position(pos,model,Nx);
+   %  display_position(pos,model,Nx);
     
     end
     
