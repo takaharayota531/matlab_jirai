@@ -17,9 +17,9 @@ depth=0.4;
 
 
 %% kakk
-s = s(:,:,[1 10:10:100]);
-f=f([1 10:10:100]);
-p = 0.1;%評価関数のノルム
+% s = s(:,:,[1 10:10:100]);
+% f=f([1 10:10:100]);
+% p = 0.1;%評価関数のノルム
 
  %% データの取り出しと補間
 
@@ -46,7 +46,7 @@ p = 0.1;%評価関数のノルム
 
 
 %% 最適化
-
+p=0.1;
 model=make_model_sphere(7,3);
 [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
 
