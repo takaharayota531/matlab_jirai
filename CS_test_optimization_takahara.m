@@ -30,9 +30,10 @@ migration_and_plot(s_use,f,dataname,depth);
 
 %% 最適化
 p=0.1;
-r=9;
-t=5;
-model=make_model_sphere(r,t);
+r=7;
+t=4;
+%model=make_model_sphere(r,t);
+model=make_square_model(r,t);
 [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
 
 

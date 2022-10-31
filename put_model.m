@@ -21,7 +21,7 @@ function put_model(h,model)
     im=imagesc(h_p);
     im.Parent.FontSize = fontsize;
     colorbar('Fontsize',fontsize);
-    colormap(gray);
+   % colormap(gray);
     xlabel('Position $x$','Fontsize',fontsize,'FontName','SansSerif','Interpreter','latex');
     ylabel('Position $y$','Fontsize',fontsize,'FontName','SansSerif','Interpreter','latex');
     end

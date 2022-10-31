@@ -43,15 +43,15 @@ put_model(h,model);
 exportgraphics(gcf,'figures/hp_small.pdf')
 
 %% 3次元面でhを表現
-m = size(model,1);
-l = 1;
-gap = floor((m+l-2)/2);
-h = circshift(h,[gap gap]);
-figure;
-% surf(1:50,1:50,h);
-surf(h);
- xlabel('Position $x$');
- ylabel('Position $y$');
+% m = size(model,1);
+% l = 1;
+% gap = floor((m+l-2)/2);
+% h = circshift(h,[gap gap]);
+% figure;
+% % surf(1:50,1:50,h);
+% surf(h);
+%  xlabel('Position $x$');
+%  ylabel('Position $y$');
 %% 最適化
 
 model=make_model_sphere(7,3);
