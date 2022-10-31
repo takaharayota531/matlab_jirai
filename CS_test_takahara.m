@@ -7,7 +7,8 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% 初期設定
-dataname= 'data/0918_metalpipe_15_0_8';
+%dataname= 'data/0918_metalpipe_15_0_8';
+dataname = 'data\new_measurement\1029_up_down_(15,13,7)';
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
 [s,f] = data_load_py(dataname,dataHname);

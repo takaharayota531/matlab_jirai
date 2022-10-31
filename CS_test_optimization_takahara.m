@@ -16,10 +16,10 @@ depth=0.4;
 migration_and_plot(s,f,dataname,depth);
 
 %% calc
-% s = s(:,:,[1 10:10:100]);
-% f=f([1 10:10:100]);
-% p = 0.1;%評価関数のノルム
-
+s = s(:,:,[1 10:10:100]);
+f=f([1 10:10:100]);
+p = 0.1;%評価関数のノルム
+migration_and_plot(s,f,dataname,depth);
 %% データの取り出しと補間
 
 [s_sample,sample,sample_list] = data_sample(s,2);
