@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 % load measured data
 dataFolder='data\';
- dataFile='new_measurement\1027_right_left_metalpipe_(15,10,2)';
+ dataFile='1023_jirai_(15,15,3)';
 %dataFile='0918_metalpipe_15_0_8';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
@@ -47,7 +47,7 @@ s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
 
 % 周波数ごとの距離減衰 点散乱源を仮定した補正f^4　面反射の場合はf^2
 %対応する要素で掛け算する
-s_cd = s_cd.*reshape(f.^4,1,1,Nf);
+s_cd = s_cd.*reshape(f.^2,1,1,Nf);
 
 s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
 %平均してから対数をとるか、対数を取ってから平均
@@ -60,11 +60,11 @@ freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
 
 % データ全体の周波数領域の特徴をプロット
-% figure;
-% plot(f,freq_data);
-% xlabel('frequency[Hz]');
-% ylabel('amplitude[dB]');
-% xlim([1 11]*1e9);
+figure;
+plot(f,freq_data);
+xlabel('frequency[Hz]');
+ylabel('amplitude[dB]');
+xlim([1 11]*1e9);
 %% 時間領域分析、処理  ここまで実行する
 
 % 周波数点数（周波数分解能）を補間によって増加
@@ -149,14 +149,15 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
 %index_distance = find( l/2<0.4);
-index_distance = find( 0.25<l/2&l/2<0.4);
+% index_distance = find( 0.25<l/2&l/2<0.4);
+index_distance = find(l);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
-db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
-show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+% show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+% db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
+% show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+% show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);
 
