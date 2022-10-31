@@ -9,17 +9,17 @@ set(0,'defaultTextInterpreter','latex');
 dataname= 'data/0918_metalpipe_15_0_8';
 dataHname = 'hosei(1-21GHz401points)_paralell';
 
-[s,f] = data_load_py(dataname,dataHname);
+[s_all,f_all] = data_load_py(dataname,dataHname);
 
 %% 試しにプロット
 depth=0.4;
-migration_and_plot(s,f,dataname,depth);
+%migration_and_plot(s,f,dataname,depth);
 
 %% calc
-s = s(:,:,[1 10:10:100]);
-f=f([1 10:10:100]);
+s = s_all(:,:,[1 10:10:100]);
+f=f_all([1 10:10:100]);
 p = 0.1;%評価関数のノルム
-migration_and_plot(s,f,dataname,depth);
+%migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
 [s_sample,sample,sample_list] = data_sample(s,2);
@@ -28,32 +28,20 @@ s_use = data_fill(s_sample,sample_list);
 %% 試しにプロット
 migration_and_plot(s_use,f,dataname,depth);
 
-
-
-
-% %% 3次元面でhを表現
-% m = size(model,1);
-% l = 1;
-% gap = floor((m+l-2)/2);
-% h = circshift(h,[gap gap]);
-% figure;
-% % surf(1:50,1:50,h);
-% surf(h);
-%  xlabel('Position $x$');
-%  ylabel('Position $y$');
-
-
 %% 最適化
 p=0.1;
-model=make_model_sphere(7,3);
+r=7;
+t=4;
+%model=make_model_sphere(r,t);
+model=make_square_model(r,t);
 [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
 
 
 
 %% 最適化後の結果表示
 
-migration_and_plot(s_result,f,dataname,depth);
-show_history_10_scaled(h_his,1,model);
+%migration_and_plot(s_result,f,dataname);
+show_history_10_scaled_takahara(h_his,1,model,r,t);
 
 
 
