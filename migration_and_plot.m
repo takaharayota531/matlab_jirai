@@ -1,5 +1,5 @@
 %出来上がったデータのマイグレーション処理とプロットまでを行う
-function migration_and_plot(s,f,dataname,depth)
+function migration_and_plot(s,f,dataname)
 
 % 初期設定
 % [s,f] = data_load_XY_raw(dataname);
@@ -150,22 +150,22 @@ s_time_filtered = (s_time-s_time.*gwin);
  
 % 表示プロット 
 % ある深さ幅の位相と振幅表示
-index_distance = find( 0.2<l/2&l/2<depth);
+%index_distance = find( 0.2<l/2&l/2<depth);
 
-index_distance = find(l/2);
+index_distance = find(l);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 
 
-show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
+show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non-filtered'); % フィルタ処理前の表示
 show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 
 
 
 %db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
 % abs_dB=mag2db(abs(s_time_filtered(:,:,index_distance)));
-show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname); % フィルタ処理前の表示
-show_volume_angle(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv,dataname);
+% show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
+% show_volume_angle(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 % show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);
 

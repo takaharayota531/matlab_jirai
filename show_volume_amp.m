@@ -1,5 +1,5 @@
-function show_volume_amp(v,x,y,z,cmap,dataname)
-
+function show_volume_amp(v,x,y,z,cmap,dataname,dataPlusName)
+dataname=append(dataname,dataPlusName);
 length = size(v);
 v = permute(v,[2 1 3]);%x,yを入れ替えている
 
