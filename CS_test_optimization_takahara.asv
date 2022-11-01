@@ -30,11 +30,11 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-r=5;
-t=5;
+r=7;
+t=3;
 %model=make_model_sphere(r,t);
- [r,t,model]=make_square_model_pipe(r,t);
- [r,t,model]=make_model_transpose(r,t,model);
+ [r,t,model]=make_sq(r,t);
+ % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
@@ -45,7 +45,7 @@ ans_tim=toc
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
-show_history_10_scaled_takahara(h_his,1,model,r,t,'square_pipeモデル横実行時間183秒');
+show_history_10_scaled_takahara(h_his,1,model,r,t,'squareモデル横実行時間188秒');
 
 
 

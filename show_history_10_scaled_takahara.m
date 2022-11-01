@@ -1,4 +1,4 @@
-function show_history_10_scaled_takahara(data,l,model,r,t)
+function show_history_10_scaled_takahara(data,l,model,r,t,word)
     m = size(model,1);
     n = size(data,3);
     
@@ -19,7 +19,7 @@ function show_history_10_scaled_takahara(data,l,model,r,t)
     
     figure_size = [ 0, 160, 1960, 1960/col/col_r*1.2*row];
     figure;
-    allTitle = horzcat('モデルサイズ:r=',num2str(r),',t=',num2str(t));
+    allTitle = horzcat(word,'モデルサイズ:r=',num2str(r),',t=',num2str(t));
     set(gcf, 'Position', figure_size);
    % title(allTitle);
   sgt= sgtitle(allTitle);

@@ -1,6 +1,6 @@
 % 半径rの円の内部と外側を比較
 
-function h = calc_h(k,model)
+function h = calc_h_takahara(k,model)
     [Nx,Ny,k_dim] = size(k);
     %すべてのモデルについて相関度を計算しそのモデルでの特徴ベクトルの平均をとる．
     mx = size(model,1);
@@ -17,6 +17,8 @@ function h = calc_h(k,model)
     for x = 1:Nx
         for y = 1:Ny
             kp = squeeze(sum((model==1).*k(Ix(x:x+mx-1),Iy(y:y+my-1),:),[1 2]));
+            kp_half= squeeze(sum((model==1/2).*k(Ix(x:x+mx-1),Iy(y:y+my-1),:),[1 2]));
+            kp=kp+kp_half/2;
             km = squeeze(sum((model==-1).*k(Ix(x:x+mx-1),Iy(y:y+my-1),:),[1 2]));
             h(x,y) = 1-real(kp'*km)/sqrt(kp'*kp)/sqrt(km'*km);
         end
@@ -28,7 +30,7 @@ function h = calc_h(k,model)
     %posの指定の仕方の変更
      [ii, jj] = ind2sub(size(zeros(Nx-mx+1,Ny-my+1)), I);
      pos=[ii,jj];
-   % display_position(pos,model,Nx,Ny);
+    display_position(pos,model,Nx,Ny);
     
     end
     

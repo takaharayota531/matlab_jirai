@@ -1,7 +1,6 @@
 %cal_h用の偏微分計算
 
-function df=calc_df(s,h,model,p)
-
+function df=calc_df_takahara(s,h,model,p)
     [Nx,Ny,Nf]=size(s);
     m=size(model,1);
     dh=calc_dh(s,model);
