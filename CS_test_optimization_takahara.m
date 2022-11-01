@@ -33,8 +33,8 @@ p=0.1;
 r=5;
 t=5;
 model=make_model_sphere(7,3);
- [r,t,model]=make_square_model_pipe(r,t);
- [r,t,model]=make_model_transpose(r,t,model);
+%  [r,t,model]=make_square_model_pipe(r,t);
+%  [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
