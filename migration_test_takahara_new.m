@@ -10,9 +10,16 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
 %% plot
 % load measured data
-dataFolder='data\new_measurement\';
+dataFolder='data\';
 
-%dataFile='0918_metalpipe_15_0_8';
+dataFile='0918_metalpipe_15_0_8';
+dataname = append(dataFolder,dataFile);
+dataHname = 'hosei(1-21GHz401points)_paralell';
+[s,f]=data_load_py(dataname,dataHname);
+
+migration_and_plot_polarization(s,f, dataFile,0,1);
+%% HV偏波プロット
+dataFolder='data\new_measurement\';
 HH_name='1031_right_left_(15,13,7)';
 VV_name='1031_up_down_(15,13,7)';
 HV_name='1103_right_up_(7,10,7)_400_300_3600';
@@ -31,17 +38,34 @@ dataH_nanimonashi='data/0926_nanimonashi_ydirection';
 [s_VV,f_VV] = data_load_py(data_VV_name,dataHname);
 [s_HV,f_HV] = data_load_py(data_HV_name,dataHname);
 [s_VH,f_VH] = data_load_py(data_VH_name,dataHname);
-depth=0.36;
+depth_start=0.26;
+depth_end=0.36;
 %depth=2.0;
 
+%% HH
+s_HH_re=s_HH(8:53,8:53,:);
+%s_HH_re=s_HH;
+HH_s_time_result=migration_and_plot_polarization(s_HH_re,f_HH, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
+%% VV
+s_VV_re=s_VV(8:53,8:53,:);
+%s_VV_re=s_VV;
+VV_s_time_result=migration_and_plot_polarization(s_VV_re,f_VV, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
+%% diff_plot
+show_amp_diff(VV_s_time_result,HH_s_time_result,f_HH, 'HH-VV差分プロット',  depth_start,depth_end) 
 
-migration_and_plot_polarization(s_HH,f_HH, horzcat(data_HH_name,'_HH'),depth);
-%% 
-migration_and_plot_polarization(s_VV,f_VV, horzcat(data_VV_name,'_VV'),depth);
-migration_and_plot_polarization(s_HV,f_HV, horzcat(data_HV_name,'_HV'),depth);
-migration_and_plot_polarization(s_VH,f_HH, horzcat(data_VH_name,'_VH'),depth);
+%% HV
+s_HV_re=s_HV(15:end,15:end,:);
+ HV_s_time_result =migration_and_plot_polarization(s_HV_re,f_HV, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
+%% VH
+s_VH_re=s_VH(1:46,1:46,:);
+VH_s_time_result = migration_and_plot_polarization(s_VH_re,f_VH, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 
-
+%% diff_plot
+show_amp_diff(VV_s_time_result,HV_s_time_result,f_HH, 'VV-HV差分プロット',  depth_start,depth_end) ;
+show_amp_diff(VV_s_time_result,VH_s_time_result,f_HH, 'VV-VH差分プロット',  depth_start,depth_end) ;
+%% diff_plot
+show_amp_diff(HV_s_time_result,HH_s_time_result,f_HH, 'HV-HH差分プロット',  depth_start,depth_end) ;
+show_amp_diff(VH_s_time_result,HH_s_time_result,f_HH, 'VH-HH差分プロット',  depth_start,depth_end) ;
 %% 位相復元
 
 PR = phase_retrieval(s_time,0.05,Nfft,l,index_distance,index_frequency);

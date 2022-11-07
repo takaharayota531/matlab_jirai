@@ -1,5 +1,14 @@
 function show_volume_amp(v,x,y,z,cmap,dataname,dataPlusName)
 dataname=append(dataname,dataPlusName);
+
+
+minValue=min(v,[],'all');
+if minValue<0
+    v=v+abs(minValue);
+end
+maxValue=min(v,[],'all');
+
+
 length = size(v);
 v = permute(v,[2 1 3]);%x,yを入れ替えている
 
@@ -21,10 +30,7 @@ set(h,'edgecolor','none');
 colormap(axes,cmap);
 colorbar(axes);
 
-coValue=5;
-minValue=min(v,[],'all');
 
-maxValue=max(v,[],'all')/coValue;
 
 
 %caxis(axes,[maxValue max(v,[],'all')]);
