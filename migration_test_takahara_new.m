@@ -44,7 +44,7 @@ depth_end=0.36;
 
 %% HH
 s_HH_re=s_HH(8:53,8:53,:);
-%s_HH_re=s_HH;
+s_HH_re=s_HH;
 HH_s_time_result=migration_and_plot_polarization(s_HH_re,f_HH, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
 %% VV
 s_VV_re=s_VV(8:53,8:53,:);
