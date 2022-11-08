@@ -44,7 +44,7 @@ depth_end=0.36;
 
 %% HH
 s_HH_re=s_HH(8:53,8:53,:);
-s_HH_re=s_HH;
+%s_HH_re=s_HH;
 HH_s_time_result=migration_and_plot_polarization(s_HH_re,f_HH, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
 %% VV
 s_VV_re=s_VV(8:53,8:53,:);
@@ -55,6 +55,8 @@ show_amp_diff(VV_s_time_result,HH_s_time_result,f_HH, 'HH-VV差分プロット',
 
 %% HV
 s_HV_re=s_HV(15:end,15:end,:);
+
+
  HV_s_time_result =migration_and_plot_polarization(s_HV_re,f_HV, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
 %% VH
 s_VH_re=s_VH(1:46,1:46,:);
