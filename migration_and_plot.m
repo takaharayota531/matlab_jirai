@@ -150,9 +150,9 @@ s_time_filtered = (s_time-s_time.*gwin);
  
 % 表示プロット 
 % ある深さ幅の位相と振幅表示
-%index_distance = find( 0.2<l/2&l/2<depth);
+index_distance = find( 0.26<l/2&l/2<0.35);
 
-index_distance = find(l);
+%index_distance = find(l);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 
