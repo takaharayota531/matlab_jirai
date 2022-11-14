@@ -38,11 +38,18 @@ s_VV_re=s_VV(8:53,8:53,[1 10:10:100]);
 s_HV_re=s_HV(15:end,15:end,[1 10:10:100]);
 s_VH_re=s_VH(1:46,1:46,[1 10:10:100]);
 % %s_HH_re=s_HH;
-% HH_s_time_result=migration_and_plot_polarization(s_HH_re,f_HH, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
-% %s_VV_re=s_VV;
-% VV_s_time_result=migration_and_plot_polarization(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
-% HV_s_time_result =migration_and_plot_polarization(s_HV_re,f_HV, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
-% VH_s_time_result = migration_and_plot_polarization(s_VH_re,f_VH, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
+% HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
+% % %s_VV_re=s_VV;
+% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
+% HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
+% VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
+
+
+HH_s_time_result=migration_and_plot_polarization(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
+VV_s_time_result=migration_and_plot_polarization(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
+HV_s_time_result =migration_and_plot_polarization(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
+VH_s_time_result = migration_and_plot_polarization(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
+
 
 %% calc
 % s = s_all(:,:,[1 10:10:100]);
@@ -51,7 +58,7 @@ s_VH_re=s_VH(1:46,1:46,[1 10:10:100]);
 %migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(s_HV_re,2);
+[s_sample,sample,sample_list] = data_sample(s_VH_re,2);
 s_use = data_fill(s_sample,sample_list);
 
 %% 試しにプロット
@@ -59,11 +66,11 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-r=5;
-t=5;
+r=3;
+t=7;
 %model=make_model_sphere(7,3);
 [r,t,model]=make_square_model(r,t);
-[r,t,model]=make_model_transpose(r,t,model);
+%[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
@@ -74,6 +81,6 @@ ans_tim=toc
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
-show_history_10_scaled_takahara(h_his,1,model,r,t,'HV_result');
+show_history_10_scaled_takahara(h_his,1,model,r,t,'VH_result');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');

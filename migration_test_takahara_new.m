@@ -16,8 +16,9 @@ dataFile='0918_metalpipe_15_0_8';
 dataname = append(dataFolder,dataFile);
 dataHname = 'hosei(1-21GHz401points)_paralell';
 [s,f]=data_load_py(dataname,dataHname);
-
-migration_and_plot_polarization(s,f, dataFile,0,1);
+depth_start=0.27;
+depth_end=0.36;
+migration_and_plot_gaussianed(s,f, dataFile,depth_start,depth_end);
 %% HV偏波プロット
 dataFolder='data\new_measurement\';
 HH_name='1031_right_left_(15,13,7)';

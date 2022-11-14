@@ -30,7 +30,7 @@ function h = calc_h_takahara(k,model)
     %posの指定の仕方の変更
      [ii, jj] = ind2sub(size(zeros(Nx-mx+1,Ny-my+1)), I);
      pos=[ii,jj];
-    display_position(pos,model,Nx,Ny);
+   % display_position(pos,model,Nx,Ny);
     
     end
     
