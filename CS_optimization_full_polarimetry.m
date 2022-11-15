@@ -58,7 +58,7 @@ VH_s_time_result = migration_and_plot_polarization(s_VH_re,f, horzcat(data_VH_na
 %migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(s_HV_re,2);
+[s_sample,sample,sample_list] = data_sample(s_VH_re,2);
 s_use = data_fill(s_sample,sample_list);
 
 %% 試しにプロット
@@ -66,21 +66,21 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-r=7;
-t=3;
+r=5;
+t=5;
 %model=make_model_sphere(7,3);
 [r,t,model]=make_square_model(r,t);
 %[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
-[s_result,s_his,h_his,alpha_his,df_his]=gradient_descent_takahara(s_use,sample,model,p);
+[s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
 ans_tim=toc
 
 
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
-show_history_10_scaled_takahara(h_his,1,model,r,t,'VV_result');
+show_history_10_scaled_takahara(h_his,1,model,r,t,'VH_result');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');
