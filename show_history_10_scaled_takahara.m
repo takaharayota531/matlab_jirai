@@ -1,4 +1,4 @@
-function show_history_10_scaled_takahara(data,l,model,r,t,word)
+function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word)
     m = size(model,1);
     n = size(data,3);
     
@@ -44,7 +44,7 @@ function show_history_10_scaled_takahara(data,l,model,r,t,word)
     end
 
 
-    imshow(h_most_count)
+%    imshow(h_most_count)
 
 end
     

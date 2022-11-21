@@ -18,7 +18,24 @@ dataHname = 'hosei(1-21GHz401points)_paralell';
 [s,f]=data_load_py(dataname,dataHname);
 depth_start=0.27;
 depth_end=0.36;
-migration_and_plot_gaussianed(s,f, dataFile,depth_start,depth_end);
+s_re_ifft_time= migration_and_plot_gaussianed(s,f, dataFile,depth_start,depth_end);
+
+%% k-means
+
+x_clustering=abs(s_re_ifft_time);
+figure;
+plot(x_clustering(:,1),x_clustering(:,2),'.');
+title ('x_clustering_before_kmeans');
+
+%% result plot
+opts=statset('Display','final');
+[idx,C]=imsegkmeans3(x_clustering,3,'Distance','cityblock','Replicates',10,'Options',opts);
+
+
+
+
+%%
+
 %% HV偏波プロット
 dataFolder='data\new_measurement\';
 HH_name='1031_right_left_(15,13,7)';

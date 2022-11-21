@@ -11,14 +11,7 @@ function  s_re_ifft_time= migration_and_plot_gaussianed(s,f,dataname,depth_start
     % s = s(:,:,index);
     % f = f(index);
     [Nx,Ny,Nf] = size(s);%Nf-1になっているのでは？
-    x_int = 0.005; % x-interval
-    y_int = 0.005; % y-interval
-    z_int = 0.005; % z-interval
-    h = 0.2; % height of antennas
-    g = 0.19; % gap from caliblation point to アンテナの先端
-    d = 0.06; % distance between antennas
-    nu = physconst('Lightspeed'); % light speed
-    er = 4; % relative permittivity
+    [x_int,y_int,z_int,h,g,d,nu,er]=antenna_parameters
     
     x = 0:x_int:x_int*(Nx-1); % x-positions
     y = 0:y_int:y_int*(Ny-1); % y-positions

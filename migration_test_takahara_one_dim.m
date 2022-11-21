@@ -92,10 +92,10 @@ s_shifted(:,N_head+1:N_head+Nf) = s_cd_sq(:,:);%周波数軸で見ればいい
 %%
 s_time = ifft(s_shifted,Nfft,2);%逆フーリエ変換
 time_data = mag2db(squeeze(sum(abs(s_time),1))); % xyの次元をまとめた時の時間領域の特性
- figure;
- plot(time_data);
- xlabel('time[s]');
- ylabel('amplitude[dB]');
+%  figure;
+%  plot(time_data);
+%  xlabel('time[s]');
+%  ylabel('amplitude[dB]');
  %s_changed_time=make_average(s_time);
 %% 時間領域の幅
 T = 1/df; % 時間領域の最大値
@@ -120,11 +120,11 @@ time_data = db2mag(time_data);
 %最も大きいデータのインデントをとってきている
 [~,I1] = max(time_data); % 1つ目のピークを探索
 gwin = gaussian_1dim(l/2,0.08); % ガウスウィンドウを作成
- figure;
- plot(squeeze(gwin));
-gwin = squeeze(circshift(gwin,I1,3)); % ガウス窓をピークの位置にシフト
- figure;
- plot(squeeze(gwin));
+%  figure;
+%  plot(squeeze(gwin));
+ gwin = squeeze(circshift(gwin,I1,3)); % ガウス窓をピークの位置にシフト
+%  figure;
+%  plot(squeeze(gwin));
  %% plot
 %  [xw,yw,zw]=meshgrid(0:x_int:x_int*(Nx-1), 0:y_int:y_int*(Ny-1),0:100:1024);
 %  d=slice(xw,yw,zw,s_time,0,0,500);
@@ -132,12 +132,12 @@ gwin = squeeze(circshift(gwin,I1,3)); % ガウス窓をピークの位置にシ�
 %  axis vis3d;
 %  colormap(jet);
  %% cal
- figure;
- plot(l/2,squeeze(s_time(1,:)));
- title('s_time_non_filtered');
- xlim([0,1.0]);
- xlabel('distance[m]');
- ylabel('amplitude[dB]');
+%  figure;
+%  plot(l/2,squeeze(s_time(1,:)));
+%  title('s_time_non_filtered');
+%  xlim([0,1.0]);
+%  xlabel('distance[m]');
+%  ylabel('amplitude[dB]');
 s_time_filtered = (s_time-s_time.*gwin.');
 time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),1)));
 % 
@@ -148,13 +148,13 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),1)));
 % time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
 
- figure;
- plot(l/2,squeeze(s_time_filtered(1,:)));
- title('s_time_filtered');
- xlim([0,1.0]);
- xlabel('distance[m]');
- ylabel('amplitude[dB]');
- 
+%  figure;
+%  plot(l/2,squeeze(s_time_filtered(1,:)));
+%  title('s_time_filtered');
+%  xlim([0,1.0]);
+%  xlabel('distance[m]');
+%  ylabel('amplitude[dB]');
+%  
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
 index_distance = find( 0.2<l/2&l/2<0.4);
@@ -184,7 +184,37 @@ show_w(s_time_sq(:,index_distance),f1);
 
 % s_cd_filtered = fft(s_time_filtered,Nfft,3);
 
+%% k-means clustering
 
+
+x_clustering=int16(abs(s_time_sq)/min(abs(s_time_sq),[],'all'));
+depth_start=0.25;
+depth_end=0.36;
+x_clustering=x_clustering(int8(depth_start*1024):int8(depth_end*1024));
+
+numColors = 3;
+L = imsegkmeans(x_clustering,numColors);
+B = labeloverlay(x_clustering,L);
+imshow(B)
+title("Labeled Image RGB")
+%% result plot
+opts=statset('Display','final');
+[idx,Center_position]=kmeans(x_clustering,3,'Distance','cityblock','Replicates',10,'Options',opts);
+
+
+
+%% plot
+figure;
+plot(x_clustering(idx==1,1),x_clustering(idx==1,2),'r.','MarkerSize',12)
+hold on
+plot(x_clustering(idx==2,1),x_clustering(idx==2,2),'b.','MarkerSize',12)
+hold on
+plot(x_clustering(idx==3,1),x_clustering(idx==3,2),'g.','MarkerSize',12)
+plot(Center_position(:,1),Center_position(:,2),'kx',...
+     'MarkerSize',15,'LineWidth',3) 
+legend('Cluster 1','Cluster 2','Cluster 3','Cluster Centroid')
+title 'Cluster Assignments and Centroids'
+hold off
 
 
 
