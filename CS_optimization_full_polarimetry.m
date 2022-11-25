@@ -40,6 +40,9 @@ s_HH_re=s_HH(8:53,8:53,:);
 s_VV_re=s_VV(8:53,8:53,:);
 s_HV_re=s_HV(15:end,15:end,:);
 s_VH_re=s_VH(1:46,1:46,:);
+%% plot
+[g0,g1,g2,g3]=poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,1,0);
+
 % %s_HH_re=s_HH;
 % HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
 % % %s_VV_re=s_VV;
@@ -65,7 +68,7 @@ VH_s_time_result = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_
 %migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(s_HH_re,2);
+[s_sample,sample,sample_list] = data_sample(s_VV_re,2);
 s_use = data_fill(s_sample,sample_list);
 
 %% 試しにプロット
@@ -77,7 +80,7 @@ r=5;
 t=5;
 %model=make_model_sphere(r,t);
 [r,t,model]=make_square_model(r,t);
-[r,t,model]=make_model_transpose(r,t,model);
+%[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
@@ -90,6 +93,6 @@ ans_tim=toc
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'HV_result');
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'VV_result');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');
