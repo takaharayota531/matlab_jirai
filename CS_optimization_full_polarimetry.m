@@ -41,7 +41,7 @@ s_VV_re=s_VV(8:53,8:53,:);
 s_HV_re=s_HV(15:end,15:end,:);
 s_VH_re=s_VH(1:46,1:46,:);
 %% plot
-[g0,g1,g2,g3]=poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,1,0);
+poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re);
 
 % %s_HH_re=s_HH;
 % HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
