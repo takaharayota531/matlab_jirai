@@ -68,7 +68,7 @@ VH_s_time_result = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_
 %migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(s_VV_re,2);
+[s_sample,sample,sample_list] = data_sample(s_HV_re,2);
 s_use = data_fill(s_sample,sample_list);
 
 %% 試しにプロット
@@ -78,8 +78,8 @@ migration_and_plot_polarization(s_use,f, horzcat(HH_name,'_HH'),0,1);
 p=0.1;
 r=5;
 t=5;
-%model=make_model_sphere(r,t);
-[r,t,model]=make_square_model(r,t);
+model=make_model_sphere(r,t);
+%[r,t,model]=make_square_model(r,t);
 %[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化

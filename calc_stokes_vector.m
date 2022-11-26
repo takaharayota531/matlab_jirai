@@ -6,6 +6,14 @@ function [x,y,z]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
     J__HV=mean(E_rH.*conj(E_rV),3);
     J__VH=mean(E_rV.*conj(E_rH),3);
     J__VV=mean(E_rV.*conj(E_rV),3);    
+%     HH=E_rH.*conj(E_rH);
+%     HV=E_rH.*conj(E_rV);
+%     VH=E_rV.*conj(E_rH);
+%     VV=E_rV.*conj(E_rV);   
+%     J__HH=HH(:,:,1);
+%     J__HV=HV(:,:,1);
+%     J__VH=VH(:,:,1);
+%     J__VV=VV(:,:,1);   
 
     g0=J__HH+J__VV;
     g1=J__HH-J__VV;
