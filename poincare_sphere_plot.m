@@ -2,7 +2,15 @@ function poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV)
     
    
     [x_horizontal,y_horizontal,z_horizontal]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,1,0);
-    plot3(x_horizontal,y_horizontal,z_horizontal,'o','Color','red');
+    
+    c = linspace(0,length(x_horizontal),length(x_horizontal));
+    %plot_object=scatter3(x_horizontal,y_horizontal,z_horizontal,'o','Color','red');
+    plot_object=scatter3(x_horizontal,y_horizontal,z_horizontal,36,x_horizontal);
+    colormap(parula);
+%     ax1=tiledlayout(1,1) ;
+%     colormap(ax1,parula)
+%    
+    
      hold on
 %     [x_vertical,y_vertical,z_vertical]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,0,1);
 %     plot3(x_vertical,y_vertical,z_vertical,'o','Color','blue');

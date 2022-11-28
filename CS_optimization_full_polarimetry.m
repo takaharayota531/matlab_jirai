@@ -93,6 +93,6 @@ ans_tim=toc
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'VV_result');
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'HV_result');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');
