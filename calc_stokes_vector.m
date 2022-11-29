@@ -28,11 +28,13 @@ function [x,y,z]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
     y=zeros(size(reshape(g2./g0,[],1)));
     z=zeros(size(reshape(g3./g0,[],1)));
 
-    for j=1:size(g0,2):
-        for i=1:size(g0,1):
-            x(i*j)=g1(i,j)/g0(i,j);
-            y(i*j)=g2(i,j)/g0(i,j);
-            z(i*j)=g3(i,j)/g0(i,j);
+    tmp_index=1;
+    for j=1:size(g0,2)
+        for i=1:size(g0,1)
+            x(tmp_index)=g1(i,j)/g0(i,j);
+            y(tmp_index)=g2(i,j)/g0(i,j);
+            z(tmp_index)=g3(i,j)/g0(i,j);
+            tmp_index=tmp_index+1;
         end
     end
 
