@@ -30,12 +30,15 @@ function [x,y,z,plot_order]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
     plot_order=zeros(size(reshape(g1./g0,[],1)));
     tmp_index=1;
     size_length=size(g0,1);
+
      for i=1:size(g0,1)
          for j=1:size(g0,2)
              plot_order(size_length*(j-1)+i)=tmp_index;
              tmp_index=tmp_index+1;
          end
      end
+
+
 %  for i=1:size(g0,1)
 %         for j=1:size(g0,2)
 %             plot_order(size_length*(i-1)+j)=tmp_index;
