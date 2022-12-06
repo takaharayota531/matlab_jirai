@@ -2,10 +2,16 @@ function [x,y,z,plot_order]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
     E_rH=S_HH*E_iH+S_HV*E_iV;
     E_rV=S_VH*E_iH+S_VV*E_iV;
 
-    J__HH=mean( E_rH.*conj(E_rH),3);
-    J__HV=mean(E_rH.*conj(E_rV),3);
-    J__VH=mean(E_rV.*conj(E_rH),3);
-    J__VV=mean(E_rV.*conj(E_rV),3);    
+
+    J__HH=squeeze(( E_rH.*conj(E_rH)));
+    J__HV=squeeze((E_rH.*conj(E_rV)));
+    J__VH=squeeze((E_rV.*conj(E_rH)));
+    J__VV=squeeze((E_rV.*conj(E_rV)));   
+
+    % J__HH=squeeze(mean( E_rH.*conj(E_rH),[1 2]));
+    % J__HV=squeeze(mean(E_rH.*conj(E_rV),[1 2]));
+    % J__VH=squeeze(mean(E_rV.*conj(E_rH),[1 2]));
+    % J__VV=squeeze(mean(E_rV.*conj(E_rV),[1 2]));    
 %     HH=E_rH.*conj(E_rH);
 %     HV=E_rH.*conj(E_rV);
 %     VH=E_rV.*conj(E_rH);
@@ -24,19 +30,16 @@ function [x,y,z,plot_order]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
      x=reshape(g1./g0,[],1);
      y=reshape(g2./g0,[],1);
      z=reshape(g3./g0,[],1);
-%     x=zeros(size(reshape(g1./g0,[],1)));
-%     y=zeros(size(reshape(g2./g0,[],1)));
-%     z=zeros(size(reshape(g3./g0,[],1)));
-    plot_order=zeros(size(reshape(g1./g0,[],1)));
+    x_size=size(g0,1);
+    y_size=size(g0,2);
+    z_size=size(g0,3);
+    plot_order=zeros(x_size*y_size*z_size,1);
     tmp_index=1;
     size_length=size(g0,1);
 
-     for i=1:size(g0,1)
-         for j=1:size(g0,2)
-             plot_order(size_length*(j-1)+i)=tmp_index;
-             tmp_index=tmp_index+1;
-         end
-     end
+     for i=1:x_size*y_size*z_size
+        plot_order(i)=i;
+    end
 
 
 %  for i=1:size(g0,1)
