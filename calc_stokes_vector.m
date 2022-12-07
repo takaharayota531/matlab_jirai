@@ -3,15 +3,15 @@ function [x,y,z,plot_order]=calc_stokes_vector(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
     E_rV=S_VH*E_iH+S_VV*E_iV;
 
 
-    J__HH=squeeze(( E_rH.*conj(E_rH)));
-    J__HV=squeeze((E_rH.*conj(E_rV)));
-    J__VH=squeeze((E_rV.*conj(E_rH)));
-    J__VV=squeeze((E_rV.*conj(E_rV)));   
+%     J__HH=squeeze(( E_rH.*conj(E_rH)));
+%     J__HV=squeeze((E_rH.*conj(E_rV)));
+%     J__VH=squeeze((E_rV.*conj(E_rH)));
+%     J__VV=squeeze((E_rV.*conj(E_rV)));   
 
-    % J__HH=squeeze(mean( E_rH.*conj(E_rH),[1 2]));
-    % J__HV=squeeze(mean(E_rH.*conj(E_rV),[1 2]));
-    % J__VH=squeeze(mean(E_rV.*conj(E_rH),[1 2]));
-    % J__VV=squeeze(mean(E_rV.*conj(E_rV),[1 2]));    
+     J__HH=squeeze(mean( E_rH.*conj(E_rH),[1 2]));
+     J__HV=squeeze(mean(E_rH.*conj(E_rV),[1 2]));
+     J__VH=squeeze(mean(E_rV.*conj(E_rH),[1 2]));
+     J__VV=squeeze(mean(E_rV.*conj(E_rV),[1 2]));    
 %     HH=E_rH.*conj(E_rH);
 %     HV=E_rH.*conj(E_rV);
 %     VH=E_rV.*conj(E_rH);
