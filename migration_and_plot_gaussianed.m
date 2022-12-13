@@ -1,5 +1,5 @@
 %出来上がったデータのマイグレーション処理とプロットまでを行う
-function  s_re_ifft_time= migration_and_plot_gaussianed(s,f,dataname,depth_start,depth_end)
+function   re_fft= migration_and_plot_gaussianed(s,f,dataname,depth_start,depth_end)
 
     % 初期設定
     % [s,f] = data_load_XY_raw(dataname);
@@ -138,7 +138,7 @@ function  s_re_ifft_time= migration_and_plot_gaussianed(s,f,dataname,depth_start
     %  xlabel('distance[m]');
     %  ylabel('amplitude[dB]');
     
-    re_fft=fft(s_time_filtered,Nfft,3);
+    re_fft=fft(s_time_filtered,201,3);
     s_re_ifft_time=ifft(re_fft,Nfft,3);
     
      
@@ -151,10 +151,10 @@ function  s_re_ifft_time= migration_and_plot_gaussianed(s,f,dataname,depth_start
     % index_distance = 1:Nfft;
     
 %     
-%      show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,''); % フィルタ処理前の表示
-%      show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
-     show_volume_amp(abs(s_re_ifft_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'gaussianed'); % フィルタ処理前の表示
-     show_volume_angle((angle(s_re_ifft_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+   %  show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,''); % フィルタ処理前の表示
+%       show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+     % show_volume_amp(abs(s_re_ifft_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'gaussianed'); % フィルタ処理前の表示
+%      show_volume_angle((angle(s_re_ifft_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 %     
     
     

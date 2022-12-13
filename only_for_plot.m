@@ -31,11 +31,11 @@ function s_time= migration_and_plot_polarization(s,f,dataname,depth_start,depth_
     %s_cd = s; % 補正済み散乱係数　moved
     f = round(f); % 変な端数の丸め
     % ./ →対応する各要素で割り算すればいい
-    s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
+    s_cd = s;%./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
     
     % 周波数ごとの距離減衰 点散乱源を仮定した補正f^4　面反射の場合はf^2
     %対応する要素で掛け算する
-    s_cd = s_cd.*reshape(f.^4,1,1,Nf);
+%     s_cd = s_cd.*reshape(f.^4,1,1,Nf);
     
     s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
     %平均してから対数をとるか、対数を取ってから平均

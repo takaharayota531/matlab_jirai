@@ -6,11 +6,11 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
 
 %% HV偏波プロット
-dataFolder='measured_data/1213/';
-HH_name='HH_reflect_metal';
-VV_name='VV_reflect_metal';
-HV_name='HV_reflect_metal';
-VH_name='VH_reflect_metal';
+dataFolder='data\new_measurement\';
+HH_name='1031_right_left_(15,13,7)';
+VV_name='1031_up_down_(15,13,7)';
+HV_name='1103_right_up_(7,10,7)_400_300_3600';
+VH_name='1103_down_left_(7,10,7)_400_300_3600';
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
 data_HV_name = append(dataFolder,HV_name);
@@ -36,34 +36,38 @@ depth_end=0.36;
 p=0.1;
 
 f=f_HH;%ここは要改善
-% s_HH_re=s_HH(8:53,8:53,:);
-% s_VV_re=s_VV(8:53,8:53,:);
-% s_HV_re=s_HV(15:end,15:end,:);
-% s_VH_re=s_VH(1:46,1:46,:);
+ s_HH_re=s_HH(8:53,8:53,:);
+ s_VV_re=s_VV(8:53,8:53,:);
+ s_HV_re=s_HV(15:end,15:end,:);
+ s_VH_re=s_VH(1:46,1:46,:);
 
-s_HH_re=s_HH;
-s_VV_re=s_VV;
-s_HV_re=s_HV;
-s_VH_re=s_VH;
+% s_HH_re=s_HH;
+% s_VV_re=s_VV;
+% s_HV_re=s_HV;
+% s_VH_re=s_VH;
 %% plot
 poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
 %% s_HH_re=s_HH;
- HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
-% % %s_VV_re=s_VV;
-% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),0,1);
-% HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
-% VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
+HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
+% %s_VV_re=s_VV;
+ VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
+ HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
+ VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 
+%% re poincare_sphere_plot
+poincare_sphere_plot(HH_s_time_result,HV_s_time_result,VH_s_time_result,VV_s_time_result,f);
 %% plot
-HH_s_time_result=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),0,1);
+HH_s_time_result=migration_and_plot_polarization(HH_s_time_result,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
 %%
-VV_s_time_result=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.26,0.35);
+%VV_s_time_result=migration_and_plot_polarization(VV_s_time_result,f, horzcat(VV_name,'_VV'),0.26,0.35);
 %% 
 %%
 HV_s_time_result =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),0,1);
 %%
 VH_s_time_result = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),0,1);
+
+
 
 
 %% calc
