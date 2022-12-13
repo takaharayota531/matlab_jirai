@@ -41,19 +41,19 @@ s_VV_re=s_VV(8:53,8:53,:);
 s_HV_re=s_HV(15:end,15:end,:);
 s_VH_re=s_VH(1:46,1:46,:);
 %% plot
-poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re);
+poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
 %% s_HH_re=s_HH;
  HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
 % % %s_VV_re=s_VV;
-%% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),0,1);
+% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),0,1);
 % HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
 % VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 
 %% plot
 HH_s_time_result=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),0,1);
 %%
-VV_s_time_result=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0,1);
+VV_s_time_result=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.26,0.35);
 %% 
 %%
 HV_s_time_result =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),0,1);
