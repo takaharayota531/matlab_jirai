@@ -28,16 +28,16 @@ function poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f)
      % scatter3(x_back_45,y_back_45,z_back_45,36,plot_order_back_45,"filled");
    %scatter3(x_back_45,y_back_45,z_back_45,36,"yellow","filled");
       
-    scatter3(x_left_45,y_left_45,z_left_45,12,plot_order_left_45,"filled");  
+   % scatter3(x_left_45,y_left_45,z_left_45,36,plot_order_left_45,"filled");  
      % scatter3(x_left_45,y_left_45,z_left_45,36,"cyan","filled");   
     
 
-      % scatter3(x_right_45,y_right_45,z_right_45,12,plot_order_right_45,"filled");
+       scatter3(x_right_45,y_right_45,z_right_45,12,plot_order_right_45,"filled");
       %    scatter3(x_right_45,y_right_45,z_right_45,36,"magenta","filled");
        xlabel("x");
     ylabel("y");
     zlabel("z");
-   title("left");
+   title("ri");
 
     colormap(turbo); 
   
