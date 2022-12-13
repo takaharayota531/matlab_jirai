@@ -39,7 +39,7 @@ function poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV)
    
 
     colormap(parula);
-    title("left");
+    title("all-plot");
      
    % legend("horizontal","vertical","+45°","-45°","left","right");
     sphere
