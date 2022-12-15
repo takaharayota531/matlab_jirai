@@ -1,4 +1,4 @@
-function [x,y,z,plot_order,plot_order_array]=make_plot_order(g0,g1,g2,g3)
+function [x,y,z,plot_order,plot_order_array]=make_plot_order(g0,g1,g2,g3,window_size)
    
     x_size=size(g0,1);
     y_size=size(g0,2);
@@ -24,24 +24,26 @@ function [x,y,z,plot_order,plot_order_array]=make_plot_order(g0,g1,g2,g3)
     %     end
     % end
 
-window_size=5
- for j=1:y_size
-     for i=1:x_size
-         if j==2 && (5<=i && i<=9)
-             plot_order_array(i,j,:)=5;
+if window_size==5
+     for j=1:y_size
+         for i=1:x_size
+             if j==2 && (5<=i && i<=9)
+                 plot_order_array(i,j,:)=5;
+             end
          end
      end
- end
+end
 
  
-%  window_size=7
-%  for j=1:y_size
-%      for i=1:x_size
-%          if j==2 && (3<=i && i<=9)
-%              plot_order_array(i,j,:)=5;
-%          end
-%      end
-%  end
+if  window_size==7
+  for j=1:y_size
+      for i=1:x_size
+          if j==2 && (3<=i && i<=9)
+              plot_order_array(i,j,:)=5;
+          end
+      end
+  end
+end
 
     
 %  for i=1:size(g0,1)

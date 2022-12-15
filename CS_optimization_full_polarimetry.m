@@ -6,11 +6,11 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
 
 %% HV偏波プロット
- dataFolder='data\new_measurement\';
-  HH_name='1031_right_left_(15,13,7)';
-  VV_name='1031_up_down_(15,13,7)';
-  HV_name='1103_right_up_(7,10,7)_400_300_3600';
-  VH_name='1103_down_left_(7,10,7)_400_300_3600';
+%  dataFolder='data\new_measurement\';
+%   HH_name='1031_right_left_(15,13,7)';
+%   VV_name='1031_up_down_(15,13,7)';
+%   HV_name='1103_right_up_(7,10,7)_400_300_3600';
+%   VH_name='1103_down_left_(7,10,7)_400_300_3600';
 
  data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
  data_hosei_HV_name='data\direct_coupling\HV_direct_coupling';
@@ -18,11 +18,11 @@ set(0,'defaultTextInterpreter','latex');
  data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
  
 
-%  dataFolder='measured_data\1213\';
-%  HH_name='HH_reflect_metal';
-%  VV_name='VV_reflect_metal';
-%  HV_name='HV_reflect_metal';
-%  VH_name='VH_reflect_metal';
+ dataFolder='measured_data\1213\';
+ HH_name='HH_reflect_metal';
+ VV_name='VV_reflect_metal';
+ HV_name='HV_reflect_metal';
+ VH_name='VH_reflect_metal';
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
 data_HV_name = append(dataFolder,HV_name);
@@ -48,15 +48,15 @@ depth_end=0.36;
 p=0.1;
 
 f=f_HH;%ここは要改善
-   s_HH_re=s_HH(8:53,8:53,:);
-   s_VV_re=s_VV(8:53,8:53,:);
-   s_HV_re=s_HV(15:end,15:end,:);
-   s_VH_re=s_VH(1:46,1:46,:);
+%    s_HH_re=s_HH(8:53,8:53,:);
+%    s_VV_re=s_VV(8:53,8:53,:);
+%    s_HV_re=s_HV(15:end,15:end,:);
+%    s_VH_re=s_VH(1:46,1:46,:);
 
-%   s_HH_re=s_HH;
-%   s_VV_re=s_VV;
-%   s_HV_re=s_HV;
-%   s_VH_re=s_VH;
+  s_HH_re=s_HH;
+  s_VV_re=s_VV;
+  s_HV_re=s_HV;
+  s_VH_re=s_VH;
 %% plot
 poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
