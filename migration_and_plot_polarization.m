@@ -164,8 +164,8 @@ function s_time= migration_and_plot_polarization(s,f,dataname,depth_start,depth_
     
     %db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
     % abs_dB=mag2db(abs(s_time_filtered(:,:,index_distance)));
-    % show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
-    % show_volume_angle(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv,dataname);
+%     show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
+%     show_volume_angle(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv,dataname);
 %     show_volume_amp((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet,dataname,''); % フィルタ処理後の表示
 %     show_volume_angle(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv,dataname);
     
