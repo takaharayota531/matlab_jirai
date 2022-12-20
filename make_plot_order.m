@@ -1,11 +1,11 @@
-function [x,y,z,plot_order,plot_order_array]=make_plot_order(g0,g1,g2,g3,window_size)
+function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(x,y,z,window_size)
    
-    x_size=size(g0,1);
-    y_size=size(g0,2);
-    z_size=size(g0,3);
+    x_size=size(x,1);
+    y_size=size(x,2);
+    z_size=size(x,3);
     plot_order_array=zeros(x_size,y_size,z_size);
     tmp_index=1;
-    size_length=size(g0,1);
+    size_length=size(x,1);
 
     % pipe_width=7;
     % pipe_start_width=7;
@@ -52,9 +52,10 @@ end
 %             tmp_index=tmp_index+1;
 %         end
 %     end
-    x=reshape(g1./g0,[],1);
-    y=reshape(g2./g0,[],1);
-    z=reshape(g3./g0,[],1);
+    x_ordered=reshape(x,[],1);
+    y_ordered=reshape(y,[],1);
+    z_ordered=reshape(z,[],1);
+    %plot_order_array=permute(plot_order_array,[2 1 3]);
     plot_order=reshape(plot_order_array,[],1);
 
 end
