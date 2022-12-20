@@ -6,32 +6,35 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
 
 %% HV偏波プロット
-%  dataFolder='data1218\1219\';
-%   HH_name='HH_new';
-%   VV_name='VV_new';
-%   HV_name='testVV';
-%   VH_name='VH_new';
+%  dataFolder='data\new_measurement\';
+%   HH_name='1031_right_left_(15,13,7)';
+%   VV_name='1031_up_down_(15,13,7)';
+%   HV_name='1103_right_up_(7,10,7)_400_300_3600';
+%   VH_name='1103_down_left_(7,10,7)_400_300_3600';
 
 %  dataFolder='data\new_measurement\1216\';
 %   HH_name='HH_(12.5_2.5_5)_(60_58)';
 %   VV_name='VV_(12.5_2.5_5)';
 %   HV_name='HV_(12.5_2.5_5)_(60_58)';
 %   VH_name='VH_(12.5_2.5_5)_(60_58)';
+% 
+%  data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
+%  data_hosei_VH_name='data\direct_coupling\HV_direct_coupling';
+%  data_hosei_HV_name='data\direct_coupling\VH_direct_coupling';
+%  data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
 
-
-
+ dataFolder='data1218\1219\';
+  HH_name='HH_new';
+  VV_name='VV_new';
+  HV_name='HV_new';
+  VH_name='VH_new';
 
  data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
- data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_copling';
  data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
- data_hosei_VV_name='data1218\direct_coupling\VV_new_direct_coupling';
+ data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_copling';
+ data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
  
 
-%  dataFolder='measured_data\1213\';
-%  HH_name='HH_reflect_metal';
-%  VV_name='VV_reflect_metal';
-%  HV_name='HV_reflect_metal';
-%  VH_name='VH_reflect_metal';
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
 data_HV_name = append(dataFolder,HV_name);
@@ -69,31 +72,32 @@ f=f_HH;%ここは要改善
 %    s_HV_re=s_HV(15:end,15:end,:);
 %    s_VH_re=s_VH(1:46,1:46,:);
 
-  s_HH_re=s_HH;
-  s_VV_re=s_VV;
-  s_HV_re=s_HV;
-  s_VH_re=s_VH;
+  SOME_MINUS=2;
+  s_HH_re=s_HH(8:53,8:53,:);
+  s_VV_re=s_VV(8:53,8:53,:);
+  s_HV_re=s_HV(1:46,1:46,:);
+  s_VH_re=s_VH(13:58,13:58,:);
 %% plot
 % poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);
 poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
-%% s_HH_re=s_HH;
-HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
-VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
-HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
-VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 
 
 %% plot
 HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),0.2,0.3);
 %%
-VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.0,0.3); 
+VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.2,0.3); 
 %%
 HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),0.2,0.3);
 %%
-VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),0.23,0.27);
+VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),0.2,0.27);
 
 
+%% s_HH_re=s_HH;
+% HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
+% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
+% HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
+% VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 
 
 
