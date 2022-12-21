@@ -68,33 +68,33 @@ function poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f)
 %       end
 
 
-    for i=1:6
-        figure(i);
-        if i==1
-          scatter3(var_x_hori,var_y_hori,var_z_hori ,12,plot_order_horizontal,"filled");
-            title("horizontal");
-        elseif i==2
-            scatter3(var_x_ver , var_y_ver , var_z_ver ,12,plot_order_vertical,"filled");
-            title("vertical");
-        elseif i==3
-            scatter3(var_x_for_45 , var_y_for_45 , var_z_for_45 ,12,plot_order_for_45,"filled");
-            title("+45");
-        elseif i==4
-            scatter3( var_x_back_45  ,var_y_back_45 , var_z_back_45 ,12,plot_order_back_45,"filled");
-            title("-45");
-        elseif i==5
-            scatter3( var_x_left_45  , var_y_left_45 , var_z_left_45 ,12,plot_order_left_45,"filled"); 
-            title("left");
-        elseif i==6
-            scatter3( var_x_right_45 , var_y_right_45 , var_z_right_45 ,12,plot_order_right_45,"filled");
-            title("right");
-        end
-        xlabel("sigma-x");
-        ylabel("sigma-y");
-        zlabel("sigma-z");
-  
-     
-      end
+%     for i=1:6
+%         figure(i);
+%         if i==1
+%           scatter3(var_x_hori,var_y_hori,var_z_hori ,12,plot_order_horizontal,"filled");
+%             title("horizontal");
+%         elseif i==2
+%             scatter3(var_x_ver , var_y_ver , var_z_ver ,12,plot_order_vertical,"filled");
+%             title("vertical");
+%         elseif i==3
+%             scatter3(var_x_for_45 , var_y_for_45 , var_z_for_45 ,12,plot_order_for_45,"filled");
+%             title("+45");
+%         elseif i==4
+%             scatter3( var_x_back_45  ,var_y_back_45 , var_z_back_45 ,12,plot_order_back_45,"filled");
+%             title("-45");
+%         elseif i==5
+%             scatter3( var_x_left_45  , var_y_left_45 , var_z_left_45 ,12,plot_order_left_45,"filled"); 
+%             title("left");
+%         elseif i==6
+%             scatter3( var_x_right_45 , var_y_right_45 , var_z_right_45 ,12,plot_order_right_45,"filled");
+%             title("right");
+%         end
+%         xlabel("sigma-x");
+%         ylabel("sigma-y");
+%         zlabel("sigma-z");
+%   
+%      
+%       end
 
 
    

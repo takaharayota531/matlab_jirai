@@ -62,7 +62,7 @@ depth_end=0.36;
 
 
 %% HH_calc
-depth_start=0;
+depth_start=0.26;
 depth_end=0.36;
 p=0.1;
 
@@ -86,7 +86,7 @@ poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);%こっちが本来
 %% plot
 HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),0.2,0.3);
 %%
-VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.2,0.3); 
+VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0,0.3); 
 %%
 HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),0.2,0.3);
 %%

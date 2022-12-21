@@ -36,7 +36,7 @@ function [x_ordered,y_ordered,z_ordered,plot_order,x_ordered_variance,y_ordered_
     [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(averaged_x,averaged_y,averaged_z,window_size);
    % averaged_window=decide_window(plot_order_array,window_size);
    % [x,y,z,plot_order,plot_order_array]=make_plot_order_full_size(g0,g1,g2,g3);
-   % only_for_plot(plot_order_array,f,"experimental plot",0.25,0.36,window_size);
+   %only_for_plot(plot_order_array,f,"experimental plot",0.25,0.36,window_size);
  %  migration_and_plot_polarization
     
 end
