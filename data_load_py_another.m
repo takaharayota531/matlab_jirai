@@ -41,7 +41,7 @@ function [s_use,f] = data_load_py_another(dataname,datanameH)
     dataH_comp = 10.^(dataH(1,1,:,1)/10).*exp(1i*dataH(1,1,:,2));
     
     % 補正用のデータを複素で引く
-     data_comp = data_comp - dataH_comp;
+    % data_comp = data_comp - dataH_comp;
     
     % dataを振幅と位相に分解
     % data(:,:,:,1) = mag2db(abs(data_comp));

@@ -12,27 +12,27 @@ set(0,'defaultTextInterpreter','latex');
 %   HV_name='1103_right_up_(7,10,7)_400_300_3600';
 %   VH_name='1103_down_left_(7,10,7)_400_300_3600';
 
-%  dataFolder='data\new_measurement\1216\';
-%   HH_name='HH_(12.5_2.5_5)_(60_58)';
-%   VV_name='VV_(12.5_2.5_5)';
-%   HV_name='HV_(12.5_2.5_5)_(60_58)';
-%   VH_name='VH_(12.5_2.5_5)_(60_58)';
+ dataFolder='data\new_measurement\1216\';
+  HH_name='HH_12.5_2.5_5_60_58_change';
+  VV_name='VV_12.5_2.5_5_change';
+  HV_name='HV_12.5_2.5_5_60_58_change';
+  VH_name='VH_12.5_2.5_5_60_58_change';
+
+ data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
+ data_hosei_VH_name='data\direct_coupling\HV_direct_coupling';
+ data_hosei_HV_name='data\direct_coupling\VH_direct_coupling';
+ data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
+
+%  dataFolder='data1218\1219\';
+%   HH_name='HH_new';
+%   VV_name='VV_new';
+%   HV_name='HV_new';
+%   VH_name='VH_new';
 % 
-%  data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
-%  data_hosei_VH_name='data\direct_coupling\HV_direct_coupling';
-%  data_hosei_HV_name='data\direct_coupling\VH_direct_coupling';
-%  data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
-
- dataFolder='data1218\1219\';
-  HH_name='HH_new';
-  VV_name='VV_new';
-  HV_name='HV_new';
-  VH_name='VH_new';
-
- data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
- data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
- data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_copling';
- data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
+%  data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
+%  data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
+%  data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_copling';
+%  data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
  
 
 data_HH_name = append(dataFolder,HH_name);
@@ -79,7 +79,7 @@ f=f_HH;%ここは要改善
   s_VH_re=s_VH(13:58,13:58,:);
 %% plot
 poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);%こっちが本来
-%poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
+% poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
 
 

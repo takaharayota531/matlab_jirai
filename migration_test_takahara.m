@@ -13,12 +13,20 @@ set(0,'defaultTextInterpreter','latex');
 % load measured data
 dataFolder='';
 %dataFile='data1218\1220\1220\1220_VV_new_(12.5_0_9)';
-dataFile='data\new_measurement\1218\testVV';
+dataFile='data1218\1219\HH_new_rechange';
+%dataFile='data\new_measurement\1216\VH_12.5_2.5_5_60_58_change';
 % dataFile='data\0918_metalpipe_15_0_8';
+
 dataname = append(dataFolder,dataFile);
-dataHname = 'data1218\direct_coupling\VV_new_direct_coupling';
-dataHname='hosei(1-21GHz401points)_paralell';
+
+
+dataHname = 'data1218\direct_coupling\HH_new_direct_coupling';
+%dataHname='hosei(1-21GHz401points)_paralell';
+%dataHname='data\direct_coupling\VH_direct_coupling';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
+
+
+
 % [s,f] = data_load_XY_raw(dataname);
 %[s,f] = data_load_without_correction(dataname,dataHname);
 %[s,f]=data_load_py_takahara(dataname,dataH_nanimonashi);
@@ -155,13 +163,13 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 %index_distance = find( l/2<0.4);
 % index_distance = find( 0.25<l/2&l/2<0.4);
 index_distance = find( l/2);
-index_distance = find( 0.2<l/2&l/2<0.35);
+index_distance = find( 0.15<l/2&l/2<0.35);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
-%  show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
-%  show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+  show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
+  show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
-show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
+%show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
 % show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % show_volume_amp(abs(s),x,y,f,jet,dataname,'filtered'); % フィルタ処理前の表示
 % show_volume_angle(angle(s),x,y,f,hsv,dataname);
