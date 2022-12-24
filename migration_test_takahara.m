@@ -13,14 +13,17 @@ set(0,'defaultTextInterpreter','latex');
 % load measured data
 dataFolder='';
 %dataFile='data1218\1220\1220\1220_VV_new_(12.5_0_9)';
-dataFile='data1218\1219\HH_new_rechange';
+% dataFile='data1218\1219\HH_new_rechange';
 %dataFile='data\new_measurement\1216\VH_12.5_2.5_5_60_58_change';
+%dataFile='data1218\1220\1220\HH_change';
+dataFile='data1218\1223\1223_VH';
 % dataFile='data\0918_metalpipe_15_0_8';
+%dataFile='data1218\1223\1223_VV_12.5_0_9';
 
 dataname = append(dataFolder,dataFile);
 
 
-dataHname = 'data1218\direct_coupling\HH_new_direct_coupling';
+dataHname = 'data1218\direct_coupling\VH_new_direct_coupling';
 %dataHname='hosei(1-21GHz401points)_paralell';
 %dataHname='data\direct_coupling\VH_direct_coupling';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
@@ -72,11 +75,11 @@ freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
 
 % データ全体の周波数領域の特徴をプロット
-figure;
-plot(f,freq_data);
-xlabel('frequency[Hz]');
-ylabel('amplitude[dB]');
-xlim([1 11]*1e9);
+% figure;
+% plot(f,freq_data);
+% xlabel('frequency[Hz]');
+% ylabel('amplitude[dB]');
+% xlim([1 11]*1e9);
 %% 時間領域分析、処理  ここまで実行する
 
 % 周波数点数（周波数分解能）を補間によって増加
@@ -102,10 +105,10 @@ s_shifted(:,:,N_head+1:N_head+Nf) = s_cd(:,:,:);%周波数軸で見ればいい
 %%
 s_time = ifft(s_shifted,Nfft,3);%逆フーリエ変換
 time_data = mag2db(squeeze(sum(abs(s_time),[1 2]))); % xyの次元をまとめた時の時間領域の特性
-figure;
-plot(time_data);
-xlabel('time[s]');
-ylabel('amplitude[dB]');
+% figure;
+% plot(time_data);
+% xlabel('time[s]');
+% ylabel('amplitude[dB]');
 %  s_changed_time=make_average(s_time);
 %% 時間領域の幅
 T = 1/df; % 時間領域の最大値
@@ -163,15 +166,15 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 %index_distance = find( l/2<0.4);
 % index_distance = find( 0.25<l/2&l/2<0.4);
 index_distance = find( l/2);
-index_distance = find( 0.15<l/2&l/2<0.35);
+index_distance = find( 0.2<l/2&l/2<0.35);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
   show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
   show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
-%show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
+% show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
 % show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
-% show_volume_amp(abs(s),x,y,f,jet,dataname,'filtered'); % フィルタ処理前の表示
+%  show_volume_amp(abs(s),x,y,f,jet,dataname,'周波数領域'); % フィルタ処理前の表示
 % show_volume_angle(angle(s),x,y,f,hsv,dataname);
 %   show_volume((abs(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,jet); % フィルタ処理後の表示
 %   show_volume(angle(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,hsv);

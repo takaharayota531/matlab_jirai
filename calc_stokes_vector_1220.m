@@ -1,4 +1,4 @@
-function [x_ordered,y_ordered,z_ordered,plot_order,x_ordered_variance,y_ordered_variance,z_ordered_variance]=calc_stokes_vector1220(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV,f)
+function [averaged_x,averaged_y,averaged_z,variance_x,variance_y,variance_z]=calc_stokes_vector1220(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV,f)
     E_rH=S_HH*E_iH+S_HV*E_iV;
     E_rV=S_VH*E_iH+S_VV*E_iV;
 
@@ -32,11 +32,11 @@ function [x_ordered,y_ordered,z_ordered,plot_order,x_ordered_variance,y_ordered_
     variance_y=calc_window_for_average_and_variance(y,window_size);
     variance_z=calc_window_for_average_and_variance(z,window_size);
     %[x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(x,y,z,window_size);
-    [x_ordered_variance,y_ordered_variance,z_ordered_variance,plot_order_variance,plot_order_array_variance]=make_plot_order(variance_x,variance_y,variance_z,window_size);
-    [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(averaged_x,averaged_y,averaged_z,window_size);
+    % [x_ordered_variance,y_ordered_variance,z_ordered_variance,plot_order_variance,plot_order_array_variance]=make_plot_order(variance_x,variance_y,variance_z,window_size);
+    % [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(averaged_x,averaged_y,averaged_z,window_size);
    % averaged_window=decide_window(plot_order_array,window_size);
    % [x,y,z,plot_order,plot_order_array]=make_plot_order_full_size(g0,g1,g2,g3);
-   %only_for_plot(plot_order_array,f,"experimental plot",0.25,0.36,window_size);
+%    only_for_plot(plot_order_array,f,"experimental plot",0.25,0.36,window_size);
  %  migration_and_plot_polarization
     
 end
