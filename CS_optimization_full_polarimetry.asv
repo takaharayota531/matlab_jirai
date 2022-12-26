@@ -12,33 +12,28 @@ set(0,'defaultTextInterpreter','latex');
 %   HV_name='1103_right_up_(7,10,7)_400_300_3600';
 %   VH_name='1103_down_left_(7,10,7)_400_300_3600';
 
-%  dataFolder='data\new_measurement\1216\';
-%  data_name_change='_change';
-%   HH_name=append('HH_12.5_2.5_5_60_58',data_name_change);
-%   VV_name=append('VV_12.5_2.5_5',data_name_change);
-%   HV_name=append('HV_12.5_2.5_5_60_58',data_name_change);
-%   VH_name=append('VH_12.5_2.5_5_60_58',data_name_change);
-% 
-%  data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
-%  data_hosei_HV_name='data\direct_coupling\HV_direct_coupling';
-%  data_hosei_VH_name='data\direct_coupling\VH_direct_coupling';
-%  data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
+ dataFolder='data\new_measurement\1216\';
+ data_name_change='_change';
+  HH_name=append('HH_12.5_2.5_5_60_58',data_name_change);
+  VV_name=append('VV_12.5_2.5_5',data_name_change);
+  HV_name=append('HV_12.5_2.5_5_60_58',data_name_change);
+  VH_name=append('VH_12.5_2.5_5_60_58',data_name_change);
 
- dataFolder='data1218\1219\';
+ data_hosei_HH_name='data\direct_coupling\HH_direct_coupling';
+ data_hosei_HV_name='data\direct_coupling\HV_direct_coupling';
+ data_hosei_VH_name='data\direct_coupling\VH_direct_coupling';
+ data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
+
+%  dataFolder='data1218\1219\';
 %   HH_name='HH_new';
 %   VV_name='VV_new';
 %   HV_name='HV_new';
 %   VH_name='VH_new';
-  
-  HH_name='HH_new_rechange';
-  VV_name='VV_new_rechange';
-  HV_name='HV_new_rechange';
-  VH_name='VH_new_rechange';
-
- data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
- data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
- data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
- data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
+% 
+%  data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
+%  data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
+%  data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
+%  data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
  
 
 data_HH_name = append(dataFolder,HH_name);
@@ -78,23 +73,23 @@ f=f_HH;%ここは要改善
 %    s_VH_re=s_VH(1:46,1:46,:);   
 
 
-%    s_HH_re=s_HH(8:51,8:51,:);
-%    s_VV_re=s_VV(8:51,8:51,:);
-%    s_HV_re=s_HV(15:58,15:58,:);
-%    s_VH_re=s_VH(1:44,1:44,:);
+   s_HH_re=s_HH(8:51,8:51,:);
+   s_VV_re=s_VV(8:51,8:51,:);
+   s_HV_re=s_HV(15:58,15:58,:);
+   s_VH_re=s_VH(1:44,1:44,:);
 
-  SOME_MINUS=2;
-  s_HH_re=s_HH(8:53,8:53,:);
-  s_VV_re=s_VV(8:53,8:53,:);
-  s_HV_re=s_HV(1:46,1:46,:);
-  s_VH_re=s_VH(13:58,13:58,:);
+%   SOME_MINUS=2;
+%   s_HH_re=s_HH(8:53,8:53,:);
+%   s_VV_re=s_VV(8:53,8:53,:);
+%   s_HV_re=s_HV(1:46,1:46,:);
+%   s_VH_re=s_VH(13:58,13:58,:);
 %% plot
- [x_hori_re,y_hori_re,z_hori_re,...
-    x_ver_re,y_ver_re,z_ver_re,...
-    x_for_45_re,y_for_45_re,z_for_45_re,... 
-    x_back_45_re,y_back_45_re,z_back_45_re,... 
-    x_left_45_re,y_left_45_re,z_left_45_re,...
-    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);%こっちが本来
+%  [x_hori_re,y_hori_re,z_hori_re,...
+%     x_ver_re,y_ver_re,z_ver_re,...
+%     x_for_45_re,y_for_45_re,z_for_45_re,... 
+%     x_back_45_re,y_back_45_re,z_back_45_re,... 
+%     x_left_45_re,y_left_45_re,z_left_45_re,...
+%     x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);%こっちが本来
 %     [x_hori_re,y_hori_re,z_hori_re,...
 %     x_ver_re,y_ver_re,z_ver_re,...
 %     x_for_45_re,y_for_45_re,z_for_45_re,... 
@@ -118,7 +113,7 @@ f=f_HH;%ここは要改善
 depth_start=0.2;
 depth_end=0.3;
 % HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
-% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),0,1);
+% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),depth_start,depth_end);
 % HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
 % VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
 

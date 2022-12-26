@@ -6,10 +6,11 @@ function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_o
     plot_order_array=zeros(x_size,y_size,z_size);
     tmp_index=1;
     size_length=size(x,1);
-
-%     plot_order_array= permute (second_model(plot_order_array,window_size),[2 1 3]);
-%    plot_order_array=permute(first_model(plot_order_array,window_size),[2 1 3]);
-     plot_order_array=second_model(plot_order_array,window_size);
+    
+%  plot_order_array=first_model(plot_order_array,window_size);
+    plot_order_array= permute (second_model(plot_order_array,window_size),[2 1 3]);
+%     plot_order_array=permute(first_model(plot_order_array,window_size),[2 1 3]);
+%     plot_order_array=second_model(plot_order_array,window_size);
   
 
 
