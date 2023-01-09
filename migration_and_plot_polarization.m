@@ -1,5 +1,5 @@
 %出来上がったデータのマイグレーション処理とプロットまでを行う
-function s_time= migration_and_plot_polarization(s,f,dataname,depth_start,depth_end)
+function s_time_ans= migration_and_plot_polarization(s,f,dataname,depth_start,depth_end)
 
     % 初期設定
     % [s,f] = data_load_XY_raw(dataname);
@@ -151,15 +151,17 @@ function s_time= migration_and_plot_polarization(s,f,dataname,depth_start,depth_
     % 表示プロット 
     % ある深さ幅の位相と振幅表示
     index_distance = find( depth_start<l/2&l/2<depth_end);
+%     index_distance=find(l/2);
+    s_time_ans=s_time(:,:,index_distance);
     
     %index_distance = find(l);
     index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
     % index_distance = 1:Nfft;
     
-%     
+    
       show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,''); % フィルタ処理前の表示
       show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
-%     
+    
     
     
     %db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));

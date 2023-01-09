@@ -8,10 +8,11 @@ function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_o
     size_length=size(x,1);
     
 %  plot_order_array=first_model(plot_order_array,window_size);
-    plot_order_array= permute (second_model(plot_order_array,window_size),[2 1 3]);
+    % plot_order_array= permute (second_model(plot_order_array,window_size),[2 1 3]);
 %     plot_order_array=permute(first_model(plot_order_array,window_size),[2 1 3]);
-%     plot_order_array=second_model(plot_order_array,window_size);
-  
+    plot_order_array=second_model(plot_order_array,window_size);
+%         plot_order_array=freq_order_array(plot_order_array,window_size);
+% plot_order_array=array_decide(plot_order_array,window_size);
 
 
 
@@ -62,31 +63,74 @@ function plot_order_array= second_model(plot_order_array,window_size)
     x_size=size(plot_order_array,1);
     y_size=size(plot_order_array,2);
     z_size=size(plot_order_array,3);
-    pipe_width=1;
-    pipe_start_width=4;
-    tmp_index=10;
-    for j=1:1+pipe_width
-        % for i=1:x_size
-                % if 1<=pipe_start_width-j+1
-                % plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
-                % tmp_index=tmp_index+1;
-                % end
-                % if j~=1 && (pipe_start_width+j-1<=y_size)
-                %     plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
-                %     tmp_index=tmp_index+1;
-                % end
 
-                if j==1
-                    plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
-                    
-                else 
-                    plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
-                    plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
-                end
-                tmp_index=tmp_index-1;
-                    
-            
-        % end
+    if window_size==5
+        pipe_width=2;
+        pipe_start_width=3;
+        tmp_index=10;
+        for j=0:pipe_width
+
+                    if j==0
+                        plot_order_array(:,pipe_start_width,:)=tmp_index;    
+                    else 
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        plot_order_array(:,pipe_start_width+j,:)=tmp_index;
+                    end
+                    tmp_index=tmp_index-1;
+                                
+        end
+
     end
 
+    if window_size==7
+        pipe_width=1;
+        pipe_start_width=6;
+        tmp_index=10;
+        for j=1:1+pipe_width
+            % for i=1:x_size
+                    % if 1<=pipe_start_width-j+1
+                    % plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
+                    % tmp_index=tmp_index+1;
+                    % end
+                    % if j~=1 && (pipe_start_width+j-1<=y_size)
+                    %     plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
+                    %     tmp_index=tmp_index+1;
+                    % end
+
+                    if j==1
+                        plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
+                    end
+                    tmp_index=tmp_index-1;
+                        
+                
+            % end
+        end
+    end
+
+end
+
+function plot_order_array=array_decide(plot_order_array,window_size)
+    tmp_index=0;
+    y_size=size(plot_order_array,2);
+
+    for j=1:y_size
+        plot_order_array(:,j,:)=tmp_index;
+        tmp_index=tmp_index+1;
+    
+    end
+
+end
+
+function plot_order_array=freq_order_array(plot_order_array,window_size)
+    z_size=size(plot_order_array,3);
+    tmp_index=0;
+    for i=1:z_size
+        plot_order_array(:,:,i)=tmp_index;
+        tmp_index=tmp_index+1;
+    end
 end

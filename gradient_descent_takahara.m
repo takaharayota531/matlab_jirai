@@ -20,7 +20,7 @@ function [s,s_list,h_list,alpha_list,df_list]=gradient_descent_takahara(s,sample
 
     i=0
 
-    while(i<10)
+    while(i<1)
         df=calc_df_takahara(s,h,model,p);
         d=-2*squeeze(df(:,:,:,2));
 

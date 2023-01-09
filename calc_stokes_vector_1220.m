@@ -1,10 +1,10 @@
-function [averaged_x,averaged_y,averaged_z,variance_x,variance_y,variance_z]=calc_stokes_vector1220(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV,f)
+function [averaged_x,averaged_y,averaged_z,variance_x,variance_y,variance_z]=calc_stokes_vector1220(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV,f,window_size)
     E_rH=S_HH*E_iH+S_HV*E_iV;
     E_rV=S_VH*E_iH+S_VV*E_iV;
 
 
-    window_size=7;
-
+   
+% 
 %      E_rH=1*ones(46,46,201)/sqrt(2);
 %      E_rV=1i*ones(46,46,201)/sqrt(2);
 

@@ -7,10 +7,10 @@ set(0,'defaultTextInterpreter','latex');
 
 %% HV偏波プロット
 %  dataFolder='data\new_measurement\';
-%   HH_name='1031_right_left_(15,13,7)';
-%   VV_name='1031_up_down_(15,13,7)';
-%   HV_name='1103_right_up_(7,10,7)_400_300_3600';
-%   VH_name='1103_down_left_(7,10,7)_400_300_3600';
+%   HH_name='1031_right_left_15,13,7_change';
+%   VV_name='1031_up_down_15,13,7_change';
+%   HV_name='1103_right_up_7,10,7_400_300_3600_change';
+%   VH_name='1103_down_left_7,10,7_400_300_3600_change';
 
 %  dataFolder='data\new_measurement\1216\';
 %  data_name_change='_change';
@@ -24,21 +24,27 @@ set(0,'defaultTextInterpreter','latex');
 %  data_hosei_VH_name='data\direct_coupling\VH_direct_coupling';
 %  data_hosei_VV_name='data\direct_coupling\VV_direct_coupling';
 
- dataFolder='data1218\1219\';
+%  dataFolder='data1218\1219\';
 %   HH_name='HH_new';
 %   VV_name='VV_new';
 %   HV_name='HV_new';
 %   VH_name='VH_new';
   
-  HH_name='HH_new_rechange';
-  VV_name='VV_new_rechange';
-  HV_name='HV_new_rechange';
-  VH_name='VH_new_rechange';
+%   HH_name='HH_new_rechange';
+%   VV_name='VV_new_rechange';
+%   HV_name='HV_new_rechange';
+%   VH_name='VH_new_rechange';
 
- data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
- data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
- data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
- data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
+dataFolder='data1218\0107\';
+  HH_name='HH_new';
+  VV_name='VV_new';
+  HV_name='HV_new';
+  VH_name='VH_new';
+
+ data_hosei_HH_name='data1218\0108\direct_HH';
+ data_hosei_VH_name='data1218\0108\direct_VH';
+ data_hosei_HV_name='data1218\0108\direct_HV';
+ data_hosei_VV_name='data1218\direct0106\direct_VV';
  
 
 data_HH_name = append(dataFolder,HH_name);
@@ -72,10 +78,12 @@ p=0.1;
 f=f_HH;%ここは要改善
 
 f=f_HH;%ここは要改善
-%    s_HH_re=s_HH(8:53,8:53,:);
-%    s_VV_re=s_VV(8:53,8:53,:);
-%    s_HV_re=s_HV(15:end,15:end,:);
-%    s_VH_re=s_VH(1:46,1:46,:);   
+
+
+% s_HH_re=s_HH(8:53,8:53,:);
+% s_VV_re=s_VV(8:53,8:53,:);
+% s_HV_re=s_HV(15:end,15:end,:);
+% s_VH_re=s_VH(1:46,1:46,:);   
 
 
 %    s_HH_re=s_HH(8:51,8:51,:);
@@ -83,55 +91,86 @@ f=f_HH;%ここは要改善
 %    s_HV_re=s_HV(15:58,15:58,:);
 %    s_VH_re=s_VH(1:44,1:44,:);
 
-  SOME_MINUS=2;
-  s_HH_re=s_HH(8:53,8:53,:);
-  s_VV_re=s_VV(8:53,8:53,:);
-  s_HV_re=s_HV(1:46,1:46,:);
-  s_VH_re=s_VH(13:58,13:58,:);
+% 
+% s_HH_re=s_HH;
+% s_VV_re=s_VV;
+% s_HV_re=s_HV;
+% s_VH_re=s_VH;
+
+  s_HH_re=s_HH(8:51,8:51,:);
+  s_VV_re=s_VV(8:51,8:51,:);
+  s_HV_re=s_HV(1:44,1:44,:);
+  s_VH_re=s_VH(15:58,15:58,:);
+%% 定数値 
+window_size=5;
 %% plot
+
+
  [x_hori_re,y_hori_re,z_hori_re,...
     x_ver_re,y_ver_re,z_ver_re,...
     x_for_45_re,y_for_45_re,z_for_45_re,... 
     x_back_45_re,y_back_45_re,z_back_45_re,... 
     x_left_45_re,y_left_45_re,z_left_45_re,...
-    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f);%こっちが本来
+    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);%こっちが本来
+
+
 %     [x_hori_re,y_hori_re,z_hori_re,...
 %     x_ver_re,y_ver_re,z_ver_re,...
 %     x_for_45_re,y_for_45_re,z_for_45_re,... 
 %     x_back_45_re,y_back_45_re,z_back_45_re,... 
+
 %     x_left_45_re,y_left_45_re,z_left_45_re,...
 %     x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_VH_re,s_HV_re,s_VV_re,f);
 
 %% plot
 
-% %% plot
-% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),0.2,0.3);
-% %%
-% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),0.26,0.4); 
-% %%
-% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),0.2,0.3);
-% %%
-% VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),0.2,0.35);
+depth_start=0.26;
+depth_end=0.4;
+% depth_start=0;
+% depth_end=1;
+% 
+% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
+% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
+% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
+% VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
+%% plot
 
-
-%% s_HH_re=s_HH;
-depth_start=0.2;
-depth_end=0.3;
-% HH_s_time_result=migration_and_plot_gaussianed(s_HH_re,f, horzcat(data_HH_name,'_HH'),depth_start,depth_end);
-% VV_s_time_result=migration_and_plot_gaussianed(s_VV_re,f, horzcat(data_VV_name,'_VV'),0,1);
-% HV_s_time_result =migration_and_plot_gaussianed(s_HV_re,f, horzcat(data_HV_name,'_HV'),depth_start,depth_end);
-% VH_s_time_result = migration_and_plot_gaussianed(s_VH_re,f, horzcat(data_VH_name,'_VH'),depth_start,depth_end);
+%  [x_hori_re_time,y_hori_re_time,z_hori_re_time,...
+%     x_ver_re_time,y_ver_re_time,z_ver_re_time,...
+%     x_for_45_re_time,y_for_45_re_time,z_for_45_re_time,... 
+%     x_back_45_re_time,y_back_45_re_time,z_back_45_re_time,... 
+%     x_left_45_re_time,y_left_45_re_time,z_left_45_re_time,...
+%     x_right_45_re_time,y_right_45_re_time,z_right_45_re_time]=poincare_sphere_plot(HH_s_time_result1 , HV_s_time_result1 , VH_s_time_result1 , VV_s_time_result1 ,f);
 
 
 %% input data create
-input_feature_array=input_feature_matrix(x_hori_re,y_hori_re,z_hori_re,...
+input_data_xyz_array=input_feature_matrix(x_hori_re,y_hori_re,z_hori_re,...
     x_ver_re,y_ver_re,z_ver_re,...
     x_for_45_re,y_for_45_re,z_for_45_re,... 
     x_back_45_re,y_back_45_re,z_back_45_re,... 
     x_left_45_re,y_left_45_re,z_left_45_re,...
     x_right_45_re,y_right_45_re,z_right_45_re);
 
-size(input_feature_array)
+
+size(input_data_xyz_array)
+
+%% input actual data
+
+input_data_array=decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
+
+
+%% DOP  DOPを入力特徴量とする
+hori_dop=calc_DOP(x_hori_re,y_hori_re,z_hori_re);
+ver_dop=calc_DOP(x_ver_re,y_ver_re,z_ver_re);
+add_45_dop=calc_DOP(x_for_45_re,y_for_45_re,z_for_45_re);
+sub_45_dop=calc_DOP(x_back_45_re,y_back_45_re,z_back_45_re);
+left_dop=calc_DOP(x_left_45_re,y_left_45_re,z_left_45_re);
+right_dop=calc_DOP( x_right_45_re,y_right_45_re,z_right_45_re);
+input_dop_feature_array=cat(3,hori_dop,ver_dop,add_45_dop,sub_45_dop,left_dop,right_dop);
+
+%% reflect calc dop
+dop_2_pipe_direction(hori_dop,ver_dop,add_45_dop,sub_45_dop,left_dop,right_dop, ...
+    x_hori_re,x_ver_re,x_for_45_re,x_back_45_re,x_left_45_re,x_right_45_re);
 
 %% calc
 % s = s_all(:,:,[1 10:10:100]);
@@ -140,7 +179,14 @@ size(input_feature_array)
 %migration_and_plot(s,f,dataname);
 %% データの取り出しと補間
 
+lambda=0.3;
+
+input_feature_array=cat(3,input_data_array*(1-lambda),input_dop_feature_array*lambda);
+
 % [s_sample,sample,sample_list] = data_sample(input_feature_array,2);
+% [s_sample,sample,sample_list] = data_sample(input_feature_array,2);
+
+
 [s_sample,sample,sample_list] = data_sample(input_feature_array,2);
 
 s_use = data_fill(s_sample,sample_list);
@@ -150,11 +196,11 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-r=1;
+r=2;
 t=1;
 %model=make_model_sphere(r,t);
-[r,t,model]=make_square_model(r,t);
-%[r,t,model]=make_model_transpose(r,t,model);
+ [r,t,model]=make_square_model(r,t);
+% [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
@@ -164,9 +210,10 @@ ans_tim=toc
 
 
 
+
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'1225_new_plot');
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'0109_lambda=0.3_windows=7');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');

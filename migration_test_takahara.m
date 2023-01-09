@@ -9,21 +9,33 @@ set(0,'defaultLegendInterpreter','latex');
 set(0,'defaultlinelinewidth',2);
 
 set(0,'defaultTextInterpreter','latex');
-
+%%
 % load measured data
-dataFolder='';
+% dataFolder='data1218\1219\';
+%  HH_name='HH_new_rechange';
+%   VV_name='VV_new_rechange';
+%   HV_name='data1218\1219\HV_new_rechange';
+%   VH_name='VH_new_rechange';
+% 
+%  data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
+%  data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
+%  data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
+%  data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
+ 
+ dataFolder='data1218\0108\';
 %dataFile='data1218\1220\1220\1220_VV_new_(12.5_0_9)';
 % dataFile='data1218\1219\HH_new_rechange';
-%dataFile='data\new_measurement\1216\VH_12.5_2.5_5_60_58_change';
+dataFile='0108_ydirection\HV_ydirection';
 %dataFile='data1218\1220\1220\HH_change';
-dataFile='data1218\1223\1223_VH';
+% dataFile='data1218\0106\VV';
 % dataFile='data\0918_metalpipe_15_0_8';
 %dataFile='data1218\1223\1223_VV_12.5_0_9';
 
 dataname = append(dataFolder,dataFile);
 
 
-dataHname = 'data1218\direct_coupling\VH_new_direct_coupling';
+% dataHname ='data1218\direct0106\direct_VV';
+dataHname='data1218\0108\direct_HV';
 %dataHname='hosei(1-21GHz401points)_paralell';
 %dataHname='data\direct_coupling\VH_direct_coupling';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
@@ -33,8 +45,26 @@ dataH_nanimonashi='data/0926_nanimonashi_ydirection';
 % [s,f] = data_load_XY_raw(dataname);
 %[s,f] = data_load_without_correction(dataname,dataHname);
 %[s,f]=data_load_py_takahara(dataname,dataH_nanimonashi);
-[s,f] = data_load_py_another(dataname,dataHname);
+DIFF=false;
+[s,f] = data_load_py_another(dataname,dataHname,DIFF);
+% [s,f] = data_load_py_another( HV_name , data_hosei_HV_name  ,DIFF );
 %[s,f] = data_load_py(dataname,dataHname);
+
+%% plot 
+
+
+depth_start=0.2;
+depth_end=0.4;
+s_HH_re=s(8:51,8:51,:);
+% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
+% s_VV_re=s(8:51,8:51,:);
+s_VV_re=s;
+% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
+s_HV_re=s(1:44,1:44,:);
+HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
+ s_VH_re=s(15:58,15:58,:);
+%  VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
+%%
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる
 s = s(:,:,index);
@@ -43,9 +73,11 @@ f = f(index);
 x_int = 0.005; % x-interval
 y_int = 0.005; % y-interval
 z_int = 0.005; % z-interval
-h = 0.2; % height of antennas
+% h = 0.02; % height of antennas
+h=0.1;
 g = 0.19; % gap from caliblation point to アンテナの先端
-d = 0.06; % distance between antennas
+% g=0.25;
+d = 0.04+0.10; % distance between antennas
 nu = physconst('Lightspeed'); % light speed
 er = 4; % relative permittivity
 
@@ -55,16 +87,18 @@ z = 0.2:z_int:0.65; % z-positions
 Nz = size(z,2);%zの要素数→zについていくつ値をとったか
 %% 周波数などもろもろの補正
 
-%s_cd = s; % 補正済み散乱係数　moved
+s_cd = GBR_takahara(s,f,g,h,d,er);
+
+s_cd = s; % 補正済み散乱係数　moved
 f = round(f); % 変な端数の丸め
 % ./ →対応する各要素で割り算すればいい
-s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
+% s_cd = s./reshape(fchar(f),1,1,Nf); % アンテナの周波数特性の補正
 
 % 周波数ごとの距離減衰 点散乱源を仮定した補正f^4　面反射の場合はf^2
 %対応する要素で掛け算する
-s_cd = s_cd.*reshape(f.^4,1,1,Nf);
+% s_cd = s_cd.*reshape(f.^4,1,1,Nf);
 
-s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
+% s_cd = s_cd/max(abs(s_cd),[],'all'); % 振幅の最大値を1(0dB)に正規化
 %平均してから対数をとるか、対数を取ってから平均
 freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 % figure;
@@ -72,7 +106,7 @@ freq_data = squeeze(mean(10*log10(abs(s_cd)),[1 2]));
 % xlabel('frequency[Hz]');
 % ylabel('amplitude[dB]');
 % xlim([1 11]*1e9);
-freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
+% freq_data = 10*log10(squeeze(mean(abs(s_cd),[1 2])));
 
 % データ全体の周波数領域の特徴をプロット
 % figure;
@@ -156,21 +190,21 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 
 
 %  figure;
-%  plot(l/2,squeeze(s_time_filtered(1,1,:)));
+%  plot(l/2,squeeze(s_time(1,1,:)));
 %  xlim([0,1.0]);
 %  xlabel('distance[m]');
 %  ylabel('amplitude[dB]');
  
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
-%index_distance = find( l/2<0.4);
-% index_distance = find( 0.25<l/2&l/2<0.4);
 index_distance = find( l/2);
-index_distance = find( 0.2<l/2&l/2<0.35);
+index_distance = find( 0.25<l/2&l/2<0.35);
+% index_distance = find( 2.0<l/2& l/2<2.2);
+% index_distance = find( 0.3<l/2&l/2<0.35);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
-  show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
-  show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
+show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 % db_magnitude=mag2db(abs(s_time_filtered(:,:,index_distance)));
 % show_volume_amp(abs(s_time_filtered(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'filtered'); % フィルタ処理前の表示
 % show_volume_angle((angle(s_time_filtered(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);

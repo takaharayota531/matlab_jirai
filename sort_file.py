@@ -1,7 +1,10 @@
 from operator import itemgetter
 import sys 
 args = sys.argv
+print(args[1])
+print(args[2])
 path = args[1]
+
 f1 = open(args[2], 'w')
 with open(path) as f:
     lines=f.readlines()
@@ -19,7 +22,9 @@ with open(path) as f:
         if(not line):
             break
         tmp=line.split()
-        # print(tmp)
+        # print(divide_fre_index)
+        # print(tmp[2])
+        # print(tmp[3])
         tmp_message=str(tmp[0])+' '+str(tmp[1])+' '+str(tmp[2])+' '+str(tmp[3])+' ' +str(ix)+' '+str(iy)  +'\n'
         target_list.append(tmp_message)
         

@@ -3,16 +3,16 @@ function [x_hori_re,y_hori_re,z_hori_re,...
     x_for_45_re,y_for_45_re,z_for_45_re,... 
     x_back_45_re,y_back_45_re,z_back_45_re,... 
     x_left_45_re,y_left_45_re,z_left_45_re,...
-    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f)
+    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f,window_size)
     
-    window_size = 7;
+  
 
-    [x_hori_re,y_hori_re,z_hori_re,var_x_hori_re,var_y_hori_re,var_z_hori_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1,0,f);
-    [x_ver_re,y_ver_re,z_ver_re,var_x_ver_re,var_y_ver_re,var_z_ver_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,0,1,f);
-    [x_for_45_re,y_for_45_re,z_for_45_re,var_x_for_45_re,var_y_for_45_re,var_z_for_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),1/sqrt(2),f);
-    [x_back_45_re,y_back_45_re,z_back_45_re,var_x_back_45_re,var_y_back_45_re,var_z_back_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,-1/sqrt(2),1/sqrt(2),f);
-    [x_left_45_re,y_left_45_re,z_left_45_re,var_x_left_45_re,var_y_left_45_re,var_z_left_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),1i*1/sqrt(2),f);
-    [x_right_45_re,y_right_45_re,z_right_45_re,var_x_right_45_re,var_y_right_45_re,var_z_right_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),-1i*1/sqrt(2),f);
+    [x_hori_re,y_hori_re,z_hori_re,var_x_hori_re,var_y_hori_re,var_z_hori_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1,0,f,window_size);
+    [x_ver_re,y_ver_re,z_ver_re,var_x_ver_re,var_y_ver_re,var_z_ver_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,0,1,f,window_size);
+    [x_for_45_re,y_for_45_re,z_for_45_re,var_x_for_45_re,var_y_for_45_re,var_z_for_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),1/sqrt(2),f,window_size);
+    [x_back_45_re,y_back_45_re,z_back_45_re,var_x_back_45_re,var_y_back_45_re,var_z_back_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,-1/sqrt(2),1/sqrt(2),f,window_size);
+    [x_left_45_re,y_left_45_re,z_left_45_re,var_x_left_45_re,var_y_left_45_re,var_z_left_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),1i*1/sqrt(2),f,window_size);
+    [x_right_45_re,y_right_45_re,z_right_45_re,var_x_right_45_re,var_y_right_45_re,var_z_right_45_re]=calc_stokes_vector_1220(S_HH,S_HV,S_VH,S_VV,1/sqrt(2),-1i*1/sqrt(2),f,window_size);
 
 
     %plot orderを行う
@@ -35,27 +35,26 @@ function [x_hori_re,y_hori_re,z_hori_re,...
     [x_right_45,y_right_45,z_right_45,plot_order_right_45,right_45]=make_plot_order(x_right_45_re,y_right_45_re,z_right_45_re,window_size);
     [var_x_right_45, var_y_right_45,var_z_right_45,right_45,right_45]=make_plot_order(var_x_right_45_re,var_y_right_45_re,var_z_right_45_re,window_size);
 
-
-%      only_for_plot(hori1,f,"experimental plot",0.25,0.36,window_size);
+%     only_for_plot(hori1,f,"experimental plot",0.2,0.3,window_size);
     
 
     
     
-     scatter3(x_hori,y_hori,z_hori,12,"red","filled");
-       hold on
-    scatter3(x_ver,y_ver,z_ver,12,"blue","filled");
-    scatter3(x_for_45,y_for_45,z_for_45,12,"black","filled");
-    scatter3(x_back_45,y_back_45,z_back_45,12,"yellow","filled");
-    scatter3(x_left_45,y_left_45,z_left_45,12,"cyan","filled");   
-    scatter3(x_right_45,y_right_45,z_right_45,12,"magenta","filled");
-    legend("hori","ver","+45°","-45°","left","right");
-    xlabel("x");
-    ylabel("y");
-    zlabel("z");
-   title("data1218_1219_new_all_plot");
-    sphere
-    colormap(parula);
-      hold off
+%      scatter3(x_hori,y_hori,z_hori,12,"red","filled");
+%        hold on
+%     scatter3(x_ver,y_ver,z_ver,12,"blue","filled");
+%     scatter3(x_for_45,y_for_45,z_for_45,12,"black","filled");
+%     scatter3(x_back_45,y_back_45,z_back_45,12,"yellow","filled");
+%     scatter3(x_left_45,y_left_45,z_left_45,12,"cyan","filled");   
+%     scatter3(x_right_45,y_right_45,z_right_45,12,"magenta","filled");
+%     legend("hori","ver","+45°","-45°","left","right");
+%     xlabel("x");
+%     ylabel("y");
+%     zlabel("z");
+%    title("data1218_0108_new_all_plot");
+%     sphere
+%     colormap(parula);
+%       hold off
 
 
     for i=1:6
@@ -89,7 +88,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
       hold off
       end
 
-
+% 
 %     for i=1:6
 %         figure(i+7);
 %         if i==1
@@ -117,10 +116,10 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 %   
 %      
 %       end
-
-
-   
-  
+% 
+% 
+%    
+%   
       
    
      
