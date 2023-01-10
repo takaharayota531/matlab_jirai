@@ -35,7 +35,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
     [x_right_45,y_right_45,z_right_45,plot_order_right_45,right_45]=make_plot_order(x_right_45_re,y_right_45_re,z_right_45_re,window_size);
     [var_x_right_45, var_y_right_45,var_z_right_45,right_45,right_45]=make_plot_order(var_x_right_45_re,var_y_right_45_re,var_z_right_45_re,window_size);
 
-%     only_for_plot(hori1,f,"experimental plot",0.2,0.3,window_size);
+    only_for_plot(hori1,f,"experimental plot",0.2,0.3,window_size);
     
 
     
@@ -51,7 +51,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 %     xlabel("x");
 %     ylabel("y");
 %     zlabel("z");
-%    title("data1218_0108_new_all_plot");
+%    title("data1218_0107_ver_new_all_plot");
 %     sphere
 %     colormap(parula);
 %       hold off
@@ -88,7 +88,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
       hold off
       end
 
-% 
+
 %     for i=1:6
 %         figure(i+7);
 %         if i==1
@@ -116,10 +116,10 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 %   
 %      
 %       end
-% 
-% 
-%    
-%   
+
+
+   
+  
       
    
      

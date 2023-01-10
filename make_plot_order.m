@@ -12,7 +12,9 @@ function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_o
 %     plot_order_array=permute(first_model(plot_order_array,window_size),[2 1 3]);
     plot_order_array=second_model(plot_order_array,window_size);
 %         plot_order_array=freq_order_array(plot_order_array,window_size);
-% plot_order_array=array_decide(plot_order_array,window_size);
+% plot_order_array=permute( array_decide(plot_order_array,window_size),[2 1 3]);
+% plot_order_array = array_decide(plot_order_array,window_size);
+
 
 
 
@@ -84,7 +86,7 @@ function plot_order_array= second_model(plot_order_array,window_size)
 
     if window_size==7
         pipe_width=1;
-        pipe_start_width=6;
+        pipe_start_width=3;
         tmp_index=10;
         for j=1:1+pipe_width
             % for i=1:x_size
