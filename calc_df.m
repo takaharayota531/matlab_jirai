@@ -40,7 +40,7 @@ function dh=calc_dh(s,model)
             ys=1:my;
 
             for f=1:Nf
-                d_kp(f,xs,ys,f)=pmodel;
+                d_kp(f,xs,ys,f)=pmodel;%前半のf:s(r,f)のf、後半のf:偏微分するδs(r,f)
                 d_km(f,xs,ys,f)=mmodel;
             end
 
