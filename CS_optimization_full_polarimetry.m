@@ -35,11 +35,11 @@ set(0,'defaultTextInterpreter','latex');
 %   HV_name='HV_new_rechange';
 %   VH_name='VH_new_rechange';
 
-% dataFolder='data1218\0107\';
-%   HH_name='HH_new';
-%   VV_name='VV_new';
-%   HV_name='HV_new';
-%   VH_name='VH_new';
+dataFolder='data1218\0107\';
+  HH_name='HH_new';
+  VV_name='VV_new';
+  HV_name='HV_new';
+  VH_name='VH_new';
 
 
 % dataFolder='data1218\0108\0108_ydirection\';
@@ -48,11 +48,11 @@ set(0,'defaultTextInterpreter','latex');
 %   HV_name='HV_ydirection';
 %   VH_name='VH_ydirection';
 
-dataFolder='data1218\0109_45degrees\';
-  HH_name='HH';
-  VV_name='VV';
-  HV_name='HV';
-  VH_name='VH';
+% dataFolder='data1218\0109_45degrees\';
+%   HH_name='HH';
+%   VV_name='VV';
+%   HV_name='HV';
+%   VH_name='VH';
 
  data_hosei_HH_name='data1218\0108\direct_HH';
  data_hosei_VH_name='data1218\0108\direct_VH';
@@ -120,7 +120,7 @@ f=f_HH;%ここは要改善
   s_HV_re=s_HV(1:44,1:44,:);
   s_VH_re=s_VH(15:58,15:58,:);
 %% 定数値 
-window_size=5;
+window_size=7;
 depth_start=0.26;
 depth_end=0.4;
 X_SIZE=size(s_HH_re,1);
@@ -128,18 +128,22 @@ Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 %% plot
 
-% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
+% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_endata_hosei_VH_named);
 % VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
 % HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
 % VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
 
-%% plot
- [x_hori_re,y_hori_re,z_hori_re,...
-    x_ver_re,y_ver_re,z_ver_re,...
-    x_for_45_re,y_for_45_re,z_for_45_re,... 
-    x_back_45_re,y_back_45_re,z_back_45_re,... 
-    x_left_45_re,y_left_45_re,z_left_45_re,...
-    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);%こっちが本来
+ %% plot
+%  [x_hori_re,y_hori_re,z_hori_re,...
+%     x_ver_re,y_ver_re,z_ver_re,...
+%     x_for_45_re,y_for_45_re,z_for_45_re,... 
+%     x_back_45_re,y_back_45_re,z_back_45_re,... 
+%     x_left_45_re,y_left_45_re,z_left_45_re,...
+%     x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);%こっちが本来
+
+%       poincare_sphere_arrange(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);
+        poincare_sphere_data_management(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);
+
 
 
 %     [x_hori_re,y_hori_re,z_hori_re,...
@@ -154,13 +158,13 @@ ans_array=find_nearest_stokes_point(x_hori_re,y_hori_re,z_hori_re);
 %% plot
 
 
-% depth_start=0;
-% depth_end=1;
-% 
-HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
-VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
-HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
-VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
+depth_start=0;
+depth_end=1;
+
+% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
+% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
+% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
+% VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
 %% plot
 
 %  [x_hori_re_time,y_hori_re_time,z_hori_re_time,...
@@ -197,14 +201,14 @@ right_dop=calc_DOP( x_right_45_re,y_right_45_re,z_right_45_re);
 input_dop_feature_array=cat(3,hori_dop,ver_dop,add_45_dop,sub_45_dop,left_dop,right_dop);
 
 %% reflect calc dop
-ans_array=dop_2_pipe_direction(hori_dop,ver_dop,add_45_dop,sub_45_dop,left_dop,right_dop, ...
+ans_array_dop=dop_2_pipe_direction(hori_dop,ver_dop,add_45_dop,sub_45_dop,left_dop,right_dop, ...
     x_hori_re,x_ver_re,x_for_45_re,x_back_45_re,x_left_45_re,x_right_45_re, ...
     X_SIZE,Y_SIZE,Z_SIZE);
 
 % imagesc(ans_array)
 depth_start=0.2;
 depth_end=0.45;
-migration_and_plot_polarization(ans_array,f, horzcat('','ans_array_plot'),depth_start,depth_end);
+migration_and_plot_polarization(ans_array_dop,f, horzcat('','ans_array_plot'),depth_start,depth_end);
 
 %% calc
 % s = s_all(:,:,[1 10:10:100]);
@@ -232,9 +236,9 @@ s_use = data_fill(s_sample,sample_list);
 p=0.1;
 r=2;
 t=1;
-model=make_model_sphere(r,t);
-%  [r,t,model]=make_square_model(r,t);
-% [r,t,model]=make_model_transpose(r,t,model);
+% model=make_model_sphere(r,t);
+ [r,t,model]=make_square_model(r,t);
+[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化
 tic
@@ -248,6 +252,6 @@ ans_tim=toc
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'0110_lambda=0.5_circlemodel_windows=7');
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'0112_lambda=0.5_windows=7_横モデル_ydirection');
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');

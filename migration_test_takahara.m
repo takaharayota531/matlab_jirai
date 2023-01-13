@@ -22,10 +22,14 @@ set(0,'defaultTextInterpreter','latex');
 %  data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
 %  data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
  
- dataFolder='data1218\0109_45degrees\';
+%  dataFolder='data1218\0109_45degrees\';
 %dataFile='data1218\1220\1220\1220_VV_new_(12.5_0_9)';
 % dataFile='data1218\1219\HH_new_rechange';
-dataFile='VH';
+% dataFile='HH';
+% dataFolder='data1218\0112\new1-11Ghz\';
+% dataFile='VV';
+dataFolder='data1218\0113_newsand\LR\';
+dataFile='VV';
 %dataFile='data1218\1220\1220\HH_change';
 % dataFile='data1218\0106\VV';
 % dataFile='data\0918_metalpipe_15_0_8';
@@ -35,7 +39,8 @@ dataname = append(dataFolder,dataFile);
 
 
 % dataHname ='data1218\direct0106\direct_VV';
-dataHname='data1218\0108\direct_VH';
+dataHname='data1218\0112\direct_9to19GHz\VV';
+% dataHname='data1218\0108\direct_HH';
 %dataHname='hosei(1-21GHz401points)_paralell';
 %dataHname='data\direct_coupling\VH_direct_coupling';
 dataH_nanimonashi='data/0926_nanimonashi_ydirection';
@@ -53,17 +58,17 @@ DIFF=true;
 %% plot 
 
 
-depth_start=0.27;
-depth_end=0.4;
-s_HH_re=s(8:51,8:51,:);
+depth_start=0.26;
+depth_end=0.35;
+% s_HH_re=s(8:51,8:51,:);
 % HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
-s_VV_re=s(8:51,8:51,:);
-% s_VV_re=s;
-% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
-s_HV_re=s(1:44,1:44,:);
+s_VV_re=s(:,20:end,:);
+
+VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
+% s_HV_re=s(1:44,1:44,:);
 % HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
- s_VH_re=s(15:58,15:58,:);
- VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
+%  s_VH_re=s(15:58,15:58,:);
+%  VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
 %%
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる
@@ -197,10 +202,10 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
  
 %% 表示プロット 
 % ある深さ幅の位相と振幅表示
-index_distance = find( l/2);
-index_distance = find( depth_start<l/2&l/2< depth_end);
+% index_distance = find( l/2);
+% index_distance = find( depth_start<l/2&l/2< depth_end);
 % index_distance = find( 2.0<l/2& l/2<2.2);
-% index_distance = find( 0.3<l/2&l/2<0.35);
+index_distance = find( 0<l/2&l/2<0.35);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
