@@ -65,6 +65,41 @@ function plot_order_array= second_model(plot_order_array,window_size)
     x_size=size(plot_order_array,1);
     y_size=size(plot_order_array,2);
     z_size=size(plot_order_array,3);
+    
+    if window_size==1
+        pipe_width=30;
+        pipe_start_width=68;
+        tmp_index=35;
+        for j=1:1+pipe_width
+            % for i=1:x_size
+                    % if 1<=pipe_start_width-j+1
+                    % plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
+                    % tmp_index=tmp_index+1;
+                    % end
+                    % if j~=1 && (pipe_start_width+j-1<=y_size)
+                    %     plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
+                    %     tmp_index=tmp_index+1;
+                    % end
+
+                    if j==1
+                        plot_order_array(:,pipe_start_width-j+1,:)=tmp_index;
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        if 1<pipe_start_width-j
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        end
+                        if pipe_start_width+j-1<y_size
+                        plot_order_array(:,pipe_start_width+j-1,:)=tmp_index;
+                        end
+                    end
+                    tmp_index=tmp_index-1;
+                        
+                
+            % end
+        end
+    end
+        
 
     if window_size==5
         pipe_width=2;
@@ -85,8 +120,8 @@ function plot_order_array= second_model(plot_order_array,window_size)
     end
 
     if window_size==7
-        pipe_width=1;
-        pipe_start_width=3;
+        pipe_width=2;
+        pipe_start_width=9;
         tmp_index=10;
         for j=1:1+pipe_width
             % for i=1:x_size

@@ -2,7 +2,7 @@ function poincare_sphere_data_management(S_HH,S_HV,S_VH,S_VV,f,window_size)
 
 window_size=1;
 
-target_point=100;
+target_point=200;
 
 s_HH_re=S_HH(:,:,target_point);
 s_HV_re=S_HV(:,:,target_point);

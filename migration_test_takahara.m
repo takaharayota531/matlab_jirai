@@ -7,7 +7,6 @@ set(0,'defaultfigurecolor',[1 1 1]);
 set(0,'defaultAxesFontSize',20);
 set(0,'defaultLegendInterpreter','latex');
 set(0,'defaultlinelinewidth',2);
-
 set(0,'defaultTextInterpreter','latex');
 %%
 % load measured data
@@ -29,7 +28,7 @@ set(0,'defaultTextInterpreter','latex');
 % dataFolder='data1218\0112\new1-11Ghz\';
 % dataFile='VV';
 dataFolder='data1218\0113_newsand\LR\';
-dataFile='VV';
+dataFile='VH_40_120';
 %dataFile='data1218\1220\1220\HH_change';
 % dataFile='data1218\0106\VV';
 % dataFile='data\0918_metalpipe_15_0_8';
@@ -39,7 +38,7 @@ dataname = append(dataFolder,dataFile);
 
 
 % dataHname ='data1218\direct0106\direct_VV';
-dataHname='data1218\0112\direct_9to19GHz\VV';
+dataHname='data1218\0112\direct_9to19GHz\VH';
 % dataHname='data1218\0108\direct_HH';
 %dataHname='hosei(1-21GHz401points)_paralell';
 %dataHname='data\direct_coupling\VH_direct_coupling';
@@ -58,13 +57,13 @@ DIFF=true;
 %% plot 
 
 
-depth_start=0.26;
+depth_start=0.3;
 depth_end=0.35;
-% s_HH_re=s(8:51,8:51,:);
+s_HH_re=s(8:end,8:51,:);
 % HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
 s_VV_re=s(:,20:end,:);
 
-VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
+% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
 % s_HV_re=s(1:44,1:44,:);
 % HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
 %  s_VH_re=s(15:58,15:58,:);
@@ -205,7 +204,7 @@ time_data_filtered = mag2db(squeeze(sum(abs(s_time_filtered),[1 2])));
 % index_distance = find( l/2);
 % index_distance = find( depth_start<l/2&l/2< depth_end);
 % index_distance = find( 2.0<l/2& l/2<2.2);
-index_distance = find( 0<l/2&l/2<0.35);
+index_distance = find( 0.2<l/2&l/2<0.35);
 index_frequency = N_head+1:N_head+Nf; % 位相復元する周波数の範囲
 % index_distance = 1:Nfft;
 show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,'non_filter'); % フィルタ処理前の表示
