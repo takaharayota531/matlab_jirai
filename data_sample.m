@@ -1,6 +1,7 @@
 function [s,sample,sample_list] = data_sample(s,ratio)
     [Nx,Ny] = size(s,1,2);
-    n =10%floor( Nx*Ny*ratio/100);
+    n =10%
+%     n=floor( Nx*Ny*ratio/100);
     sample_tmp = randsample(Nx*Ny,n);
     sample_tmp = sort(sample_tmp)';
     sample_list = [floor((sample_tmp-1)/Nx)+1;rem(sample_tmp-1,Nx*ones(1,n))+1];

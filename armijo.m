@@ -9,6 +9,8 @@ function alpha=armijo(d,df,s,model,p)
 
     while 1
         fi=calc_f(s+alpha*d,model,p);
+        check=sum(df1.*d,'all');
+        check1=sum(df2.*conj(d),'all');
         fi2=f+(sum(df1.*d,'all')+sum(df2.*conj(d),'all'))*c*alpha;
         if fi<=fi2  || alpha<1e-6
             break;

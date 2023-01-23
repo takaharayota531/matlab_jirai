@@ -1,8 +1,8 @@
-function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word)
+function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word,where)
     m = size(model,1);
     n = size(data,3);
     
-    fontsize = 18;
+    fontsize = 10;
     
     data_max = max(data,[],'all');
     data_min = min(data,[],'all');
@@ -13,7 +13,7 @@ function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word)
     col = ceil(n/2); % subplot列数
     left_m = 0.01; % 左側余白の割合
     bot_m = 0.01; % 下側余白の割合
-    ver_r = 1; % 縦方向余裕 (値が大きいほど各axes間の余白が大きくなる)
+    ver_r = 2; % 縦方向余裕 (値が大きいほど各axes間の余白が大きくなる)
     col_r = 1.3; % 横方向余裕 (値が大きいほど各axes間の余白が大きくなる)
     bar_w = 0;%1/col/2;
     
@@ -33,7 +33,7 @@ function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word)
             (1-bot_m)/(row*ver_r)]...
             );
         % plotしたいものを書いてください***********
-        ti = horzcat('更新回数=',num2str(n-1),'');
+        ti = horzcat(num2str(n-1+where),'');
         data_min = min(abs(data(:,:,n)),[],'all');
         [data_max ,data_max_index]= max(abs(data(:,:,n)),[],'all','linear');
         [ii, jj] = ind2sub(size(data(:,:,n)), data_max_index);

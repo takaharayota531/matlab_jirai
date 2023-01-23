@@ -55,6 +55,7 @@ exportgraphics(gcf,'figures/hp_small.pdf')
 %% 最適化
 
 model=make_model_sphere(7,3);
+%% 
 [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
 
 

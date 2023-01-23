@@ -34,6 +34,9 @@ function [s,s_list,h_list,alpha_list,df_list]=gradient_descent(s,sample,model,p)
         s_list(:,:,:,end+1)=s;
         h_list(:,:,end+1)=h;
 
+
+        % ここでg1,g2,g3を更新しておく
+
         if alpha<1e-6
             break;
         end

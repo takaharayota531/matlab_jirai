@@ -7,7 +7,8 @@ function df=calc_df_full_polarimetry(s,h,model,p,FREQ_POINT)
     S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
     S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
 
-   df= create_hori_polarimetry(s,S_HH,S_HV,S_VH,S_VV,model,p,FREQ_POINT,h);
+%    df= create_hori_polarimetry(s,S_HH,S_HV,S_VH,S_VV,model,p,FREQ_POINT,h);
+df= create_ver_polarimetry(s,S_HH,S_HV,S_VH,S_VV,model,p,FREQ_POINT,h);
 
 
 
@@ -37,6 +38,27 @@ function ans_array = create_hori_polarimetry(s,S_HH,S_HV,S_VH,S_VV,model,p,FREQ_
 
 
 end
+
+function ans_array = create_ver_polarimetry(s,S_HH,S_HV,S_VH,S_VV,model,p,FREQ_POINT,h)
+    [g1_diff_by_g0_HH,g1_diff_by_g0_HV,g1_diff_by_g0_VH,g1_diff_by_g0_VV, ...
+        g2_diff_by_g0_HH,g2_diff_by_g0_HV,g2_diff_by_g0_VH,g2_diff_by_g0_VV, ...
+        g3_diff_by_g0_HH,g3_diff_by_g0_HV,g3_diff_by_g0_VH,g3_diff_by_g0_VV] ... 
+    =calc_complex_diff_full_polarimetry(S_HH,S_HV,S_VH,S_VV,0,1);
+
+
+    df_combined_g1=create_df_interface( s(:,:,4*FREQ_POINT+1:5*FREQ_POINT) , ... 
+    g1_diff_by_g0_HH,g1_diff_by_g0_HV,g1_diff_by_g0_VH,g1_diff_by_g0_VV,model,p,h);
+    df_combined_g2=create_df_interface( s(:,:,5*FREQ_POINT+1:6*FREQ_POINT) , ... 
+    g2_diff_by_g0_HH,g2_diff_by_g0_HV,g2_diff_by_g0_VH,g2_diff_by_g0_VV,model,p,h);
+    df_combined_g3=create_df_interface( s(:,:,6*FREQ_POINT+1:7*FREQ_POINT), ... 
+    g3_diff_by_g0_HH,g3_diff_by_g0_HV,g3_diff_by_g0_VH,g3_diff_by_g0_VV,model,p,h);
+
+    ans_array=cat(3,df_combined_g1,df_combined_g2,df_combined_g3);
+
+
+end
+
+
 
 % 水平偏波と垂直偏波について実装
 function create_2_polarimetry()

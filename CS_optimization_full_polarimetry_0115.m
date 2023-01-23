@@ -53,14 +53,14 @@ f=f_HH;%ここは要改善
 %   s_VV_re=s_VV;
 %   s_HV_re=s_HV;
 %   s_VH_re=s_VH;
-
+% 
   s_HH_re=s_HH(8:51,8:51,:);
   s_VV_re=s_VV(8:51,8:51,:);
   s_HV_re=s_HV(1:44,1:44,:);
   s_VH_re=s_VH(15:58,15:58,:);
 
-CUT_SIZE =7;
-CUT_SIZE_RE=20;
+% CUT_SIZE =7;
+% CUT_SIZE_RE=20;
 % s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE-CUT_SIZE_RE,:);
 % s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 % s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
@@ -72,16 +72,20 @@ depth_end=0.4;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
-
+FREQ_POINT=201;
 %% input actual data
 input_data_array=decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
+
+%% find_nearestの改訂版を作成する
+[ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false);
 
 %% データの取り出しと補間
 
 [s_sample,sample,sample_list] = data_sample(input_data_array,2);
 
 s_use = data_fill(s_sample,sample_list);
-
+% s_use = s_use(:,:,[1 10:20:770]);
+% f=f([1 10:10:100]);
 %% 試しにプロット
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
@@ -89,24 +93,46 @@ s_use = data_fill(s_sample,sample_list);
 p=0.1;
 r=2;
 t=1;
+FREQ_POINT=10;
 FREQ_POINT=201;
 Z_NUM=7;
 % model=make_model_sphere(r,t);
  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
+
+% %% 普通の圧縮センシング
+% tic
+% [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
+% ans_tim=toc
+% 
+% %% nan
+%  h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'普通のやつ');
 %% 最適化
+%  E_iH=1/sqrt(2);
+%  E_iV=1/sqrt(2);
+E_iH=0;
+E_iV=1;
 tic
-[s,s_his,h_his,alpha_his,df_his]=gradient_descent_full_polarimetry(s_use,sample,model,p,FREQ_POINT,Z_NUM);
+[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV);
 ans_tim=toc
 
-
-
+%% 
+s_his_re=s_his(:,:,:,1:3)
+%% 
+df_his_re=df_his(:,:,:,:,2)
+%% alpha plot
+plot(alpha_his)
+title('アルミホの条件のalpha')
+xlabel('試行回数')
+ylabel('alpha')
 
 
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'0112_lambda=0.5_windows=7_横モデル_ydirection');
+ h_most_count=show_history_10_scaled_takahara(h_his(:,:,1:20),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',0);
+%  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
+ 
 %% testplot
 migration_and_plot(s_VV,f_VV,'VV_result');
