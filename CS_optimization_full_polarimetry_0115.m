@@ -131,7 +131,7 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his(:,:,1:20),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',0);
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',0);
 %  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
  
 %% testplot

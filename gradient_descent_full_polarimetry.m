@@ -31,8 +31,9 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
     % 結合テスト
     % まず更新なしで試してみる
     i=0
+    try_num=4;
 
-    while(i<10)
+    while(i<try_num)
 
         for POLARIMETRY_COUNT=1:4
             if POLARIMETRY_COUNT==1
