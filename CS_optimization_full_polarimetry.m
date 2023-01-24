@@ -47,11 +47,11 @@ set(0,'defaultTextInterpreter','latex');
 % HV_name='HV_40_120';
 % VH_name='VH_40_120';
   
-% dataFolder='data1218\0116\';
-%   HH_name='HH_60_120';
-%   VV_name='VV_60_120';
-%   HV_name='HV_60_120';
-%   VH_name='VH_60_120';
+dataFolder='data1218\0116\';
+  HH_name='HH_60_120';
+  VV_name='VV_60_120';
+  HV_name='HV_60_120';
+  VH_name='VH_60_120';
   
 %   dataFolder='data1218\0117_45degree\';
 %   HH_name='HH_60_120';
@@ -83,22 +83,22 @@ set(0,'defaultTextInterpreter','latex');
 %  data_hosei_HV_name='data1218\0108\direct_HV';
 %  data_hosei_VV_name='data1218\direct0106\direct_VV';
  
-% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
-dataFolder='data1218\0107\';
-  HH_name='HH_new';
-  VV_name='VV_new';
-  HV_name='HV_new';
-  VH_name='VH_new';
-
-
- data_hosei_HH_name='data1218\0108\direct_HH';
- data_hosei_VH_name='data1218\0108\direct_VH';
- data_hosei_HV_name='data1218\0108\direct_HV';
- data_hosei_VV_name='data1218\direct0106\direct_VV';
+% dataFolder='data1218\0107\';
+%   HH_name='HH_new';
+%   VV_name='VV_new';
+%   HV_name='HV_new';
+%   VH_name='VH_new';
+% 
+% 
+%  data_hosei_HH_name='data1218\0108\direct_HH';
+%  data_hosei_VH_name='data1218\0108\direct_VH';
+%  data_hosei_HV_name='data1218\0108\direct_HV';
+%  data_hosei_VV_name='data1218\direct0106\direct_VV';
  
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
@@ -154,18 +154,18 @@ f=f_HH;%ここは要改善
 %   s_VV_re=s_VV;
 %   s_HV_re=s_HV;
 %   s_VH_re=s_VH;
-% 
-  s_HH_re=s_HH(8:51,8:51,:);
-  s_VV_re=s_VV(8:51,8:51,:);
-  s_HV_re=s_HV(1:44,1:44,:);
-  s_VH_re=s_VH(15:58,15:58,:);
+% % 
+%   s_HH_re=s_HH(8:51,8:51,:);
+%   s_VV_re=s_VV(8:51,8:51,:);
+%   s_HV_re=s_HV(1:44,1:44,:);
+%   s_VH_re=s_VH(15:58,15:58,:);
 
-% CUT_SIZE =7;
-% CUT_SIZE_RE=0;
-%   s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE-CUT_SIZE_RE,:);
-%   s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
-%   s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
-%   s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
+CUT_SIZE =7;
+CUT_SIZE_RE=0;
+  s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE-CUT_SIZE_RE,:);
+  s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
+  s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
+  s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 
 
 %45度用のやつ
@@ -184,10 +184,10 @@ Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 %% plot
 
-% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
-% VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
-% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
-% VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
+HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end);
+VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end); 
+HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end);
+VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end);
 
  %% plot
  [x_hori_re,y_hori_re,z_hori_re,...
@@ -277,11 +277,11 @@ lambda=0.5;
 
 % input_feature_array=cat(3,input_data_array*(1-lambda),input_dop_feature_array*lambda);
 
-% [s_sample,sample,sample_list] = data_sample(input_feature_array,2);
+[s_sample,sample,sample_list] = data_sample(input_feature_array,2);
 % [s_sample,sample,sample_list] = data_sample(input_feature_array,2);
 
 
-[s_sample,sample,sample_list] = data_sample(s_HH,2);
+% [s_sample,sample,sample_list] = data_sample(s_HH,2);
 
 s_use = data_fill(s_sample,sample_list);
 
@@ -292,8 +292,8 @@ s_use = data_fill(s_sample,sample_list);
 p=0.1;
 r=2;
 t=1;
-model=make_model_sphere(r,t);
-%  [r,t,model]=make_square_model(r,t);
+% model=make_model_sphere(r,t);
+ [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 %% 最適化

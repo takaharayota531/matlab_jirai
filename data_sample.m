@@ -1,10 +1,10 @@
 function [s,sample,sample_list] = data_sample(s,ratio)
     [Nx,Ny] = size(s,1,2);
-    n =10%
-%     n=floor( Nx*Ny*ratio/100);
+%     n =15%
+    n=floor( Nx*Ny*ratio/10);
     sample_tmp = randsample(Nx*Ny,n);
     sample_tmp = sort(sample_tmp)';
-    sample_list = [floor((sample_tmp-1)/Nx)+1;rem(sample_tmp-1,Nx*ones(1,n))+1];
+    sample_list = [floor((sample_tmp-1)/Ny)+1;rem(sample_tmp-1,Ny*ones(1,n))+1];
     sample = zeros(Nx,Ny);
     i = 1;
     for x = 1:Nx
@@ -17,4 +17,5 @@ function [s,sample,sample_list] = data_sample(s,ratio)
             end
         end
     end
+end
     

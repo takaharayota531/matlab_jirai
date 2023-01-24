@@ -1,4 +1,4 @@
-function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(s,FREQ_POINT,IF_NORMALIZATION)
+function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(s,FREQ_POINT,IF_NORMALIZATION,CHECK_NUM)
     hori_vec=[1 0 0];
     ver_vec=[-1 0 0];
     plus45_vec=[0 1 0];
@@ -47,10 +47,10 @@ function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_n
     y_01=g2_01./g0_01;
     z_01=g3_01./g0_01;
 
-    ans_array_S_HH=find_nearest_stokes_point_0120(x_10,y_10,z_10,S_HH_re);
-    ans_array_S_HV=find_nearest_stokes_point_0120(x_01,y_01,z_01,S_HV_re);
-    ans_array_S_VH=find_nearest_stokes_point_0120(x_10,y_10,z_10,S_VH_re);
-    ans_array_S_VV=find_nearest_stokes_point_0120(x_01,y_01,z_01,S_VV_re);
+    ans_array_S_HH=find_nearest_stokes_point_0120(x_10,y_10,z_10,S_HH_re,CHECK_NUM);
+    ans_array_S_HV=find_nearest_stokes_point_0120(x_01,y_01,z_01,S_HV_re,CHECK_NUM);
+    ans_array_S_VH=find_nearest_stokes_point_0120(x_10,y_10,z_10,S_VH_re,CHECK_NUM);
+    ans_array_S_VV=find_nearest_stokes_point_0120(x_01,y_01,z_01,S_VV_re,CHECK_NUM);
 
 
 %     x=reshape(x_10.*S_HH_re,[],1);
@@ -87,7 +87,7 @@ function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_n
 end
 
 
-function ans_array=find_nearest_stokes_point_0120(x,y,z,s)
+function ans_array=find_nearest_stokes_point_0120(x,y,z,s,CHECK_NUM)
     hori_vec=[1 0 0];
     ver_vec=[-1 0 0];
     plus45_vec=[0 1 0];
@@ -95,7 +95,11 @@ function ans_array=find_nearest_stokes_point_0120(x,y,z,s)
     left_vec=[0,0,1];
     right_vec=[0,0,-1];
 
-   ans_array=zeros(6);
+    if CHECK_NUM==6
+        ans_array=zeros(6);
+    elseif CHECK_NUM==4
+        ans_array=zeros(4);
+    end
     
     hori_array=(x-hori_vec(1)).*(x-hori_vec(1))+(y-hori_vec(2)).*(y-hori_vec(2))+(z-hori_vec(3)).*(z-hori_vec(3));
     ver_array=(x-ver_vec(1)).*(x-ver_vec(1))+(y-ver_vec(2)).*(y-ver_vec(2))+(z-ver_vec(3)).*(z-ver_vec(3));
@@ -112,8 +116,13 @@ function ans_array=find_nearest_stokes_point_0120(x,y,z,s)
         for j=1:y_size
             for k=1:z_size
                 if s(i,j,k)~=0
-                [M,I] = min([ hori_array(i,j,k) ver_array(i,j,k)   plus45_array(i,j,k)   minus45_array(i,j,k) left_array(i,j,k) right_array(i,j,k)]);
-                ans_array(I)=ans_array(I)+1;
+                    if CHECK_NUM==6
+                        [M,I] = min([ hori_array(i,j,k) ver_array(i,j,k)   plus45_array(i,j,k)   minus45_array(i,j,k) left_array(i,j,k) right_array(i,j,k)]);
+                        ans_array(I)=ans_array(I)+1;
+                    elseif CHECK_NUM==4
+                        [M,I] = min([ hori_array(i,j,k) ver_array(i,j,k)   plus45_array(i,j,k)   minus45_array(i,j,k) ]);
+                        ans_array(I)=ans_array(I)+1;
+                    end
                 end
             end
         end

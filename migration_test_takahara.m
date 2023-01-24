@@ -8,80 +8,75 @@ set(0,'defaultAxesFontSize',20);
 set(0,'defaultLegendInterpreter','latex');
 set(0,'defaultlinelinewidth',2);
 set(0,'defaultTextInterpreter','latex');
-%%
-% load measured data
-% dataFolder='data1218\1219\';
-%  HH_name='HH_new_rechange';
-%   VV_name='VV_new_rechange';
-%   HV_name='data1218\1219\HV_new_rechange';
-%   VH_name='VH_new_rechange';
-% 
-%  data_hosei_HH_name='data1218\direct_coupling\HH_new_direct_coupling';
-%  data_hosei_VH_name='data1218\direct_coupling\VH_new_direct_coupling';
-%  data_hosei_HV_name='data1218\direct_coupling\HV_new_direct_coupling';
-%  data_hosei_VV_name='data1218\direct_coupling\VH_new_direct_coupling';
- 
-%  dataFolder='data1218\0109_45degrees\';
-%dataFile='data1218\1220\1220\1220_VV_new_(12.5_0_9)';
-% dataFile='data1218\1219\HH_new_rechange';
-% dataFile='HH';
-% dataFolder='data1218\0112\new1-11Ghz\';
-% dataFile='VV';
+
+
+
+%% HV偏波プロット
+dataFolder='data1218\0116\';
+HH_name='HH_60_120';
+HV_name='HV_60_120';
+VH_name='VH_60_120';
+VV_name='VV_60_120';
+
+
 % dataFolder='data1218\0113_newsand\LR\';
-% dataFile='VH_40_120';
-% dataFolder='data1218\0119\1-11GHz\';
-% dataFile='VV_1-11GHz_60_120';
+% HH_name='HH_40_120';
+% VV_name='VV';
+% HV_name='HV_40_120';
+% VH_name='VH_40_120';
 
-% dataFolder='data1218\0117_45degree\';
-% dataFile='VV_60_120';
-dataFolder='data1218\0119_5to15GHZ_45degree\';
-dataFile='VV_60_120';
-%dataFile='data1218\1220\1220\HH_change';
-% dataFile='data1218\0106\VV';
-% dataFile='data\0918_metalpipe_15_0_8';
-%dataFile='data1218\1223\1223_VV_12.5_0_9';
+data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
-dataname = append(dataFolder,dataFile);
+data_HH_name = append(dataFolder,HH_name);
+data_VV_name = append(dataFolder,VV_name);
+data_HV_name = append(dataFolder,HV_name);
+data_VH_name = append(dataFolder,VH_name);
 
-
-% dataHname ='data1218\direct0106\direct_VV';
-dataHname='data1218\0112\direct_9to19GHz\HH';
-% dataHname='data1218\0108\direct_HH';
-%dataHname='hosei(1-21GHz401points)_paralell';
-%dataHname='data\direct_coupling\VH_direct_coupling';
-dataH_nanimonashi='data/0926_nanimonashi_ydirection';
-
+%% data_hosei
+IF_DIFF=true;
+[s_HH,f_HH] = data_load_py_another(data_HH_name,data_hosei_HH_name,IF_DIFF);
+[s_VV,f_VV] = data_load_py_another(data_VV_name,data_hosei_VV_name,IF_DIFF);
+[s_HV,f_HV] = data_load_py_another(data_HV_name,data_hosei_HV_name,IF_DIFF);
+[s_VH,f_VH] = data_load_py_another(data_VH_name,data_hosei_VH_name,IF_DIFF);
 
 
-% [s,f] = data_load_XY_raw(dataname);
-%[s,f] = data_load_without_correction(dataname,dataHname);
-%[s,f]=data_load_py_takahara(dataname,dataH_nanimonashi);
-DIFF=false;
-[s,f] = data_load_py_another(dataname,dataHname,DIFF);
-% [s,f] = data_load_py_another( HV_name , data_hosei_HV_name  ,DIFF );
-%[s,f] = data_load_py(dataname,dataHname);
+
+%% HH_calc
+
+p=0.1;
+f=f_HH;%ここは要改善
+
+%   s_HH_re=s_HH;
+%   s_VV_re=s_VV;
+%   s_HV_re=s_HV;
+%   s_VH_re=s_VH;
+% 
+%   s_HH_re=s_HH(8:51,8:51,:);
+%   s_VV_re=s_VV(8:51,8:51,:);
+%   s_HV_re=s_HV(1:44,1:44,:);
+%   s_VH_re=s_VH(15:58,15:58,:);
+
 
 %% plot 
 
 
-depth_start=0.27;
-depth_end=0.3;
+depth_start=0.25;
+depth_end=0.35;
 CUT_SIZE =7;
-CUT_SIZE_RE=20;
-% s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE-CUT_SIZE_RE,:);
-s_VV_re=s(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
-% s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
-% s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
+CUT_SIZE_RE=0;
+s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE-CUT_SIZE_RE,:);
+s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
+s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
+s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 
 
-% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
-
-
+HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
  VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
-
-% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
-
-%  VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
+HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
+ VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
 %%
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる

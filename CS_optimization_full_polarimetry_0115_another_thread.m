@@ -109,23 +109,23 @@ Z_NUM=7;
 %model=make_model_sphere(r,t);
 
 %% 普通の圧縮センシング
-tic
-[s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
-ans_tim=toc
-%% alpha plot
+% tic
+% [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
+% ans_tim=toc
+% %% alpha plot
 
-plot(alpha_his)
-title('アルミホの条件のalpha')
-xlabel('試行回数')
-ylabel('alpha')
-%% nan
- h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
+% plot(alpha_his)
+% title('アルミホの条件のalpha')
+% xlabel('試行回数')
+% ylabel('alpha')
+% %% nan
+%  h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
 E_iH=0;
 E_iV=1;
-WHEN="0116"
+WHEN="0121";
 tic
 [s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN);
 ans_tim=toc

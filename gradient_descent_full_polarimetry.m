@@ -1,5 +1,5 @@
 function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
-    gradient_descent_full_polarimetry(s,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV)%散乱画像、ウィンドウサイズ、モデルサイズ
+    gradient_descent_full_polarimetry(s,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN)%散乱画像、ウィンドウサイズ、モデルサイズ
     %s:補間後の散乱画像
     %sample:測定位置の値を1としている
     %model:モデル
@@ -45,7 +45,12 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
             elseif POLARIMETRY_COUNT==4
                 DIFF_BY='DIFF_by_S_VV'
             end
-        df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
+        if WHEN=="0116"
+            df=calc_df_full_polarimetry_0116(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
+        elseif WHEN=="0121"
+            df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
+        end
+        
         d=-2*squeeze(df(:,:,:,2));
         alpha=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT);
         s=s+alpha*d;
@@ -64,9 +69,9 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
 
         % ここでg1,g2,g3を更新しておく
 
-        if alpha<1e-6
-            break;
-        end
+        % if alpha<1e-6
+        %     break;
+        % end
         i=i+1;
     end
 
