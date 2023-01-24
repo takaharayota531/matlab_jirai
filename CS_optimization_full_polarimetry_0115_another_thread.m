@@ -72,7 +72,7 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=7;
+window_size=1;
 depth_start=0.26;
 depth_end=0.4;
 X_SIZE=size(s_HH_re,1);
@@ -98,13 +98,14 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-r=1;
-t=1;
+r=10;
+t=4;
 FREQ_POINT=10;
 FREQ_POINT=201;
 Z_NUM=7;
 % model=make_model_sphere(r,t);
- [r,t,model]=make_square_model(r,t);
+[r,t,model]=make_square_model_without_diretion(r,t);
+%  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 
@@ -125,7 +126,9 @@ Z_NUM=7;
 %  E_iV=1/sqrt(2);
 E_iH=0;
 E_iV=1;
-WHEN="0121";
+WHEN="0121"
+experiment_content="gradient_descent0121_window=1,r=10,t=4"
+window_size
 tic
 [s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN);
 ans_tim=toc
@@ -144,7 +147,7 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',0);
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_gradient_descent0121',0);
 %  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
  
 %% testplot

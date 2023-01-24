@@ -53,7 +53,7 @@ IF_DIFF=true;
 
 p=0.1;
 f=f_HH;%ここは要改善
-
+df=f(2)-f(1);
 %   s_HH_re=s_HH;
 %   s_VV_re=s_VV;
 %   s_HV_re=s_HV;
@@ -72,7 +72,7 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=1;
+window_size=7;
 depth_start=0.26;
 depth_end=0.4;
 X_SIZE=size(s_HH_re,1);
@@ -80,11 +80,8 @@ Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 FREQ_POINT=201;
 %% input actual data
-pre_input_data_array= decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
-input_data_array= pre_input_data_array;
 
-%% find_nearestの改訂版を作成する
-[ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
+input_data_array=  decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
 
 %% データの取り出しと補間
 
@@ -98,39 +95,36 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1;
-% r=1;
-% t=1;
-r=10;
-t=4;
+r=1;
+t=1;
 % FREQ_POINT=10;
 FREQ_POINT=201;
 Z_NUM=7;
 % model=make_model_sphere(r,t);
+% [r,t,model]=make_square_model_without_diretion(r,t);
  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 
 %% 普通の圧縮センシング
-tic
-experiment_content="実験通常のgradient_descent_window=1,r=10,t=4"
-window_size
-[s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
-ans_tim=toc
-%% alpha plot
+% tic
+% [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
+% ans_tim=toc
+% %% alpha plot
 
-plot(alpha_his)
-title('アルミホの条件のalpha')
-xlabel('試行回数')
-ylabel('alpha')
-%% nan
- h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
+% plot(alpha_his)
+% title('アルミホの条件のalpha')
+% xlabel('試行回数')
+% ylabel('alpha')
+% %% nan
+%  h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
 E_iH=0;
 E_iV=1;
-WHEN="0121"
-experiment_content="gradient_descent0121_window=1,r=10,t=4"
+WHEN="0124"
+experiment_content="gradient_descent0124_window=7,r=1,t=1"
 window_size
 tic
 [s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN);
@@ -150,8 +144,31 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_gradient_descent0116',0);
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_gradient_descent0121',0);
 %  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
- 
-%% testplot
-migration_and_plot(s_VV,f_VV,'VV_result');
+
+
+%% find_nearestの改訂版を作成する
+[Nx,Ny,~] = size(input_data_array);
+x_int = 0.005*window_size; % x-interval
+y_int = 0.005*window_size; % y-interval
+z_int = FREQ_POINT; % z-interval
+nu = physconst('Lightspeed'); % light speed
+x = 0:x_int:x_int*(Nx-1); % x-positions
+y = 0:y_int:y_int*(Ny-1); % y-positions
+z=0:1:FREQ_POINT-1;
+Nfft = 1024;
+T = 1/df; % 時間領域の最大値
+dt = T/Nfft; % 伝搬時間分解能
+L = T*nu; % 空間領域の最大値
+dl = L/Nfft; % 伝搬距離分解能
+t = (0:Nfft-1)*dt; % 伝搬時間
+l = (0:Nfft-1)*dl; % 伝搬距離
+index_distance = find(l/2);
+[ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry_3d(input_data_array,FREQ_POINT,false);
+
+
+show_volume_amp(ans_array_S_HH,x,y,z,hsv,'HH_find_nearest_stokes_vector',''); % フィルタ処理前の表示
+% show_volume_amp(ans_array_S_HV,x,y,z,jet,'HV_find_nearest_stokes_vector',''); % フィルタ処理前の表示
+% show_volume_amp(ans_array_S_VH,x,y,z,jet,'VH_find_nearest_stokes_vector',''); % フィルタ処理前の表示
+% show_volume_amp(ans_array_S_VV,x,y,z,jet,'VV_find_nearest_stokes_vector',''); % フィルタ処理前の表示

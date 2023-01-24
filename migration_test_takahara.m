@@ -77,6 +77,8 @@ HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),d
  VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
 HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
  VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
+ %% change
+ s=s_VH_re;
 %%
 f = round(f); % correct digit
 index = 1:200; % 周波数選択(1:1GHz~400:21GHz)持ってくる周波数帯域を選んでいる

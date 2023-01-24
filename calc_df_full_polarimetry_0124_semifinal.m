@@ -1,37 +1,13 @@
-
-function df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT)
-
+function df=calc_df_full_polarimetry_0124(K,h,model,p,DIFF_BY,FREQ_POINT)
     [Nx,Ny,ALL_FREQ_POINT]=size(K);
-    
-    [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]=poincare_diff(K,DIFF_BY,E_iH,E_iV,FREQ_POINT);
-    m=size(model,1);
-    dh=calc_dh(K,model,g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0,DIFF_BY,FREQ_POINT);
+    dh=calc_dh(K,model,DIFF_BY,FREQ_POINT);
     df=sum_dh(h,dh,p,FREQ_POINT);
 end
 
 
-function [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]=poincare_diff(K,DIFF_BY,E_iH,E_iV,FREQ_POINT)
-
-    S_HH=K(:,:,1:FREQ_POINT);
-    S_HV=K(:,:,FREQ_POINT+1:2*FREQ_POINT);
-    S_VH=K(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
-    S_VV=K(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
-
-    if   DIFF_BY=='DIFF_by_S_HH'
-        [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]   = DIFF_BY_G0_IN_S_HH(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
-    elseif  DIFF_BY=='DIFF_by_S_HV'
-        [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]   = DIFF_BY_G0_IN_S_HV(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
-    elseif   DIFF_BY=='DIFF_by_S_VH'
-        [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]   = DIFF_BY_G0_IN_S_VH(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
-    elseif  DIFF_BY=='DIFF_by_S_VV'
-        [g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0]   = DIFF_BY_G0_IN_S_VV(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
-
-
-    end
-
-end
-
-function dh=calc_dh(K,model,g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0,DIFF_BY,FREQ_POINT)
+function dh=calc_dh(K,model,DIFF_BY,FREQ_POINT)
+    % 偏微分計算用セット
+    [S_HH_re_diff,S_HV_re_diff,S_VH_re_diff,S_VV_re_diff]=calc_poincare_diff(K,DIFF_BY,FREQ_POINT);
     [Nx,Ny,ALL_FREQ_POINT]=size(K);
     POLARIMETRY_NUM=4;
     mx=size(model,1);
@@ -85,20 +61,28 @@ function dh=calc_dh(K,model,g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0,DIFF_BY,FR
                 
                 d_kp(MUL_COEEFICIENT*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel;%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
                 d_km(MUL_COEEFICIENT*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel;
-                d_kp(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g1_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g1_diff_by_g0(xs,ys,f);   
-                d_kp(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g2_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g2_diff_by_g0(xs,ys,f);   
-                d_kp(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g3_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g3_diff_by_g0(xs,ys,f);   
+                d_kp(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HH_re_diff(xs,ys,f);   
+                d_kp(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HV_re_diff(xs,ys,f);   
+                d_kp(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VH_re_diff(xs,ys,f);  
+                d_kp(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VV_re_diff(xs,ys,f);  
+
+
 
                 % 多分ここ間違っている
-                d_kp_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g1_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g1_diff_by_g0(xs,ys,f);   
-                d_kp_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g2_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g2_diff_by_g0(xs,ys,f);   
-                d_kp_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*g3_diff_by_g0(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*g3_diff_by_g0(xs,ys,f);   
+                %　共役微分について考え直す必要あり
+                d_kp_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HH_re_diff(xs,ys,f);   
+                d_kp_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HV_re_diff(xs,ys,f);   
+                d_kp_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VH_re_diff(xs,ys,f);  
+                d_kp_conj(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
+                d_km_conj(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VV_re_diff(xs,ys,f);  
+
 
 
             end
@@ -168,7 +152,6 @@ function dh=calc_dh(K,model,g1_diff_by_g0,g2_diff_by_g0,g3_diff_by_g0,DIFF_BY,FR
     end
 end
 
-
 function df=sum_dh(h,dh,p,FREQ_POINT)
     [Nx,Ny,mx,my,ALL_FREQ_POINT]=size(dh,1,2,3,4,5);
     df=zeros(Nx,Ny,ALL_FREQ_POINT,2);
@@ -185,6 +168,93 @@ function df=sum_dh(h,dh,p,FREQ_POINT)
         end
     end
 end
+
+function [S_HH_re_diff,S_HV_re_diff,S_VH_re_diff,S_VV_re_diff]=calc_poincare_diff(K,DIFF_BY,FREQ_POINT)
+    S_HH=K(:,:,1:FREQ_POINT);
+    S_HV=K(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=K(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=K(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+
+
+    % 上が水平偏波、下が垂直偏波
+    [g0_10,g1_10,g2_10,g3_10] = calc_stokes_vector_full_polarimetry(S_HH,S_HV,S_VH,S_VV,1,0);
+    [g0_01,g1_01,g2_01,g3_01] = calc_stokes_vector_full_polarimetry(S_HH,S_HV,S_VH,S_VV,0,1);
+
+
+    % ここで指定したSで偏微分した形で返す
+    g1_diff_by_g0_10=g1_diff(K,DIFF_BY,FREQ_POINT,1,0);
+    g1_diff_by_g0_01=g1_diff(K,DIFF_BY,FREQ_POINT,0,1);
+
+    d1_div_g0_10=g1_div_g0(K,FREQ_POINT,1,0);
+    d1_div_g0_01=g1_div_g0(K,FREQ_POINT,0,1);
+
+
+    if DIFF_BY=='DIFF_by_S_HH'
+       
+        S_HH_re_diff=abs(S_HH).*g1_diff_by_g0_10+1/2*sqrt(conj(S_HH)./S_HH).*d1_div_g0_10;
+        S_HV_re_diff=abs(S_HV).*g1_diff_by_g0_01;
+        S_VH_re_diff=abs(S_VH).*g1_diff_by_g0_10;
+        S_VV_re_diff=abs(S_VV).*g1_diff_by_g0_01;
+    elseif DIFF_BY=='DIFF_by_S_HV'
+      
+        S_HH_re_diff=abs(S_HH).*g1_diff_by_g0_10;
+        S_HV_re_diff=abs(S_HV).*g1_diff_by_g0_01+1/2*sqrt(conj(S_HV)./S_HV).*d1_div_g0_01;
+        S_VH_re_diff=abs(S_VH).*g1_diff_by_g0_10;
+        S_VV_re_diff=abs(S_VV).*g1_diff_by_g0_01;  
+    elseif DIFF_BY=='DIFF_by_S_VH'
+       
+        S_HH_re_diff=abs(S_HH).*g1_diff_by_g0_10;
+        S_HV_re_diff=abs(S_HV).*g1_diff_by_g0_01;
+        S_VH_re_diff=abs(S_VH).*g1_diff_by_g0_10+1/2*sqrt(conj(S_VH)./S_VH).*d1_div_g0_10;
+        S_VV_re_diff=abs(S_VV).*g1_diff_by_g0_01;  
+    elseif DIFF_BY=='DIFF_by_S_VV'
+       
+        S_HH_re_diff=abs(S_HH).*g1_diff_by_g0_10;
+        S_HV_re_diff=abs(S_HV).*g1_diff_by_g0_01;
+        S_VH_re_diff=abs(S_VH).*g1_diff_by_g0_10;
+        S_VV_re_diff=abs(S_VV).*g1_diff_by_g0_01+1/2*sqrt(conj(S_VV)./S_VV).*d1_div_g0_01;
+    end
+
+end
+
+% g1/g0だけを計算してくれる
+function  g1_div_g0=g1_div_g0(K,FREQ_POINT,E_iH,E_iV)
+    S_HH=K(:,:,1:FREQ_POINT);
+    S_HV=K(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=K(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=K(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+
+
+    % 上が水平偏波、下が垂直偏波
+    [g0,g1,g2,g3] = calc_stokes_vector_full_polarimetry(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
+    % 計算結果
+    g1_div_g0=g1./g0;
+
+end
+% g1/g0の偏微分だけ取り出してくれる
+function g1_diff_by_g0=g1_diff(K,DIFF_BY,FREQ_POINT,E_iH,E_iV)
+
+    S_HH=K(:,:,1:FREQ_POINT);
+    S_HV=K(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=K(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=K(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+
+    if   DIFF_BY=='DIFF_by_S_HH'
+        [g1_diff_by_g0,~,~]   = DIFF_BY_G0_IN_S_HH(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
+    elseif  DIFF_BY=='DIFF_by_S_HV'
+        [g1_diff_by_g0,~,~]   = DIFF_BY_G0_IN_S_HV(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
+    elseif   DIFF_BY=='DIFF_by_S_VH'
+        [g1_diff_by_g0,~,~]   = DIFF_BY_G0_IN_S_VH(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
+    elseif  DIFF_BY=='DIFF_by_S_VV'
+        [g1_diff_by_g0,~,~]   = DIFF_BY_G0_IN_S_VV(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV);
+
+
+    end
+
+end
+
+
+
 
 
 % 計算してくれる

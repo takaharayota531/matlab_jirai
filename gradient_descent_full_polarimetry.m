@@ -15,7 +15,7 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
    
 
 
-    [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true);
+    [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN);
 
     h=calc_h(K,model);
 
@@ -49,12 +49,14 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
             df=calc_df_full_polarimetry_0116(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
         elseif WHEN=="0121"
             df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
+        elseif WHEN=="0124"
+            df=calc_df_full_polarimetry_0124_semifinal(K,h,model,p,DIFF_BY,FREQ_POINT);
         end
         
         d=-2*squeeze(df(:,:,:,2));
-        alpha=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT);
+        alpha=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT,WHEN);
         s=s+alpha*d;
-        [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true);
+        [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN);
         alpha_list(end+1)=alpha;
         s_list(:,:,:,end+1)=s;
         K_list(:,:,:,end+1)=K;
