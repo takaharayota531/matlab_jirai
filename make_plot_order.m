@@ -1,4 +1,4 @@
-function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(x,y,z,window_size)
+function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_order(x,y,z,window_size,index_distance)
    
     x_size=size(x,1);
     y_size=size(x,2);
@@ -10,11 +10,12 @@ function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_o
 %  plot_order_array=first_model(plot_order_array,window_size);
     % plot_order_array= permute (second_model(plot_order_array,window_size),[2 1 3]);
 %     plot_order_array=permute(first_model(plot_order_array,window_size),[2 1 3]);
-    plot_order_array=second_model(plot_order_array,window_size);
-%         plot_order_array=freq_order_array(plot_order_array,window_size);
+%     plot_order_array=second_model(plot_order_array,window_size);
+%   plot_order_array=freq_order_array(plot_order_array,window_size);
 % plot_order_array=permute( array_decide(plot_order_array,window_size),[2 1 3]);
 % plot_order_array = array_decide(plot_order_array,window_size);
-
+% plot_order_array=verticalmodel(plot_order_array,window_size,index_distance);
+plot_order_array=verticalmodel_without_index_distance(plot_order_array,window_size);
 
 
 
@@ -31,6 +32,107 @@ function [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_o
     %plot_order_array=permute(plot_order_array,[2 1 3]);
     plot_order=reshape(plot_order_array,[],1);
 
+end
+
+
+function plot_order_array=verticalmodel_without_index_distance(plot_order_array,window_size)
+    x_size=size(plot_order_array,1);
+    y_size=size(plot_order_array,2);
+    z_size=size(plot_order_array,3);
+
+
+    if window_size==1
+%         pipe_width=20;
+        pipe_width=40;
+        pipe_start_width=67;
+%         tmp_index=30;
+tmp_index=60;
+        for j=0:pipe_width
+
+                    if j==0
+                        plot_order_array(:,pipe_start_width,:)=tmp_index;
+                        % plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        if 1<=pipe_start_width-j
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        end
+                        if pipe_start_width+j<=y_size
+                        plot_order_array(:,pipe_start_width+j,:)=tmp_index;
+                        end
+                    end
+                    tmp_index=tmp_index-1;
+                        
+        end
+    end
+
+
+     if window_size==7
+        pipe_width=5;
+        pipe_start_width=8;
+        tmp_index=10;
+        for j=0:pipe_width
+
+                    if j==0
+                        plot_order_array(:,pipe_start_width,:)=tmp_index;
+                        % plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        plot_order_array(:,pipe_start_width+j,:)=tmp_index;
+                    end
+                    tmp_index=tmp_index-1;
+                        
+        end
+    end
+
+end
+
+
+function plot_order_array=verticalmodel(plot_order_array,window_size,index_distance)
+    x_size=size(plot_order_array,1);
+    y_size=size(plot_order_array,2);
+    z_size=size(plot_order_array,3);
+
+
+    if window_size==1
+        pipe_width=20;
+        pipe_start_width=67;
+        tmp_index=30;
+        for j=0:pipe_width
+
+                    if j==0
+                        plot_order_array(:,pipe_start_width,index_distance)=tmp_index;
+                        % plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        plot_order_array(:,pipe_start_width-j,index_distance)=tmp_index;
+                        plot_order_array(:,pipe_start_width+j,index_distance)=tmp_index;
+                    end
+                    tmp_index=tmp_index-1;
+                        
+        end
+    end
+
+
+     if window_size==7
+        pipe_width=5;
+        pipe_start_width=8;
+        tmp_index=10;
+        for j=0:pipe_width
+
+                    if j==0
+                        plot_order_array(:,pipe_start_width,index_distance)=tmp_index;
+                        % plot_order_array(:,pipe_start_width-j,:)=tmp_index;
+                        
+                    else 
+                        plot_order_array(:,pipe_start_width-j,index_distance)=tmp_index;
+                        plot_order_array(:,pipe_start_width+j,index_distance)=tmp_index;
+                    end
+                    tmp_index=tmp_index-1;
+                        
+        end
+    end
 end
 
 

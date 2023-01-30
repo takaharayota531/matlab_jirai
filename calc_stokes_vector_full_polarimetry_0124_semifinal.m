@@ -1,6 +1,6 @@
 % 圧縮センシング用のS_HH,HV,VH,VVを+計算する
 % 今回はwindow_sizeを指定しない
-function [S_HH_poincare_mul,S_HV_poincare_mul,S_VH_poincare_mul,S_VV_poincare_mul] = calc_stokes_vector_full_polarimetry_0124_semifinal(S_HH,S_HV,S_VH,S_VV,E_iH,E_iV)
+function [S_HH_poincare_mul,S_HV_poincare_mul,S_VH_poincare_mul,S_VV_poincare_mul] = calc_stokes_vector_full_polarimetry_0124_semifinal(S_HH,S_HV,S_VH,S_VV)
 
     [g0_10,g1_10,~,~] = calc_stokes_vector_full_polarimetry(S_HH,S_HV,S_VH,S_VV,1,0);
     [g0_01,g1_01,~,~] = calc_stokes_vector_full_polarimetry(S_HH,S_HV,S_VH,S_VV,0,1);

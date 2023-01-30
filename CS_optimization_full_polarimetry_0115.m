@@ -12,28 +12,30 @@ set(0,'defaultTextInterpreter','latex');
 % VV_name='VV';
 % HV_name='HV_40_120';
 % VH_name='VH_40_120';
-dataFolder='data1218\0116\';
+% dataFolder='data1218\0116\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+% 
+% 
+% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+
+dataFolder='data1218\0119_5to15GHZ_45degree\';
 HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
-% dataFolder='data1218\0107\';
-%   HH_name='HH_new';
-%   VV_name='VV_new';
-%   HV_name='HV_new';
-%   VH_name='VH_new';
-% 
-% 
-%  data_hosei_HH_name='data1218\0108\direct_HH';
-%  data_hosei_VH_name='data1218\0108\direct_VH';
-%  data_hosei_HV_name='data1218\0108\direct_HV';
-%  data_hosei_VV_name='data1218\direct0106\direct_VV';
 
-data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
+data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
+data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
+data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
+
 
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
@@ -72,19 +74,35 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=1;
-depth_start=0.26;
+window_size=7
+IF_RANGE=true
+depth_start=0.2;
 depth_end=0.4;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 FREQ_POINT=201;
-%% input actual data
-pre_input_data_array= decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
-input_data_array= pre_input_data_array;
 
+%% plot
+IF_PLOT=false
+[HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end,IF_RANGE,IF_PLOT);
+[VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
+[HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end,IF_RANGE,true);
+[VH_s_time_result1 ,~]= migration_and_plot_polarization_full_polarimetry(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end,IF_RANGE,IF_PLOT);
+%%
+[x_hori_re,y_hori_re,z_hori_re,...
+x_ver_re,y_ver_re,z_ver_re,...
+x_for_45_re,y_for_45_re,z_for_45_re,... 
+x_back_45_re,y_back_45_re,z_back_45_re,... 
+x_left_45_re,y_left_45_re,z_left_45_re,...
+x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1,f,window_size,index_distance);
+
+%% input actual data
+% pre_input_data_array= 
+% input_data_array= decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
+input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
 %% find_nearestの改訂版を作成する
-[ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
+% [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
 
 %% データの取り出しと補間
 
@@ -97,43 +115,42 @@ s_use = data_fill(s_sample,sample_list);
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
 %% モデル作成
-p=0.1;
-% r=1;
-% t=1;
-r=10;
-t=4;
-% FREQ_POINT=10;
-FREQ_POINT=201;
+
+r=2;
+t=1;
+
+FREQ_POINT=68
 Z_NUM=7;
 % model=make_model_sphere(r,t);
- [r,t,model]=make_square_model(r,t);
+%  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
-
+[r,t,model]=make_square_model_without_diretion(r,t);
 %% 普通の圧縮センシング
-tic
-experiment_content="実験通常のgradient_descent_window=1,r=10,t=4"
-window_size
-[s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
-ans_tim=toc
-%% alpha plot
+% tic
+% [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
+% ans_tim=toc
+% %% alpha plot
 
-plot(alpha_his)
-title('アルミホの条件のalpha')
-xlabel('試行回数')
-ylabel('alpha')
-%% nan
- h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
+% plot(alpha_his)
+% title('アルミホの条件のalpha')
+% xlabel('試行回数')
+% ylabel('alpha')
+% %% nan
+%  h_most_count0=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent',0);
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
 E_iH=0;
 E_iV=1;
-WHEN="0121"
-experiment_content="gradient_descent0121_window=1,r=10,t=4"
+p=0.5
+WHEN="0130"
+lambda=0.7
+experiment_content=  "gradient_descent0130_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
+IF_RANGE
 window_size
 tic
-[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN);
+[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 
 %% 
@@ -141,17 +158,18 @@ s_his_re=s_his(:,:,:,1:3)
 %% 
 df_his_re=df_his(:,:,:,:,2)
 %% alpha plot
-plot(alpha_his)
+plot(alpha_his(4:end))
 title('アルミホの条件のalpha')
 xlabel('試行回数')
 ylabel('alpha')
 
 
 %% 最適化後の結果表示
-
+input_string=horzcat(dataFolder,experiment_content)
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,input_string,0);
 %migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_gradient_descent0116',0);
+%  h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent0124_パイプモデルlambda0.7',0);
 %  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
  
 %% testplot
-migration_and_plot(s_VV,f_VV,'VV_result');
+% migration_and_plot(s_VV,f_VV,'VV_result');

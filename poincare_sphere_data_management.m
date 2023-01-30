@@ -1,8 +1,8 @@
-function poincare_sphere_data_management(S_HH,S_HV,S_VH,S_VV,f,window_size)
+function poincare_sphere_data_management(S_HH,S_HV,S_VH,S_VV,f,window_size,target_point)
 
 window_size=1;
 
-target_point=200;
+
 
 s_HH_re=S_HH(:,:,target_point);
 s_HV_re=S_HV(:,:,target_point);
@@ -17,5 +17,5 @@ x_left_45_re,y_left_45_re,z_left_45_re,...
 x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(s_HH_re,s_HV_re,s_VH_re,s_VV_re,f,window_size);
 
 
-
+%  poincare_sphere_arrange(S_HH_re,S_HV_re,S_VH_re,S_VV_re,f,window_size);
 end

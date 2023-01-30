@@ -158,7 +158,7 @@ function s_time= migration_and_plot_polarization(s,f,dataname,depth_start,depth_
     
 %     
       show_volume_amp(abs(s_time(:,:,index_distance)),x,y,l(index_distance)/2,jet,dataname,''); % フィルタ処理前の表示
-     % show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
+%      show_volume_angle((angle(s_time(:,:,index_distance))),x,y,l(index_distance)/2,hsv,dataname);
 %     
     
     

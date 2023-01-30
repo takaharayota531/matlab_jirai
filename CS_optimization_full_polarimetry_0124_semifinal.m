@@ -101,9 +101,9 @@ t=1;
 FREQ_POINT=201;
 Z_NUM=7;
 % model=make_model_sphere(r,t);
-% [r,t,model]=make_square_model_without_diretion(r,t);
+%  [r,t,model]=make_square_model_without_diretion(r,t);
  [r,t,model]=make_square_model(r,t);
-% [r,t,model]=make_model_transpose(r,t,model);
+[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 
 %% 普通の圧縮センシング
@@ -124,10 +124,15 @@ Z_NUM=7;
 E_iH=0;
 E_iV=1;
 WHEN="0124"
-experiment_content="gradient_descent0124_window=7,r=1,t=1"
+lambda=0.7
+% experiment_content="普通のgradient_descent_window=7,r=2,t=1"
+experiment_content=  "gradient_descent0124_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
+
+
 window_size
 tic
-[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN);
+
+[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 
 %% 
@@ -143,9 +148,8 @@ ylabel('alpha')
 
 %% 最適化後の結果表示
 
-%migration_and_plot(s_result,f,dataname);
- h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_gradient_descent0121',0);
-%  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
+input_string=horzcat(dataFolder,experiment_content)
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,input_string,0);
 
 
 %% find_nearestの改訂版を作成する

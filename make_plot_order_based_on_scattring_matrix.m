@@ -8,6 +8,7 @@ function  [x_ordered,y_ordered,z_ordered,plot_order,plot_order_array]=make_plot_
     c=max(abs_matrix,[],'all');
     plot_order_array= abs_matrix/max(abs_matrix,[],'all')*MUL_COEFFICIENT;
 
+    %位相の変化を見る
 %     plot_order_array=angle(size_changed_scattering_matrix);
 
 

@@ -1,5 +1,5 @@
 function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
-    gradient_descent_full_polarimetry(s,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN)%散乱画像、ウィンドウサイズ、モデルサイズ
+    gradient_descent_full_polarimetry(s,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda)%散乱画像、ウィンドウサイズ、モデルサイズ
     %s:補間後の散乱画像
     %sample:測定位置の値を1としている
     %model:モデル
@@ -15,7 +15,7 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
    
 
 
-    [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN);
+    [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN,lambda);
 
     h=calc_h(K,model);
 
@@ -49,14 +49,14 @@ function [s,s_list,h_list,alpha_list,df_list,K_list]= ...
             df=calc_df_full_polarimetry_0116(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
         elseif WHEN=="0121"
             df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
-        elseif WHEN=="0124"
+        elseif WHEN=="0124" || WHEN=="0130"
             df=calc_df_full_polarimetry_0124_semifinal(K,h,model,p,DIFF_BY,FREQ_POINT);
         end
         
         d=-2*squeeze(df(:,:,:,2));
-        alpha=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT,WHEN);
+        alpha=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT,WHEN,lambda);
         s=s+alpha*d;
-        [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN);
+        [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,true,WHEN,lambda);
         alpha_list(end+1)=alpha;
         s_list(:,:,:,end+1)=s;
         K_list(:,:,:,end+1)=K;

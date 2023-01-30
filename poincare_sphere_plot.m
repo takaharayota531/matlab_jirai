@@ -3,7 +3,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
     x_for_45_re,y_for_45_re,z_for_45_re,... 
     x_back_45_re,y_back_45_re,z_back_45_re,... 
     x_left_45_re,y_left_45_re,z_left_45_re,...
-    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f,window_size)
+    x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(S_HH,S_HV,S_VH,S_VV,f,window_size,index_distance)
     
   
     tic
@@ -20,28 +20,29 @@ function [x_hori_re,y_hori_re,z_hori_re,...
     
     %plot orderを行う
    
-%     [x_hori,y_hori,z_hori,plot_order_hori,hori1]=make_plot_order(x_hori_re,y_hori_re,z_hori_re,window_size);
-%     [var_x_hori, var_y_hori,var_z_hori,hori,hori]=make_plot_order(var_x_hori_re,var_y_hori_re,var_z_hori_re,window_size);
-% 
-%     [x_ver,y_ver,z_ver,plot_order_ver,ver]=make_plot_order(x_ver_re,y_ver_re,z_ver_re,window_size);
-%     [var_x_ver, var_y_ver,var_z_ver,ver,ver]=make_plot_order(var_x_ver_re,var_y_ver_re,var_z_ver_re,window_size);
-% 
-%     [x_for_45,y_for_45,z_for_45,plot_order_for_45,for_45]=make_plot_order(x_for_45_re,y_for_45_re,z_for_45_re,window_size);
-%     [var_x_for_45, var_y_for_45,var_z_for_45,for_45,for_45]=make_plot_order(var_x_for_45_re,var_y_for_45_re,var_z_for_45_re,window_size);
-% 
-%     [x_back_45,y_back_45,z_back_45,plot_order_back_45,back_45]=make_plot_order(x_back_45_re,y_back_45_re,z_back_45_re,window_size);
-%     [var_x_back_45, var_y_back_45,var_z_back_45,back_45,back_45]=make_plot_order(var_x_back_45_re,var_y_back_45_re,var_z_back_45_re,window_size);
-% 
-%     [x_left_45,y_left_45,z_left_45,plot_order_left_45,left_45]=make_plot_order(x_left_45_re,y_left_45_re,z_left_45_re,window_size);
-%     [var_x_left_45, var_y_left_45,var_z_left_45,left_45,left_45]=make_plot_order(var_x_left_45_re,var_y_left_45_re,var_z_left_45_re,window_size);
-%     
-%     [x_right_45,y_right_45,z_right_45,plot_order_right_45,right_45]=make_plot_order(x_right_45_re,y_right_45_re,z_right_45_re,window_size);
-%     [var_x_right_45, var_y_right_45,var_z_right_45,right_45,right_45]=make_plot_order(var_x_right_45_re,var_y_right_45_re,var_z_right_45_re,window_size);
+    [x_hori,y_hori,z_hori,plot_order_hori,hori1]=make_plot_order(x_hori_re,y_hori_re,z_hori_re,window_size,index_distance);
+    [var_x_hori, var_y_hori,var_z_hori,hori,hori]=make_plot_order(var_x_hori_re,var_y_hori_re,var_z_hori_re,window_size,index_distance);
+
+    [x_ver,y_ver,z_ver,plot_order_ver,ver]=make_plot_order(x_ver_re,y_ver_re,z_ver_re,window_size,index_distance);
+    [var_x_ver, var_y_ver,var_z_ver,ver,ver]=make_plot_order(var_x_ver_re,var_y_ver_re,var_z_ver_re,window_size,index_distance);
+
+    [x_for_45,y_for_45,z_for_45,plot_order_for_45,for_45]=make_plot_order(x_for_45_re,y_for_45_re,z_for_45_re,window_size,index_distance);
+    [var_x_for_45, var_y_for_45,var_z_for_45,for_45,for_45]=make_plot_order(var_x_for_45_re,var_y_for_45_re,var_z_for_45_re,window_size,index_distance);
+
+    [x_back_45,y_back_45,z_back_45,plot_order_back_45,back_45]=make_plot_order(x_back_45_re,y_back_45_re,z_back_45_re,window_size,index_distance);
+    [var_x_back_45, var_y_back_45,var_z_back_45,back_45,back_45]=make_plot_order(var_x_back_45_re,var_y_back_45_re,var_z_back_45_re,window_size,index_distance);
+
+    [x_left_45,y_left_45,z_left_45,plot_order_left_45,left_45]=make_plot_order(x_left_45_re,y_left_45_re,z_left_45_re,window_size,index_distance);
+    [var_x_left_45, var_y_left_45,var_z_left_45,left_45,left_45]=make_plot_order(var_x_left_45_re,var_y_left_45_re,var_z_left_45_re,window_size,index_distance);
+    
+    [x_right_45,y_right_45,z_right_45,plot_order_right_45,right_45]=make_plot_order(x_right_45_re,y_right_45_re,z_right_45_re,window_size,index_distance);
+    [var_x_right_45, var_y_right_45,var_z_right_45,right_45,right_45]=make_plot_order(var_x_right_45_re,var_y_right_45_re,var_z_right_45_re,window_size,index_distance);
 
 
 
     %plot orderをscattering matrixに基づいて定める
     plot_matrix=S_VV;
+    plot_name= horzcat('S_VV','_amp')
     [x_hori,y_hori,z_hori,plot_order_hori,hori1]=make_plot_order_based_on_scattring_matrix(x_hori_re,y_hori_re,z_hori_re,window_size, plot_matrix);
     [x_ver,y_ver,z_ver,plot_order_ver,ver]=make_plot_order_based_on_scattring_matrix(x_ver_re,y_ver_re,z_ver_re,window_size, plot_matrix);
     [x_for_45,y_for_45,z_for_45,plot_order_for_45,for_45]=make_plot_order_based_on_scattring_matrix(x_for_45_re,y_for_45_re,z_for_45_re,window_size, plot_matrix);
@@ -59,11 +60,11 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 
 
     %プロットcheckを行う
-%     only_for_plot(hori1,f,"experimental plot",0.2,0.3,window_size);
-    
+   d= only_for_plot(hori1,f,"experimental plot",0.2,0.3,window_size);
+% hori1
 
     
-    plot_name= horzcat('S_VV','_amp');
+    
 %     scatter3(x_hori,y_hori,z_hori,12,"red","filled");
 %     hold on
 %     scatter3(x_ver,y_ver,z_ver,12,"blue","filled");
@@ -79,16 +80,17 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 %     sphere
 %     colormap(parula);
 %     hold off
-% 
+
 
     fai=-48;
     theta=21;
+%     plot_name="place";
     
     for i=1:6
         figure(i+1);
         if i==1
             scatter3(x_hori,y_hori,z_hori,12,plot_order_hori,"filled");
-            title(horzcat(plot_name,"hori")); view(fai,theta);
+            title(horzcat(plot_name,"hori")); view(-fai,theta);
         elseif i==2
             scatter3(x_ver,y_ver,z_ver,12,plot_order_ver,"filled");
             title(horzcat(plot_name,"ver")); view(fai,theta);
@@ -105,14 +107,14 @@ function [x_hori_re,y_hori_re,z_hori_re,...
             scatter3(x_right_45,y_right_45,z_right_45,12,plot_order_right_45,"filled");
             title(horzcat(plot_name,"right")); view(fai,theta);
         end
-      xlabel("x");
-      ylabel("y");
-      zlabel("z");
-      colormap(cool); 
+      xlabel("g1/g0");
+      ylabel("g2/g0");
+      zlabel("g3/g0");
+
       hold on
       sphere
       colormap(parula);
-    %   colormap(hsv);
+%       colormap(hsv);
       hold off
       end
 
