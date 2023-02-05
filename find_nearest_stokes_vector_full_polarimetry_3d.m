@@ -1,4 +1,4 @@
-function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry_3d(s,FREQ_POINT,IF_NORMALIZATION)
+function  [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry_3d(s,FREQ_POINT)
     hori_vec=[1 0 0];
     ver_vec=[-1 0 0];
     plus45_vec=[0 1 0];

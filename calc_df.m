@@ -44,8 +44,8 @@ function dh=calc_dh(s,model)
                 d_km(f,xs,ys,f)=mmodel;
             end
             
-             d_kp_check=permute(d_kp,[ 2 3 1 4]);
-             d_kp_ccheck=d_kp_check(:,:,:,1:10);
+            %  d_kp_check=permute(d_kp,[ 2 3 1 4]);
+            %  d_kp_ccheck=d_kp_check(:,:,:,1:10);
 
             
 

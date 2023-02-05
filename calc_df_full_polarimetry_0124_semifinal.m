@@ -1,4 +1,4 @@
-function df=calc_df_full_polarimetry_0124(K,h,model,p,DIFF_BY,FREQ_POINT)
+function df=calc_df_full_polarimetry_0124_semifinal(K,h,model,p,DIFF_BY,FREQ_POINT)
     [Nx,Ny,ALL_FREQ_POINT]=size(K);
     dh=calc_dh(K,model,DIFF_BY,FREQ_POINT);
     df=sum_dh(h,dh,p,FREQ_POINT);
@@ -140,7 +140,7 @@ function dh=calc_dh(K,model,DIFF_BY,FREQ_POINT)
 
             dhm(xs,ys,f,1)=-sum(conj(kpn).*d_kmn(:,xs,ys,f)+kpn.*d_kmn_conj(:,xs,ys,f),1)/2;
             dhm(xs,ys,f,2)=-sum(conj(kpn).*conj(d_kmn_conj(:,xs,ys,f))+kpn.*conj(d_kmn(:,xs,ys,f)),1)/2;
-            dhm(xs,ys,f,:)=dhm(xs,ys,f,:).*mmodel;
+            dhm(xs,ys,f,:)=dhm(xs,ys,f,:).*pmodel;
 
 
 

@@ -103,7 +103,7 @@ Z_NUM=7;
 % model=make_model_sphere(r,t);
 %  [r,t,model]=make_square_model_without_diretion(r,t);
  [r,t,model]=make_square_model(r,t);
-[r,t,model]=make_model_transpose(r,t,model);
+% [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
 
 %% 普通の圧縮センシング
@@ -121,33 +121,64 @@ Z_NUM=7;
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
-E_iH=0;
-E_iV=1;
-WHEN="0124"
+% E_iH=0;
+% E_iV=1;
+WHEN="0125"
 lambda=0.7
 % experiment_content="普通のgradient_descent_window=7,r=2,t=1"
-experiment_content=  "gradient_descent0124_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-
+experiment_content=  "gradient_descent0125_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
+c=10e-3
 
 window_size
 tic
 
-[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
+[s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,E_iH,E_iV,WHEN,lambda,c);
 ans_tim=toc
 
 %% 
-s_his_re=s_his(:,:,:,1:3)
+target_point=10;
+
+s_his_re=s_his(:,:,:,target_point);
 %% 
-df_his_re=df_his(:,:,:,:,2)
+df1=df_his(:,:,:,1,target_point);
+df2=df_his(:,:,:,2,target_point);
+f_his_re=f_list(target_point);
+c=1;
+d=-10:0.1:30;
+% df_degree=zeros(size(df_his_re));
+% df_degree(1,1,end)=1;
+% df_change=f_his_re+d*squeeze(df1(1,1,1).*df_degree(1,1,1));
+df_degree=ones(size(df_his_re));
+df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all')+sum(df2.*conj(df_degree),'all'));
+% df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all'));
+f_function=[];
+for e=-10:0.1:30
+
+    f_function(end+1)=calc_f(s_his_re+e*df_degree,model,p,0,0,FREQ_POINT,WHEN,lambda);
+end
+figure(2);
+plot(d,df_change,'r')
+hold on
+plot(d,f_function,'b')
+hold off
+legend('傾き','評価関数');
+% plot(d,df_change,'b',d,f_function,'r')
 %% alpha plot
+figure(3);
 plot(alpha_his)
 title('アルミホの条件のalpha')
 xlabel('試行回数')
 ylabel('alpha')
 
+%% f_list plot
+figure(4)
+plot(f_list)
+title('評価関数の推移')
+xlabel('試行回数')
+ylabel('評価関数')
 
 %% 最適化後の結果表示
-
+figure(5);
 input_string=horzcat(dataFolder,experiment_content)
  h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,input_string,0);
 

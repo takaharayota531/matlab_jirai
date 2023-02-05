@@ -1,5 +1,5 @@
 %アルミホの条件からステップ幅を計算
-function alpha=armijo(d,df,s,model,p)
+function [alpha,f]=armijo(d,df,s,model,p)
     alpha=100;
     c=0.5;
     rho=0.5;

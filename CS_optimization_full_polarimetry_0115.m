@@ -12,29 +12,29 @@ set(0,'defaultTextInterpreter','latex');
 % VV_name='VV';
 % HV_name='HV_40_120';
 % VH_name='VH_40_120';
-% dataFolder='data1218\0116\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
-% 
-% 
-% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
-
-dataFolder='data1218\0119_5to15GHZ_45degree\';
+dataFolder='data1218\0116\';
 HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
 
-data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
-data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
-data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
-data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
+data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+
+% dataFolder='data1218\0119_5to15GHZ_45degree\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+
+
+% data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
+% data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
+% data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
+% data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
 
 
 data_HH_name = append(dataFolder,HH_name);
@@ -85,10 +85,10 @@ FREQ_POINT=201;
 
 %% plot
 IF_PLOT=false
-[HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end,IF_RANGE,IF_PLOT);
-[VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
-[HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end,IF_RANGE,true);
-[VH_s_time_result1 ,~]= migration_and_plot_polarization_full_polarimetry(s_VH_re,f, horzcat(VH_name,'_VH'),depth_start,depth_end,IF_RANGE,IF_PLOT);
+[HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_{HH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
+[VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_{VV}'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
+[HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_{HV}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
+[VH_s_time_result1 ,~]= migration_and_plot_polarization_full_polarimetry(s_VH_re,f, horzcat(VH_name,'_{VH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 %%
 [x_hori_re,y_hori_re,z_hori_re,...
 x_ver_re,y_ver_re,z_ver_re,...
@@ -116,16 +116,16 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 
-r=2;
+r=1;
 t=1;
 
 FREQ_POINT=68
 Z_NUM=7;
 % model=make_model_sphere(r,t);
-%  [r,t,model]=make_square_model(r,t);
+ [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
-[r,t,model]=make_square_model_without_diretion(r,t);
+% [r,t,model]=make_square_model_without_diretion(r,t);
 %% 普通の圧縮センシング
 % tic
 % [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
@@ -141,31 +141,63 @@ Z_NUM=7;
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
-E_iH=0;
-E_iV=1;
-p=0.5
-WHEN="0130"
+% E_iH=0;
+% E_iV=1;
+% p=0.1
+% WHEN="0116"
 lambda=0.7
-experiment_content=  "gradient_descent0130_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
+experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
 IF_RANGE
 window_size
 tic
-[s,s_his,h_his,alpha_his,df_his,K_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
+    [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
+% [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
+%% hlist
 
+target_point=1;
+% target_point=10;
+s_his_re=s_his(:,:,:,target_point);
+
+df1=df_his(:,:,:,1,target_point);
+df2=df_his(:,:,:,2,target_point);
+f_his_re=f_list(target_point);
+c=10e-3
+d=-10:0.1:30;
+% df_degree=zeros(size(df_his_re));
+% df_degree(1,1,end)=1;
+% df_change=f_his_re+d*squeeze(df1(1,1,1).*df_degree(1,1,1));
+df_degree=ones(size(df1));
+df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all')+sum(df2.*conj(df_degree),'all'))*c;
+% df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all'));
+f_function=[];
+for e=-10:0.1:30
+    f_function(end+1)=calc_f_gradient_descent(s_his_re+e*df_degree,model,p);
+end
+figure(2);
+plot(d,df_change,'r')
+hold on
+plot(d,f_function,'b')
+hold off
+legend('傾き','評価関数');
+% plot(d,df_change,'b',d,f_function,'r')
+%% plot
+figure(3)
+plot(f_list)
+title('評価関数通常')
+xlabel('試行回数')
+ylabel('f')
 %% 
-s_his_re=s_his(:,:,:,1:3)
-%% 
-df_his_re=df_his(:,:,:,:,2)
-%% alpha plot
-plot(alpha_his(4:end))
-title('アルミホの条件のalpha')
+figure(4);
+plot(alpha_his)
+title('アルミホの条件のalpha通常')
 xlabel('試行回数')
 ylabel('alpha')
 
 
 %% 最適化後の結果表示
-input_string=horzcat(dataFolder,experiment_content)
+
+input_string=horzcat(dataFolder,experiment_content,"")
  h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,input_string,0);
 %migration_and_plot(s_result,f,dataname);
 %  h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent0124_パイプモデルlambda0.7',0);

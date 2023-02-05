@@ -7,10 +7,20 @@ function [S_HH_poincare_mul,S_HV_poincare_mul,S_VH_poincare_mul,S_VV_poincare_mu
 
     g1g0_10=g1_10./g0_10;
     g1g0_01=g1_01./g0_01;
-
-
-    S_HH_poincare_mul=S_HH.*g1g0_10;
-    S_HV_poincare_mul=S_HV.*g1g0_01;
-    S_VH_poincare_mul=S_VH.*g1g0_10;
-    S_VV_poincare_mul=S_VV.*g1g0_01;
+%     g1g0_10=g1_10;
+%     g1g0_01=g1_01;
+%   g1g0_10=g0_10;
+%     g1g0_01=g0_01;
+    S_HH_poincare_mul=abs(S_HH).*g1g0_10;
+    S_HV_poincare_mul=abs(S_HV).*g1g0_01;
+    S_VH_poincare_mul=abs(S_VH).*g1g0_10;
+    S_VV_poincare_mul=abs(S_VV).*g1g0_01;
+%     S_HH_poincare_mul=(S_HH).*g1g0_10;
+%     S_HV_poincare_mul=(S_HV).*g1g0_01;
+%     S_VH_poincare_mul=(S_VH).*g1g0_10;
+%     S_VV_poincare_mul=(S_VV).*g1g0_01;
+%      S_HH_poincare_mul=angle(S_HH).*g1g0_10;
+%     S_HV_poincare_mul=angle(S_HV).*g1g0_01;
+%     S_VH_poincare_mul=angle(S_VH).*g1g0_10;
+%     S_VV_poincare_mul=angle(S_VV).*g1g0_01;
 end

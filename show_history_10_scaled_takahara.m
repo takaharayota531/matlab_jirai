@@ -2,7 +2,7 @@ function h_most_count=show_history_10_scaled_takahara(data,l,model,r,t,word,wher
     m = size(model,1);
     n = size(data,3);
     
-    fontsize = 10;
+    fontsize = 30;
     
     data_max = max(data,[],'all');
     data_min = min(data,[],'all');
