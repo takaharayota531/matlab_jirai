@@ -41,8 +41,8 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 
 
     %plot orderをscattering matrixに基づいて定める
-     plot_matrix=S_VV;
-    plot_name= horzcat('S_VV','_amp')
+     plot_matrix=S_HH;
+    plot_name= horzcat('S_HH','_amp')
     [x_hori,y_hori,z_hori,plot_order_hori,~]=make_plot_order_based_on_scattring_matrix(x_hori_re,y_hori_re,z_hori_re,window_size, plot_matrix);
     [x_ver,y_ver,z_ver,plot_order_ver,~]=make_plot_order_based_on_scattring_matrix(x_ver_re,y_ver_re,z_ver_re,window_size, plot_matrix);
     [x_for_45,y_for_45,z_for_45,plot_order_for_45,~]=make_plot_order_based_on_scattring_matrix(x_for_45_re,y_for_45_re,z_for_45_re,window_size, plot_matrix);
@@ -83,8 +83,8 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 
     fai=-48;
     theta=21;
-%     plot_name="place";
-    
+    plot_name="place";
+%     
 %     for i=1:6
 %         figure(i+1);
 %         if i==1
@@ -116,7 +116,7 @@ function [x_hori_re,y_hori_re,z_hori_re,...
 % %       colormap(hsv);
 %       hold off
 %       end
-% 
+
 % 
 %     for i=1:6
 %         figure(i+7);

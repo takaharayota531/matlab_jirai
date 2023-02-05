@@ -155,7 +155,7 @@ function [s_time_ans,index_distance]= migration_and_plot_polarization_full_polar
      
     % 表示プロット 
     % ある深さ幅の位相と振幅表示
-    l
+ 
     index_distance = find( depth_start<l/2&l/2<depth_end);
 %     index_distance=find(l/2);
     if IF_RANGE
