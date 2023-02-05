@@ -12,43 +12,31 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% HV偏波プロット
-% dataFolder='data1218\0119_5to15GHZ_45degree\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
 
-% dataFolder='data1218\0116\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
 
 dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+HH_name='HH_60_120';
+HV_name='HV_60_120';
+VH_name='VH_60_120';
 VV_name='VV_60_120';
 
-% dataFolder='data1218\0113_newsand\LR\';
-% HH_name='HH_40_120';
-% VV_name='VV';
-% HV_name='HV_40_120';
-% VH_name='VH_40_120';
 
-% data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
-% data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
-% data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
-% data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
-data_hosei_VV_name='data\direct_coupling\VV_direct';
-% data_HH_name = append(dataFolder,HH_name);
+
+data_hosei_HH_name='data1218\0205_direct\HH_direct';
+data_hosei_HV_name='data1218\0205_direct\HV_direct';
+data_hosei_VH_name='data1218\0205_direct\VH_direct';
+data_hosei_VV_name='data1218\0205_direct\VV_direct';
+data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
-% data_HV_name = append(dataFolder,HV_name);
-% data_VH_name = append(dataFolder,VH_name);
+data_HV_name = append(dataFolder,HV_name);
+data_VH_name = append(dataFolder,VH_name);
 
 %% data_hosei
 IF_DIFF=true;
-% [s_HH,f_HH] = data_load_py_another(data_HH_name,data_hosei_HH_name,IF_DIFF);
+[s_HH,f_HH] = data_load_py_another(data_HH_name,data_hosei_HH_name,IF_DIFF);
 [s_VV,f_VV] = data_load_py_another(data_VV_name,data_hosei_VV_name,IF_DIFF);
-% [s_HV,f_HV] = data_load_py_another(data_HV_name,data_hosei_HV_name,IF_DIFF);
-% [s_VH,f_VH] = data_load_py_another(data_VH_name,data_hosei_VH_name,IF_DIFF);
+[s_HV,f_HV] = data_load_py_another(data_HV_name,data_hosei_HV_name,IF_DIFF);
+[s_VH,f_VH] = data_load_py_another(data_VH_name,data_hosei_VH_name,IF_DIFF);
 
 
 
@@ -75,15 +63,15 @@ depth_start=0;
 depth_end=0.35;
 CUT_SIZE =7;
 
-% s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
+s_HH_re=s_HH(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
-% s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2,:);
-% s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end,:);
+s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2,:);
+s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end,:);
 
 
-% HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
-% HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
-% VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
+HH_s_time_result1=migration_and_plot_polarization(s_HH_re,f, horzcat('','_HH'),depth_start,depth_end);
+HV_s_time_result1 =migration_and_plot_polarization(s_HV_re,f, horzcat('','_HV'),depth_start,depth_end);
+VH_s_time_result1 = migration_and_plot_polarization(s_VH_re,f, horzcat('','_VH'),depth_start,depth_end);
 VV_s_time_result1=migration_and_plot_polarization(s_VV_re,f, horzcat('','_VV'),depth_start,depth_end);
  %% change
  s=s_VH_re;
