@@ -115,8 +115,8 @@ s_use = data_fill(s_sample,sample_list);
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
 %% モデル作成
-r=5;
-t=2;
+r=5
+t=2
 
 FREQ_POINT=size(HH_s_time_result1,3)
 Z_NUM=7;
@@ -146,8 +146,8 @@ p=0.1
 % WHEN="0116"
 lambda=0.7;
 alpha_size=10^-4;
-experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t
-% experiment_content=  "hill_climbing_method_norm修正="+window_size+",r="+r+",t="+t;
+% experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t
+experiment_content=  "hill_climbing_method_="+window_size+",r="+r+",t="+t;
 IF_RANGE
 window_size
 tic
