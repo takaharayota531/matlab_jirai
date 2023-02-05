@@ -3,44 +3,44 @@ function [h,K]= ...
   
 
   
-%    FREQ_POINT=size(s,3)/4
-%     IF_NORMALIZATION=false
-% 
-%     S_HH=s(:,:,1:FREQ_POINT);
-%     S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
-%     S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
-%     S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
-% 
-%     % データの比率を一緒にしている
-%     [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
-%   K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
-% %     K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
-% %     K_only_S=K(:,:,1:4*FREQ_POINT);
-%  K_only_S=K(:,:,1:4*FREQ_POINT);
-%     h_only_feature_vector=calc_h(K_only_feature_vector,model);
-%     h_only_S=calc_h(K_only_S,model);
-%     h=calc_h(K,model);
-% 
-%     h_HH=calc_h(S_HH,model);
-%     h_HV=calc_h(S_HV,model);
-%     h_VH=calc_h(S_VH,model);
-%     h_VV=calc_h(S_VV,model);
+   FREQ_POINT=size(s,3)/4
+    IF_NORMALIZATION=false
+
+    S_HH=s(:,:,1:FREQ_POINT);
+    S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+
+    % データの比率を一緒にしている
+    [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
+  K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
+%     K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
+%     K_only_S=K(:,:,1:4*FREQ_POINT);
+ K_only_S=K(:,:,1:4*FREQ_POINT);
+    h_only_feature_vector=calc_h(K_only_feature_vector,model);
+    h_only_S=calc_h(K_only_S,model);
+    h=calc_h(K,model);
+
+    h_HH=calc_h(S_HH,model);
+    h_HV=calc_h(S_HV,model);
+    h_VH=calc_h(S_VH,model);
+    h_VV=calc_h(S_VV,model);
 
     
 
-% 
-%     figure(1)
-%     imagesc(h_HH)
-%     title("散乱行列SHH")
-%     figure(2)
-%     imagesc(h_HV)
-%     title("散乱行列SHV")
-%     figure(3)
-%     imagesc(h_VH)
-%     title("散乱行列SVH")
-%     figure(4)
-%     imagesc(h_VV)
-%      title("散乱行列SVV")
+
+    figure(1)
+    imagesc(h_HH)
+    title("散乱行列SHH")
+    figure(2)
+    imagesc(h_HV)
+    title("散乱行列SHV")
+    figure(3)
+    imagesc(h_VH)
+    title("散乱行列SVH")
+    figure(4)
+    imagesc(h_VV)
+     title("散乱行列SVV")
 
 
 %     figure(7)
@@ -77,22 +77,22 @@ function [h,K]= ...
 
 
 
-%      s_reflection_symmetry=abs((S_VV).*conj(S_VH));
-%      K_ref=calc_h(s_reflection_symmetry,model);
-%      figure(15)
-%      imagesc(K_ref)
-%      title('reflection symmetry')
-%       s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
-%      K_ref1=calc_h(s_reflection_symmetry1,model);
-%      figure(16)
-%      imagesc(K_ref1)
-%      title('reflection symmetry1')
-% 
-%        [s_reflection_symmetry,amp,phase]=calc_reflection_symmetry(s);
-%     k_reflection_symmetry=calc_h(s_reflection_symmetry,model);
-%     figure(17)
-%      imagesc(k_reflection_symmetry)
-%      title('phase relflection symmetry')
+     s_reflection_symmetry=abs((S_VV).*conj(S_VH));
+     K_ref=calc_h(s_reflection_symmetry,model);
+     figure(15)
+     imagesc(K_ref)
+     title('reflection symmetry')
+      s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
+     K_ref1=calc_h(s_reflection_symmetry1,model);
+     figure(16)
+     imagesc(K_ref1)
+     title('reflection symmetry1')
+
+       [s_reflection_symmetry,amp,phase]=calc_reflection_symmetry(s);
+    k_reflection_symmetry=calc_h(s_reflection_symmetry,model);
+    figure(17)
+     imagesc(k_reflection_symmetry)
+     title('phase relflection symmetry')
 
     s_reflection_symmetry_abs=calc_reflection_symmetry_abs(s);
     k_reflection_symmetry_abs=calc_h(s_reflection_symmetry_abs,model);

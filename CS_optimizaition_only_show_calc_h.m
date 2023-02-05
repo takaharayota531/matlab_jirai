@@ -87,7 +87,7 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=7
+window_size=2
 IF_RANGE=true
 depth_start=0.2;
 depth_end=0.4;
@@ -106,7 +106,7 @@ IF_PLOT=false
 
 %% input actual data
 
-window_size=1
+
 input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
 %% find_nearestの改訂版を作成する
 % [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
@@ -123,8 +123,8 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1
-r=9;
-t=3;
+r=5;
+t=2;
 WHEN="0124"
 FREQ_POINT=size(HH_s_time_result1,3);
 lambda=0.7
