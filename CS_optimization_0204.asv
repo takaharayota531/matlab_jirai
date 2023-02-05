@@ -74,17 +74,17 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=2
+window_size=7
 IF_RANGE=true
-depth_start=0.23;
-depth_end=0.28;
+depth_start=0.2;
+depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 
 
 %% plot
-IF_PLOT=false
+IF_PLOT=true
 [HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_{HH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 [VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_{VV}'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
 [HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_{HV}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
@@ -115,8 +115,9 @@ s_use = data_fill(s_sample,sample_list);
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
 %% モデル作成
-r=5;
-t=2;
+
+r=1;
+t=1;
 
 FREQ_POINT=size(HH_s_time_result1,3)
 Z_NUM=7;
@@ -212,8 +213,6 @@ input_string=horzcat(dataFolder,experiment_content,"")
 % migration_and_plot(s_VV,f_VV,'VV_result');
 
 s1=s_list(:,:,:,1);
-s1_all=sum(abs(s1),'all')
+s1_all=(s1,[],'all')
 s2=s_list(:,:,:,2);
-s2_all=sum(abs(s2),'all')
 s6=s_list(:,:,:,6);
-s6_all=sum(abs(s6),'all')

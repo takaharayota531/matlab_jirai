@@ -202,7 +202,7 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 input_string=horzcat(dataFolder,experiment_content,"")
- h_most_count=show_history_10_scaled_takahara(h_list(:,:,7:end),1,model,r,t,input_string,6);
+ h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
 
 %  h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
 %% testplot
