@@ -12,17 +12,17 @@ set(0,'defaultTextInterpreter','latex');
 % VV_name='VV';
 % HV_name='HV_40_120';
 % VH_name='VH_40_120';
-dataFolder='data1218\0116\';
-HH_name='HH_60_120';
-HV_name='HV_60_120';
-VH_name='VH_60_120';
-VV_name='VV_60_120';
-
-
-data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+% dataFolder='data1218\0116\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+% 
+% 
+% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
 % dataFolder='data1218\0119_5to15GHZ_45degree\';
 % HH_name='HH_60_120';
@@ -89,8 +89,8 @@ s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
 window_size=2
 IF_RANGE=true
-depth_start=0.2;
-depth_end=0.4;
+depth_start=0.23;
+depth_end=0.28;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);

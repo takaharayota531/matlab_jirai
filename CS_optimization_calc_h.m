@@ -43,61 +43,61 @@ function [h,K]= ...
      title("散乱行列SVV")
 
 
-    figure(7)
-    imagesc(h)
-   title("特徴量K")
-    figure(8)
-    imagesc(h_only_feature_vector)
-     title("特徴量行列S'")
-    figure(9)
-    imagesc(h_only_S)
-    title("散乱行列S")
+%     figure(7)
+%     imagesc(h)
+%    title("特徴量K")
+%     figure(8)
+%     imagesc(h_only_feature_vector)
+%      title("特徴量行列S'")
+%     figure(9)
+%     imagesc(h_only_S)
+%     title("散乱行列S")
 
 
-    s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
-    s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
-    s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
-    s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
-    K1=calc_h(s_dash1,model);
-K2=calc_h(s_dash2,model);
-K3=calc_h(s_dash3,model);
-K4=calc_h(s_dash4,model);
-    figure(10)
-    imagesc(K1)
-    title("S'HH")
-    figure(11)
-    imagesc(K2)
-    title("S'HV")
-    figure(12)
-    imagesc(K3)
-    title("S'VH")
-    figure(13)
-    imagesc(K4)
-     title("S'VV")
+%     s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
+%     s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
+%     s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
+%     s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
+%     K1=calc_h(s_dash1,model);
+% K2=calc_h(s_dash2,model);
+% K3=calc_h(s_dash3,model);
+% K4=calc_h(s_dash4,model);
+%     figure(10)
+%     imagesc(K1)
+%     title("S'HH")
+%     figure(11)
+%     imagesc(K2)
+%     title("S'HV")
+%     figure(12)
+%     imagesc(K3)
+%     title("S'VH")
+%     figure(13)
+%     imagesc(K4)
+%      title("S'VV")
 
 
 
-%      s_reflection_symmetry=abs((S_VV).*conj(S_VH));
-%      K_ref=calc_h(s_reflection_symmetry,model);
-%      figure(15)
-%      imagesc(K_ref)
-%      title('reflection symmetry')
-%       s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
-%      K_ref1=calc_h(s_reflection_symmetry1,model);
-%      figure(16)
-%      imagesc(K_ref1)
-%      title('reflection symmetry1')
-% 
-%        [s_reflection_symmetry,amp,phase]=calc_reflection_symmetry(s);
-%     k_reflection_symmetry=calc_h(s_reflection_symmetry,model);
-%     figure(17)
-%      imagesc(k_reflection_symmetry)
-%      title('phase relflection symmetry')
-% 
-%     s_reflection_symmetry_abs=calc_reflection_symmetry_abs(s);
-%     k_reflection_symmetry_abs=calc_h(s_reflection_symmetry_abs,model);
-%     figure(18)
-%      imagesc(k_reflection_symmetry_abs)
-%      title('phase relflection symmetry_abs')
+     s_reflection_symmetry=abs((S_VV).*conj(S_VH));
+     K_ref=calc_h(s_reflection_symmetry,model);
+     figure(15)
+     imagesc(K_ref)
+     title('reflection symmetry')
+      s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
+     K_ref1=calc_h(s_reflection_symmetry1,model);
+     figure(16)
+     imagesc(K_ref1)
+     title('reflection symmetry1')
+
+       [s_reflection_symmetry,amp,phase]=calc_reflection_symmetry(s);
+    k_reflection_symmetry=calc_h(s_reflection_symmetry,model);
+    figure(17)
+     imagesc(k_reflection_symmetry)
+     title('LL-RR phase')
+
+    s_reflection_symmetry_abs=calc_reflection_symmetry_abs(s);
+    k_reflection_symmetry_abs=calc_h(s_reflection_symmetry_abs,model);
+    figure(18)
+     imagesc(k_reflection_symmetry_abs)
+     title(['LL-RR'])
 
 end

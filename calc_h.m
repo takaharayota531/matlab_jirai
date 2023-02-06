@@ -1,7 +1,7 @@
 % 半径rの円の内部と外側を比較
 
 function h = calc_h(k,model)
-    [Nx,Ny,k_dim] = size(k);
+    [Nx,Ny,~] = size(k);
     %すべてのモデルについて相関度を計算しそのモデルでの特徴ベクトルの平均をとる．
     mx = size(model,1);
     my=size(model,2);
@@ -28,7 +28,7 @@ function h = calc_h(k,model)
 %     %posの指定の仕方の変更
 %      [ii, jj] = ind2sub(size(zeros(Nx-mx+1,Ny-my+1)), I);
 %      pos=[ii,jj];
-% %    display_position(pos,model,Nx,Ny);
+%    display_position(pos,model,Nx,Ny);
     
     end
     
@@ -51,4 +51,4 @@ function h = calc_h(k,model)
 %     colormap(gray);
 %     end
 %     
-%         
+        

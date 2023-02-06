@@ -53,7 +53,7 @@ IF_DIFF=true;
 
 %% HH_calc
 
-p=0.1;
+
 f=f_HH;%ここは要改善
 
 %   s_HH_re=s_HH;
@@ -74,14 +74,14 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=7
+window_size=2
 IF_RANGE=true
-depth_start=0.2;
-depth_end=0.4;
+depth_start=0.23
+depth_end=0.28
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
-FREQ_POINT=201;
+
 
 %% plot
 IF_PLOT=false
@@ -115,17 +115,16 @@ s_use = data_fill(s_sample,sample_list);
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
 %% モデル作成
+r=5
+t=2
 
-r=1;
-t=1;
-
-FREQ_POINT=68
+FREQ_POINT=size(HH_s_time_result1,3)
 Z_NUM=7;
 % model=make_model_sphere(r,t);
- [r,t,model]=make_square_model(r,t);
+%  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
-% [r,t,model]=make_square_model_without_diretion(r,t);
+[r,t,model]=make_square_model_without_diretion(r,t);
 %% 普通の圧縮センシング
 % tic
 % [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
@@ -143,18 +142,18 @@ Z_NUM=7;
 %  E_iV=1/sqrt(2);
 % E_iH=0;
 % E_iV=1;
-% p=0.1
+p=0.1
 % WHEN="0116"
-lambda=0.7
-alpha_size=10^-3
-% experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-experiment_content=  "hill_climbing_method_norm修正="+window_size+",r="+r+",t="+t;
+lambda=0.7;
+alpha_size=10^-4;
+% experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t
+experiment_content=  "hill_climbing_method_="+window_size+",r="+r+",t="+t;
 IF_RANGE
 window_size
 tic
 %     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
 [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-  
+%   [s_list,h_list,f_list,K_list]=atodekesu(input_data_array,model,p,alpha_size);
 % [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 %% hlist
@@ -203,10 +202,18 @@ ylabel('alpha')
 
 input_string=horzcat(dataFolder,experiment_content,"")
  h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
-
-%  h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
+%  input_string=horzcat(dataFolder,experiment_content,"")
+%  h_most_count=show_history_10_scaled_takahara(h_his(:,:,7:end),1,model,r,t,input_string,6);
+%migration_and_plot(s_result,f,dataname);
+%  h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,'data1218\0116\gradient_descent0124_パイプモデルlambda0.7',0);
+%  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,21:end),1,model,r,t,'data1218\0107\_ver_polarimetry_正規化on_0121改定',20);
+ 
 %% testplot
 % migration_and_plot(s_VV,f_VV,'VV_result');
 
 s1=s_list(:,:,:,1);
+s1_all=sum(abs(s1),'all')
+s2=s_list(:,:,:,2);
+s2_all=sum(abs(s2),'all')
 s6=s_list(:,:,:,6);
+s6_all=sum(abs(s6),'all')

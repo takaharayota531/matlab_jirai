@@ -1,5 +1,5 @@
 %散乱画像、ウィンドウサイズ、モデルサイズ
-function [s_list,h_list,f_list]=atodekesu(S,model,p,alpha_size)
+function [s_list,h_list,f_list]=atodekesu_re(S,model,p,alpha_size)
     K=S;
     h=calc_h(K,model);
     loop_num=10;
@@ -26,31 +26,33 @@ function [s_list,h_list,f_list]=atodekesu(S,model,p,alpha_size)
 %               S=s_list(:,:,:,loop);
 %               f=f_list(loop);
 %               h=h_list(:,:,loop);
+        tmp_S=s_list(:,:,:,loop);
         for i=1:Nx
             for j=1:Ny   
-                 for k=1:Nf
-%                   S=s_list(:,:,:,loop);
-%                   f=f_list(loop);
-%                   h=h_list(:,:,loop);
-                        tmp_K=S;
-                        [tmp_f,~]=calc_h_and_f(tmp_K,model,p);
+                tmp_K=tmp_S;
+                [tmp_f,~]=calc_h_and_f(tmp_K,model,p);
+                target_S=tmp_S;
+                target_f=tmp_f;
+                parfor k=1:Nf
                         alpha=complex_random(alpha_size);
-                        can_S=S;
-                        can_S(i,j,k)=S(i,j,k)+alpha;
+                        can_S=target_S;
+                        can_S(i,j,k)=target_S(i,j,k)+alpha;
                         can_K=can_S;
-                        [can_f,can_h]=calc_h_and_f(can_K,model,p);
+                        [can_f,~]=calc_h_and_f(can_K,model,p);
 
-                        if can_f<tmp_f
-                            S(i,j,k)=can_S(i,j,k);
-                            f=can_f;
-                            h=can_h;      
+                        if can_f<target_f
+                            tmp_S(i,j,k)=can_S(i,j,k);
+                        
                         end
                 end
+                
             end
         end
-        f_list(loop+1)=f;
-        h_list(:,:,loop+1)=h;
-        s_list(:,:,:,loop+1)=S;
+        tmp_K=tmp_S;
+        [tmp_f,tmp_h]=calc_h_and_f(tmp_K,model,p);   
+        f_list(loop+1)=tmp_f;
+        h_list(:,:,loop+1)=tmp_h;
+        s_list(:,:,:,loop+1)=tmp_S;
        
     end
 

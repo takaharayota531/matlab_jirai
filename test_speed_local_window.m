@@ -12,17 +12,17 @@ set(0,'defaultTextInterpreter','latex');
 % VV_name='VV';
 % HV_name='HV_40_120';
 % VH_name='VH_40_120';
-% dataFolder='data1218\0116\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
-% 
-% 
-% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+dataFolder='data1218\0116\';
+HH_name='HH_60_120';
+HV_name='HV_60_120';
+VH_name='VH_60_120';
+VV_name='VV_60_120';
+
+
+data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
 % dataFolder='data1218\0119_5to15GHZ_45degree\';
 % HH_name='HH_60_120';
@@ -36,18 +36,6 @@ set(0,'defaultTextInterpreter','latex');
 % data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
 % data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
 
-dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
-HH_name='HH_60_120';
-HV_name='HV_60_120';
-VH_name='VH_60_120';
-VV_name='VV_60_120';
-
-
-
-data_hosei_HH_name='data1218\0205_direct\HH_direct';
-data_hosei_HV_name='data1218\0205_direct\HV_direct';
-data_hosei_VH_name='data1218\0205_direct\VH_direct';
-data_hosei_VV_name='data1218\0205_direct\VV_direct';
 
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
@@ -86,9 +74,9 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=2
+window_size=7
 IF_RANGE=true
-depth_start=0.25
+depth_start=0.25;
 depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
@@ -128,8 +116,8 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 
-r=5;
-t=2;
+r=2;
+t=1;
 
 FREQ_POINT=size(input_data_array,3)/4;
 Z_NUM=7;
@@ -160,7 +148,7 @@ Z_NUM=7;
 lambda=0.7
 alpha_size=10^-4
 % experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-experiment_content=  "hill_climbing_phase_reflection_symmetry_test_speed="+window_size+",r="+r+",t="+t;
+experiment_content=  "hill_climbing_method_test_speed="+window_size+",r="+r+",t="+t;
 IF_RANGE
 window_size
 %% execution

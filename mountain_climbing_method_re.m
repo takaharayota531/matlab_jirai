@@ -81,5 +81,6 @@ end
 function [f,h]=calc_h_and_f(K,model,p)
     h=calc_h(K,model);
     aa=(sum(abs(h).^p,'all'));
-    f=(sum(abs(h).^p,'all'))^(1/p);
+%     f=(sum(abs(h).^p,'all'))^(1/p);
+ f=(sum(abs(h).^p,'all'));
 end
