@@ -24,7 +24,7 @@ function dh=calc_dh(K,model,DIFF_BY,FREQ_POINT)
     %todo 高原
 
     % これがモデル掃引の役割をはたしている
-    for xh=1:Nx
+    parfor xh=1:Nx
         for yh=1:Ny
             % モデル掃引領域内のデータを取得
             st=K(Ix(xh:xh+mx-1),Iy(yh:yh+my-1),:);
@@ -57,37 +57,33 @@ function dh=calc_dh(K,model,DIFF_BY,FREQ_POINT)
                 MUL_COEEFICIENT=3;      
             end
 
-            for f=1:FREQ_POINT
+            for f1=1:FREQ_POINT
                 
-                d_kp(MUL_COEEFICIENT*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel;%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(MUL_COEEFICIENT*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel;
-                d_kp(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HH_re_diff(xs,ys,f);   
-                d_kp(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HV_re_diff(xs,ys,f);   
-                d_kp(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VH_re_diff(xs,ys,f);  
-                d_kp(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VV_re_diff(xs,ys,f);  
+                d_kp(MUL_COEEFICIENT*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel;%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km(MUL_COEEFICIENT*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel;
+                d_kp(4*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_HH_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km(4*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_HH_re_diff(xs,ys,f1);   
+                d_kp(5*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_HV_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km(5*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_HV_re_diff(xs,ys,f1);   
+                d_kp(6*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_VH_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km(6*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_VH_re_diff(xs,ys,f1);  
+                d_kp(7*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_VV_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km(7*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_VV_re_diff(xs,ys,f1);  
 
 
 
                 % 多分ここ間違っている
                 %　共役微分について考え直す必要あり
-                d_kp_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(4*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HH_re_diff(xs,ys,f);   
-                d_kp_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_HV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(5*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_HV_re_diff(xs,ys,f);   
-                d_kp_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VH_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(6*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VH_re_diff(xs,ys,f);  
-                d_kp_conj(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=pmodel.*S_VV_re_diff(xs,ys,f);%前半のf:K(r,f)のf、後半のf:偏微分するδK(r,f)
-                d_km_conj(7*FREQ_POINT+f,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f)=mmodel.*S_VV_re_diff(xs,ys,f);  
-
-
+                d_kp_conj(4*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_HH_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km_conj(4*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_HH_re_diff(xs,ys,f1);   
+                d_kp_conj(5*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_HV_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km_conj(5*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_HV_re_diff(xs,ys,f1);   
+                d_kp_conj(6*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_VH_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km_conj(6*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_VH_re_diff(xs,ys,f1);  
+                d_kp_conj(7*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=pmodel.*S_VV_re_diff(xs,ys,f1);%前半のf:K(r,f1)のf、後半のf:偏微分するδK(r,f1)
+                d_km_conj(7*FREQ_POINT+f1,xs,ys,MUL_COEEFICIENT*FREQ_POINT+f1)=mmodel.*S_VV_re_diff(xs,ys,f1);  
 
             end
-
-%            d_kp_check=permute(d_kp,[ 2 3 1 4]);
 
 
            
@@ -113,22 +109,16 @@ d_akm(xs,ys,f,2)=squeeze(sum(conj(d_km_conj(:,xs,ys,f)).*km,1)/2/abs_km).*mmodel
 d_kpn=zeros(ALL_FREQ_POINT,mx,my,FREQ_POINT*4,2);
 d_kmn=zeros(ALL_FREQ_POINT,mx,my,FREQ_POINT*4,2);
 % 正規化kの複素共役を微分をしている
-% d_kpn_conj=zeros(ALL_FREQ_POINT,mx,my,FREQ_POINT*4,2);
-% d_kmn_conj=zeros(ALL_FREQ_POINT,mx,my,FREQ_POINT*4,2);
+
 
 xs=1:mx;
 ys=1:my;
 f=1:FREQ_POINT*4;
 
-checking1=d_akm(xs,ys,f,1);
-checking=reshape(d_akm(xs,ys,f,1),1,mx,my,FREQ_POINT*4);
 % ここも偏微分対応しておく必要がある
 % TODO
 d_kmn(:,xs,ys,f,1)=(d_km(:,xs,ys,f)*abs_km-km.*reshape(d_akm(xs,ys,f,1),1,mx,my,FREQ_POINT*4))/abs_km^2;
 d_kmn(:,xs,ys,f,2)=(-km.*reshape(d_akm(xs,ys,f,2),1,mx,my,FREQ_POINT*4))/abs_km^2;
-
-
-
 dhm(xs,ys,f,1)=-sum(conj(kpn).*d_kmn(:,xs,ys,f,1)+kpn.*conj(d_kmn(:,xs,ys,f,2)),1)/2;
 dhm(xs,ys,f,2)=-sum(conj(kpn).*d_kmn(:,xs,ys,f,2)+kpn.*conj(d_kmn(:,xs,ys,f,1)),1)/2;
 dhm(xs,ys,f,:)=dhm(xs,ys,f,:).*pmodel;
@@ -138,8 +128,6 @@ dhm(xs,ys,f,:)=dhm(xs,ys,f,:).*pmodel;
 
 d_kpn(:,xs,ys,f,1) = (d_kp(:,xs,ys,f)*abs_kp-kp.*reshape(d_akp(xs,ys,f,1),1,mx,my,FREQ_POINT*4))/abs_kp^2;
 d_kpn(:,xs,ys,f,2) = (-kp.*reshape(d_akp(xs,ys,f,2),1,mx,my,FREQ_POINT*4))/abs_kp^2;
-
-
 dhp(xs,ys,f,1) = -sum(conj(kmn).*d_kpn(:,xs,ys,f,1)+kmn.*conj(d_kpn(:,xs,ys,f,2)),1)/2;
 dhp(xs,ys,f,2) = -sum(conj(kmn).*d_kpn(:,xs,ys,f,2)+kmn.*conj(d_kpn(:,xs,ys,f,1)),1)/2;
 dhp(xs,ys,f,:) = dhp(xs,ys,f,:).*pmodel;

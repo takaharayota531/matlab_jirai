@@ -154,7 +154,7 @@ window_size
 tic
 %     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
 % [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-  [s_list,h_list,f_list]=atodekesu(input_data_array,model,p,alpha_size);
+%   [s_list,h_list,f_list]=atodekesu(input_data_array,model,p,alpha_size);
 % [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 %% hlist

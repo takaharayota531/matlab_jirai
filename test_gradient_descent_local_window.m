@@ -7,34 +7,31 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% HV偏波プロット
-% dataFolder='data1218\0113_newsand\LR\';
-% HH_name='HH_40_120';
-% VV_name='VV';
-% HV_name='HV_40_120';
-% VH_name='VH_40_120';
-dataFolder='data1218\0116\';
+
+% dataFolder='data1218\0116\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+% 
+% 
+% data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
+% data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
+% data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
+% data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
+
+dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
 HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
 
-data_hosei_HH_name='data1218\0112\direct_9to19GHz\HH';
-data_hosei_VH_name='data1218\0112\direct_9to19GHz\VH';
-data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
-data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
-% dataFolder='data1218\0119_5to15GHZ_45degree\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
-
-
-% data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
-% data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
-% data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
-% data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
+data_hosei_HH_name='data1218\0205_direct\HH_direct';
+data_hosei_HV_name='data1218\0205_direct\HV_direct';
+data_hosei_VH_name='data1218\0205_direct\VH_direct';
+data_hosei_VV_name='data1218\0205_direct\VV_direct';
 
 
 data_HH_name = append(dataFolder,HH_name);
@@ -76,15 +73,15 @@ s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
 window_size=7
 IF_RANGE=true
-depth_start=0.2;
-depth_end=0.4;
+depth_start=0.25;
+depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 FREQ_POINT=201;
 
 %% plot
-IF_PLOT=false
+IF_PLOT=true
 [HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_{HH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 [VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_{VV}'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
 [HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_{HV}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
@@ -112,14 +109,14 @@ s_use = data_fill(s_sample,sample_list);
 % s_use = s_use(:,:,[1 10:20:770]);
 % f=f([1 10:10:100]);
 %% 試しにプロット
-%migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
+% migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
 
 %% モデル作成
 
 r=1;
 t=1;
 
-FREQ_POINT=68
+% FREQ_POINT=68
 Z_NUM=7;
 % model=make_model_sphere(r,t);
  [r,t,model]=make_square_model(r,t);
@@ -141,32 +138,39 @@ Z_NUM=7;
 %% 最適化
 %  E_iH=1/sqrt(2);
 %  E_iV=1/sqrt(2);
-% E_iH=0;
-% E_iV=1;
+E_iH=0;
+E_iV=0;
 % p=0.1
 % WHEN="0116"
+
+alpha_size=10^-4
+WHEN="0125"
+FREQ_POINT=size(HH_s_time_result1,3);
 lambda=0.7
-alpha_size=10^-3
-% experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-experiment_content=  "hill_climbing_method_test_speed="+window_size+",r="+r+",t="+t;
+experiment_content=  "gradient_descen_0125_t_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
+% experiment_content=  "hill_climbing_method_test_speed="+window_size+",r="+r+",t="+t;
+% experiment_content=  "gradient_descent="+window_size+",r="+r+",t="+t
 IF_RANGE
 window_size
+c=10^-3
+%% check
 tic
-%     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
+%     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent_parallel(input_data_array, model, p);
 % [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-  [s_list,h_list,f_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-% [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
+%   [s_list,h_list,f_list]=atodekesu(input_data_array,model,p,alpha_size);
+[s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,E_iH,E_iV,WHEN,lambda,c);
 ans_tim=toc
 %% hlist
 
-target_point=1;
+target_point=3;
 % target_point=10;
 s_his_re=s_his(:,:,:,target_point);
 
 df1=df_his(:,:,:,1,target_point);
 df2=df_his(:,:,:,2,target_point);
 f_his_re=f_list(target_point);
-c=10e-3
+%%
+c=10^-3
 d=-10:0.1:30;
 % df_degree=zeros(size(df_his_re));
 % df_degree(1,1,end)=1;
@@ -188,13 +192,13 @@ legend('傾き','評価関数');
 %% plot
 figure(3)
 plot(f_list)
-title('評価関数通常')
+title('評価関数')
 xlabel('試行回数')
 ylabel('f')
 %% 
 figure(4);
 plot(alpha_his)
-title('アルミホの条件のalpha通常')
+title('アルミホの条件のalpha')
 xlabel('試行回数')
 ylabel('alpha')
 
@@ -202,11 +206,14 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 input_string=horzcat(dataFolder,experiment_content,"")
- h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
+ h_most_count=show_history_10_scaled_takahara(h_his(:,:,1:6),1,model,r,t,input_string,0);
+  h_most_count1=show_history_10_scaled_takahara(h_his(:,:,7:end),1,model,r,t,input_string,6);
+ %% 
+input_string=horzcat(dataFolder,experiment_content,"")
 
-%  h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
+ h_most_count=show_history_10_scaled_takahara(h_his,1,model,r,t,input_string,0);
 %% testplot
 % migration_and_plot(s_VV,f_VV,'VV_result');
 
-s1=s_list(:,:,:,1);
-s6=s_list(:,:,:,6);
+s1=s_his(:,:,:,1);
+s6=s_his(:,:,:,6);

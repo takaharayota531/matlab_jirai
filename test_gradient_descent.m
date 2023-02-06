@@ -78,10 +78,8 @@ depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
-FREQ_POINT=201;
-
 %% plot
-IF_PLOT=true
+IF_PLOT=false
 [HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_{HH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 [VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_{VV}'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
 [HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_{HV}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
@@ -117,12 +115,12 @@ r=5;
 t=2;
 
 % FREQ_POINT=68
-Z_NUM=7;
+% Z_NUM=7;
 % model=make_model_sphere(r,t);
-%  [r,t,model]=make_square_model(r,t);
-% [r,t,model]=make_model_transpose(r,t,model);
+ [r,t,model]=make_square_model(r,t);
+[r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
-[r,t,model]=make_square_model_without_diretion(r,t);
+% [r,t,model]=make_square_model_without_diretion(r,t);
 %% 普通の圧縮センシング
 % tic
 % [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
@@ -144,7 +142,7 @@ E_iV=0;
 % WHEN="0116"
 
 alpha_size=10^-4
-WHEN="gradient_descent"
+% WHEN="0125"
 FREQ_POINT=size(HH_s_time_result1,3);
 lambda=0.7
 % experiment_content=  "gradient_descen_0125_t_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
@@ -155,10 +153,10 @@ window_size
 c=10^-3
 %% check
 tic
-    [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent_parallel(input_data_array, model, p);
+    [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent_parallel(s_use, model, p);
 % [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
 %   [s_list,h_list,f_list]=atodekesu(input_data_array,model,p,alpha_size);
-% [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,E_iH,E_iV,WHEN,lambda,c);
+% [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(s_use,model,p,FREQ_POINT,E_iH,E_iV,WHEN,lambda,c);
 ans_tim=toc
 %% hlist
 
