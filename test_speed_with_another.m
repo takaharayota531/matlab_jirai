@@ -24,30 +24,30 @@ set(0,'defaultTextInterpreter','latex');
 % data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
 % data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
-% dataFolder='data1218\0119_5to15GHZ_45degree\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
-
-
-% data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
-% data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
-% data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
-% data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
-
-dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+dataFolder='data1218\0119_5to15GHZ_45degree\';
 HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
 
+data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
+data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
+data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
+data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
 
-data_hosei_HH_name='data1218\0205_direct\HH_direct';
-data_hosei_HV_name='data1218\0205_direct\HV_direct';
-data_hosei_VH_name='data1218\0205_direct\VH_direct';
-data_hosei_VV_name='data1218\0205_direct\VV_direct';
+% dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+% 
+% 
+% 
+% data_hosei_HH_name='data1218\0205_direct\HH_direct';
+% data_hosei_HV_name='data1218\0205_direct\HV_direct';
+% data_hosei_VH_name='data1218\0205_direct\VH_direct';
+% data_hosei_VV_name='data1218\0205_direct\VV_direct';
 
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
@@ -88,8 +88,8 @@ s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
 window_size=2
 IF_RANGE=true
-depth_start=0.28
-depth_end=0.33;
+depth_start=0.23
+depth_end=0.28
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
@@ -110,24 +110,25 @@ x_left_45_re,y_left_45_re,z_left_45_re,...
 x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1,f,window_size,index_distance);
 
 %% input actual data
-pre_input_data_array= decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
-input_data_array= decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
-input_data_array=pre_input_data_array(3:end-2,3:end-2,:);
+input_before_data=cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1);
 %% 
 WHEN="0";
-CS_optimization_calc_h(input_data_array,model,p,WHEN,lambda);
+% CS_optimization_calc_h(input_before_data,model,p,WHEN,lambda);
 %% find_nearestの改訂版を作成する
 % [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
 
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(input_data_array,2);
+[s_sample,sample,sample_list] = data_sample(input_before_data,2);
 
 s_use = data_fill(s_sample,sample_list);
+%% 
+input_data_array=decide_window(data_size_change(s_use,window_size),window_size);
+CS_optimization_calc_h(input_data_array,model,p,WHEN,lambda);
 % s_use = s_use(:,:,[1 10:20:770]);
 % f=f([1 10:10:100]);
 %% nande
-CS_optimization_calc_h(s_use,model,p,WHEN,lambda);
+
 
 %% 試しにプロット
 %migration_and_plot_polarization(s_use,cat(3,f,f,f,f,f,f,f), horzcat('try','window=7'),0,1);
@@ -166,7 +167,7 @@ Z_NUM=7;
 lambda=0.7
 alpha_size=10^-4
 % experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-experiment_content=  "hill_climbing_phase_reflection_symmetry_test_speed="+window_size+",r="+r+",t="+t;
+experiment_content=  "hill_climbing_im_reflection_symmetry_test_speed="+window_size+",r="+r+",t="+t;
 IF_RANGE
 window_size
 %% execution
