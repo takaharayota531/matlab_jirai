@@ -12,14 +12,14 @@ function [h,K]= ...
     S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
 
     % データの比率を一緒にしている
-    [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
-  K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
+%     [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
+%   K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
 %     K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
 %     K_only_S=K(:,:,1:4*FREQ_POINT);
- K_only_S=K(:,:,1:4*FREQ_POINT);
-    h_only_feature_vector=calc_h(K_only_feature_vector,model);
-    h_only_S=calc_h(K_only_S,model);
-    h=calc_h(K,model);
+%  K_only_S=K(:,:,1:4*FREQ_POINT);
+%     h_only_feature_vector=calc_h(K_only_feature_vector,model);
+%     h_only_S=calc_h(K_only_S,model);
+%     h=calc_h(K,model);
 
     h_HH=calc_h(S_HH,model);
     h_HV=calc_h(S_HV,model);
@@ -54,14 +54,14 @@ function [h,K]= ...
 %     title("散乱行列S")
 
 
-    s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
-    s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
-    s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
-    s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
-    K1=calc_h(s_dash1,model);
-K2=calc_h(s_dash2,model);
-K3=calc_h(s_dash3,model);
-K4=calc_h(s_dash4,model);
+%     s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
+%     s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
+%     s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
+%     s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
+%     K1=calc_h(s_dash1,model);
+% K2=calc_h(s_dash2,model);
+% K3=calc_h(s_dash3,model);
+% K4=calc_h(s_dash4,model);
 %     figure(10)
 %     imagesc(K1)
 %     title("S'HH")
@@ -77,7 +77,7 @@ K4=calc_h(s_dash4,model);
 
 
 
-     s_reflection_symmetry=ReflectionSymmetry(s);
+     s_reflection_symmetry=abs((S_VV).*conj(S_VH));
      K_ref=calc_h(s_reflection_symmetry,model);
      figure(15)
      imagesc(K_ref)
@@ -98,17 +98,58 @@ K4=calc_h(s_dash4,model);
     k_reflection_symmetry_abs=calc_h(s_reflection_symmetry_abs,model);
     figure(18)
      imagesc(k_reflection_symmetry_abs)
-     title(['LL-RR'])
+     title('LL-RR')
 
+     corre_real=calc_corre_real(s);
+     figure(19)
+     imagesc(calc_h(corre_real,model))
+        title('real')
+
+     corre_im=calc_corre_im(s);
+     figure(20)
+     imagesc(calc_h(corre_im,model))
+     title('im')
+
+     corre_abs=calc_actual_abs(s);
+     figure(21)
+     imagesc(calc_h(corre_abs,model))
+     title('real2')
 end
 
-function s_reflection_symmetry= ReflectionSymmetry(S)
-FREQ_POINT=size(S,3)/4;
-  S_HH=S(:,:,1:FREQ_POINT);
-  S_HV=S(:,:,FREQ_POINT+1:2*FREQ_POINT);
-  S_VH=S(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
-  S_VV=S(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
-  s_reflection_symmetry=abs((S_VV).*conj(S_VH));
-  % s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
-  
+function corre_real=calc_corre_real(s)
+     FREQ_POINT=size(s,3)/4;
+    % IF_NORMALIZATION=false
+
+    S_HH=s(:,:,1:FREQ_POINT);
+    S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+    S_HV_re=(S_HV+S_VH)/2;
+
+    corre_real=4*abs(S_HV_re).^2-abs(S_HH-S_VV).^2;
+end
+function actual_abs=calc_actual_abs(s)
+  FREQ_POINT=size(s,3)/4;
+    % IF_NORMALIZATION=false
+
+    S_HH=s(:,:,1:FREQ_POINT);
+    S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+    S_HV_re=S_VH;
+
+    actual_abs=4*abs(S_HV_re).^2-abs(S_HH-S_VV).^2;
+end
+
+function corre_im=calc_corre_im(s)
+     FREQ_POINT=size(s,3)/4;
+    % IF_NORMALIZATION=false
+
+    S_HH=s(:,:,1:FREQ_POINT);
+    S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+    S_HV_re=S_HV;
+
+    corre_im=(real(conj(S_HV_re).*(S_HH-S_VV)));
 end

@@ -49,6 +49,19 @@ set(0,'defaultTextInterpreter','latex');
 % data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
 % data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
 
+dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+HH_name='HH_60_120';
+HV_name='HV_60_120';
+VH_name='VH_60_120';
+VV_name='VV_60_120';
+
+
+
+data_hosei_HH_name='data1218\0205_direct\HH_direct';
+data_hosei_HV_name='data1218\0205_direct\HV_direct';
+data_hosei_VH_name='data1218\0205_direct\VH_direct';
+data_hosei_VV_name='data1218\0205_direct\VV_direct';
+
 
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);

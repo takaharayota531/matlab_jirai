@@ -83,15 +83,17 @@ x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result
 %% input actual data
 
 
-input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
+input_before_data=cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1);
 %% find_nearestの改訂版を作成する
 % [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
 
 %% データの取り出しと補間
 
-[s_sample,sample,sample_list] = data_sample(input_data_array,2);
+[s_sample,sample,sample_list] = data_sample(input_before_data,2);
 
 s_use = data_fill(s_sample,sample_list);
+%% 
+input_data_array=decide_window(data_size_change(s_use,window_size),window_size);
 % s_use = s_use(:,:,[1 10:20:770]);
 % f=f([1 10:10:100]);
 %% 試しにプロット
