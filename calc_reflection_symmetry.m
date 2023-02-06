@@ -1,5 +1,5 @@
 function [result,amp,phase]=calc_reflection_symmetry(s)
-    FREQ_POINT=size(s,3)/4
+    FREQ_POINT=size(s,3)/4;
     % IF_NORMALIZATION=false
 
     S_HH=s(:,:,1:FREQ_POINT);
