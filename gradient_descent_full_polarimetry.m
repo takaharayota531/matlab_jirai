@@ -7,7 +7,7 @@ function [s,s_list,h_list,alpha_list,df_list,K_list,f_list]= ...
     %his:historyの略
 
 %     Ns=sum(sample(:,:,1),'all');%取り出したデータの数
-    m=size(model,1);
+    
 
     % S_h=calc_h(s(1:4*FREQ_POINT),model);%TODO ここ最初からその他の情報を含むことができていない
     % データの比率を一緒にしている
@@ -19,22 +19,24 @@ function [s,s_list,h_list,alpha_list,df_list,K_list,f_list]= ...
 
     h=calc_h(K,model);
 
-    [Nx,Ny,Nf]=size(K);
-    K_list=K;
-    s_list = s;
-    h_list = h;
-    f_list=[];
-    alpha_list = zeros(0,0);
-    df_list = zeros(Nx,Ny,FREQ_POINT*4,2,0);
+    [Nx,Ny,K_Nf]=size(K);
+    [~,~,Nf]=size(s);
+    loop_num=3;
+    K_list=zeros(Nx,Ny,K_Nf,loop_num*4+1);
+    h_list=zeros(Nx,Ny,loop_num*4+1);
+    s_list=zeros(Nx,Ny,Nf,loop_num*4+1);
+    alpha_list = zeros(loop_num*4,1);
+    f_list=zeros(loop_num*4,1);
+   
+    s_list(:,:,:,1) = s;
+    h_list(:,:,1)  = h;
+    K_list(:,:,:,1)=K;
+   
+    
+    
+    df_list = zeros(Nx,Ny,FREQ_POINT*4,2,4*loop_num);
 
-
-
-    % 結合テスト
-    % まず更新なしで試してみる
-    i=0
-    try_num=4;
-
-    while(i<try_num)
+   for loop=1:loop_num
 
         for POLARIMETRY_COUNT=1:4
             if POLARIMETRY_COUNT==1
@@ -50,67 +52,31 @@ function [s,s_list,h_list,alpha_list,df_list,K_list,f_list]= ...
             df=calc_df_full_polarimetry_0116(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
         elseif WHEN=="0121"
             df=calc_df_full_polarimetry_0121(K,h,model,p,DIFF_BY,E_iH,E_iV,FREQ_POINT);
-        elseif WHEN=="0124" || WHEN=="0130"
-            df=calc_df_full_polarimetry_0124_semifinal(K,h,model,p,DIFF_BY,FREQ_POINT);
+%         elseif WHEN=="0124" || WHEN=="0130"
+%             df=calc_df_full_polarimetry_0124_semifinal(K,h,model,p,DIFF_BY,FREQ_POINT);
              elseif WHEN=="0125" 
             df=calc_df_full_polarimetry_0124_semifinal_change(K,h,model,p,DIFF_BY,FREQ_POINT);
         end
-        
+        looping_num=(loop-1)*4+POLARIMETRY_COUNT;
         d=-2*squeeze(df(:,:,:,2));
-        [alpha,f]=armijo_full_polarimetry(d,df,s_list(:,:,:,end),model,p,E_iH,E_iV,FREQ_POINT,WHEN,lambda,c);
-        f_list(end+1)=f;
+        [alpha,f]=armijo_full_polarimetry(d,df,s_list(:,:,:,looping_num),model,p,E_iH,E_iV,FREQ_POINT,WHEN,lambda,c);
+        f_list(looping_num)=f;
         s=s+alpha*d;
-        [K,s]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,false,WHEN,lambda);
-        alpha_list(end+1)=alpha;
-        s_list(:,:,:,end+1)=s;
-        K_list(:,:,:,end+1)=K;
+        [K,~]=create_feature_vector_full_polarimetry(s,E_iH,E_iV,FREQ_POINT,false,WHEN,lambda);
+        alpha_list(looping_num)=alpha;
+        s_list(:,:,:,looping_num+1)=s;
+        K_list(:,:,:,looping_num+1)=K;
         h=calc_h(K,model);
 
-        % alpha_list(end+1)=alpha;
-         df_list(:,:,:,:,end+1)=df;
-        % s_list(:,:,:,end+1)=s;
-        h_list(:,:,end+1)=h;
+      
+         df_list(:,:,:,:,looping_num)=df;
+        h_list(:,:,looping_num+1)=h;
         end
-
-
-        % ここでg1,g2,g3を更新しておく
-
-        % if alpha<1e-6
-        %     break;
-        % end
-        i=i+1;
     end
 
 
 
 end
 
-% while(i<10)
-%     df=calc_df(K(:,:,1:4*FREQ_POINT),h,model,p);
-%     d=-2*squeeze(df(:,:,:,2));
-
-%     df_full_polarimetry=calc_df_full_polarimetry(K,h,model,p,FREQ_POINT);
-%     d_full_polarimetry=-2*squeeze(df_full_polarimetry(:,:,:,2));
-
-%     added_d=cat(3,d,d_full_polarimetry);
-%     added_df=cat(3,df,df_full_polarimetry);
-
-%     % alpha=armijo(d,df,s_list(:,:,:,end),model,p);
-%     alpha=armijo(added_d,added_df,s_list(:,:,:,end),model,p);
 
 
-%     % s=s+alpha*d;
-%     s=s+alpha*added_d;
-%     h=calc_h(K,model);
-
-%     alpha_list(end+1)=alpha;
-%     % df_list(:,:,:,:,end+1)=df;
-%     df_list(:,:,:,:,end+1)=added_df;
-%     s_list(:,:,:,end+1)=s;
-%     h_list(:,:,end+1)=h;
-
-%     if alpha<1e-6
-%         break;
-%     end
-%     i=i+1;
-% end
