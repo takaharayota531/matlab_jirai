@@ -15,5 +15,6 @@ function result=calc_reflection_symmetry_abs(s)
     denominator=abs(S_HH-S_VV+2i*S_HV_re).*abs(S_HH-S_VV-2i*S_HV_re);
   
 %     result=abs(numerator)./denominator;
-result=(numerator./denominator);
+ result=abs(numerator);
+% result=(numerator./denominator);
 end

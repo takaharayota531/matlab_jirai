@@ -84,5 +84,18 @@ end
 
 
 function K=calc_K(S)
-    K=calc_reflection_symmetry(S);
+    % K=calc_reflection_symmetry(S);
+    K=ReflectionSymmetry(S);
+end
+
+
+function s_reflection_symmetry= ReflectionSymmetry(S)
+FREQ_POINT=size(S,3)/4;
+    S_HH=S(:,:,1:FREQ_POINT);
+    S_HV=S(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=S(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=S(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+    s_reflection_symmetry=abs((S_VV).*conj(S_VH));
+    % s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
+    
 end

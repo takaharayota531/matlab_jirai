@@ -29,18 +29,18 @@ function [h,K]= ...
     
 
 
-    figure(1)
-    imagesc(h_HH)
-    title("散乱行列SHH")
-    figure(2)
-    imagesc(h_HV)
-    title("散乱行列SHV")
-    figure(3)
-    imagesc(h_VH)
-    title("散乱行列SVH")
-    figure(4)
-    imagesc(h_VV)
-     title("散乱行列SVV")
+%     figure(1)
+%     imagesc(h_HH)
+%     title("散乱行列SHH")
+%     figure(2)
+%     imagesc(h_HV)
+%     title("散乱行列SHV")
+%     figure(3)
+%     imagesc(h_VH)
+%     title("散乱行列SVH")
+%     figure(4)
+%     imagesc(h_VV)
+%      title("散乱行列SVV")
 
 
 %     figure(7)
@@ -54,14 +54,14 @@ function [h,K]= ...
 %     title("散乱行列S")
 
 
-%     s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
-%     s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
-%     s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
-%     s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
-%     K1=calc_h(s_dash1,model);
-% K2=calc_h(s_dash2,model);
-% K3=calc_h(s_dash3,model);
-% K4=calc_h(s_dash4,model);
+    s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);
+    s_dash2= K(:,:,5*FREQ_POINT+1:6*FREQ_POINT);
+    s_dash3= K(:,:,6*FREQ_POINT+1:7*FREQ_POINT);
+    s_dash4= K(:,:,7*FREQ_POINT+1:8*FREQ_POINT);
+    K1=calc_h(s_dash1,model);
+K2=calc_h(s_dash2,model);
+K3=calc_h(s_dash3,model);
+K4=calc_h(s_dash4,model);
 %     figure(10)
 %     imagesc(K1)
 %     title("S'HH")
@@ -77,7 +77,7 @@ function [h,K]= ...
 
 
 
-     s_reflection_symmetry=abs((S_VV).*conj(S_VH));
+     s_reflection_symmetry=ReflectionSymmetry(s);
      K_ref=calc_h(s_reflection_symmetry,model);
      figure(15)
      imagesc(K_ref)
@@ -100,4 +100,15 @@ function [h,K]= ...
      imagesc(k_reflection_symmetry_abs)
      title(['LL-RR'])
 
+end
+
+function s_reflection_symmetry= ReflectionSymmetry(S)
+FREQ_POINT=size(S,3)/4;
+  S_HH=S(:,:,1:FREQ_POINT);
+  S_HV=S(:,:,FREQ_POINT+1:2*FREQ_POINT);
+  S_VH=S(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+  S_VV=S(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+  s_reflection_symmetry=abs((S_VV).*conj(S_VH));
+  % s_reflection_symmetry1=abs((S_VV).*conj(S_HV));
+  
 end

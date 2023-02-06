@@ -16,7 +16,7 @@ function [result,amp,phase]=calc_reflection_symmetry(s)
     amp=(S_HH-S_VV).*conj((S_HH-S_VV)) - 4*(S_HV_re).*conj(S_HV_re);
     x=phase./amp;
 
-    result=x./sqrt(1+x.^2);
+    result=(x./sqrt(1+x.^2));
 % ans=amp;
 % ans=phase;
 end

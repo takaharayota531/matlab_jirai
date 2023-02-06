@@ -7,11 +7,7 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% HV偏波プロット
-% dataFolder='data1218\0113_newsand\LR\';
-% HH_name='HH_40_120';
-% VV_name='VV';
-% HV_name='HV_40_120';
-% VH_name='VH_40_120';
+
 % dataFolder='data1218\0116\';
 % HH_name='HH_60_120';
 % HV_name='HV_60_120';
@@ -88,7 +84,8 @@ s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
 window_size=2
 IF_RANGE=true
-depth_start=0.25
+
+depth_start=0.25;
 depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
@@ -102,17 +99,21 @@ IF_PLOT=false
 [HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_{HV}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 [VH_s_time_result1 ,~]= migration_and_plot_polarization_full_polarimetry(s_VH_re,f, horzcat(VH_name,'_{VH}'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 %%
-[x_hori_re,y_hori_re,z_hori_re,...
-x_ver_re,y_ver_re,z_ver_re,...
-x_for_45_re,y_for_45_re,z_for_45_re,... 
-x_back_45_re,y_back_45_re,z_back_45_re,... 
-x_left_45_re,y_left_45_re,z_left_45_re,...
-x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1,f,window_size,index_distance);
+% [x_hori_re,y_hori_re,z_hori_re,...
+% x_ver_re,y_ver_re,z_ver_re,...
+% x_for_45_re,y_for_45_re,z_for_45_re,... 
+% x_back_45_re,y_back_45_re,z_back_45_re,... 
+% x_left_45_re,y_left_45_re,z_left_45_re,...
+% x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1,f,window_size,index_distance);
 
 %% input actual data
-% pre_input_data_array= 
-% input_data_array= decide_window(data_size_change(cat(3,s_HH_re,s_HV_re,s_VH_re,s_VV_re),window_size),window_size);
-input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
+pre_input_data_array= decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
+% input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1),window_size),window_size);
+input_data_array=pre_input_data_array(3:end-2,3:end-2,:);
+
+%% 
+WHEN="0125";
+CS_optimization_calc_h(input_data_array,model,p,WHEN,lambda);
 %% find_nearestの改訂版を作成する
 % [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
 
@@ -121,6 +122,8 @@ input_data_array=decide_window(data_size_change(cat(3,HH_s_time_result1,HV_s_tim
 [s_sample,sample,sample_list] = data_sample(input_data_array,2);
 
 s_use = data_fill(s_sample,sample_list);
+WHEN="0125";
+CS_optimization_calc_h(s_use,model,p,WHEN,lambda);
 % s_use = s_use(:,:,[1 10:20:770]);
 % f=f([1 10:10:100]);
 %% 試しにプロット
@@ -160,14 +163,14 @@ Z_NUM=7;
 lambda=0.7
 alpha_size=10^-4
 % experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
-experiment_content=  "hill_climbing_phase_reflection_symmetry_test_speed="+window_size+",r="+r+",t="+t;
+experiment_content=  "hill_climbing_reflection_symmetry0_test_speed="+window_size+",r="+r+",t="+t
 IF_RANGE
 window_size
 %% execution
 tic
 %     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
 % [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-  [s_list,h_list,f_list]=atodekesu_hill_climbing(input_data_array,model,p,alpha_size);
+  [s_list,h_list,f_list]=atodekesu_hill_climbing(s_use,model,p,alpha_size);
 % [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 %% hlist
