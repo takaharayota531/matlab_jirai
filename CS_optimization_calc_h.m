@@ -92,12 +92,12 @@ function [h,K]= ...
     k_reflection_symmetry=calc_h(s_reflection_symmetry,model);
     figure(17)
      imagesc(k_reflection_symmetry)
-     title('phase relflection symmetry')
+     title('LL-RR phase')
 
     s_reflection_symmetry_abs=calc_reflection_symmetry_abs(s);
     k_reflection_symmetry_abs=calc_h(s_reflection_symmetry_abs,model);
     figure(18)
      imagesc(k_reflection_symmetry_abs)
-     title('phase relflection symmetry_abs')
+     title(['LL-RR'])
 
 end

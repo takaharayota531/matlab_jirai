@@ -57,7 +57,7 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=1
+window_size=2
 IF_RANGE=true
 depth_start=0.25;
 depth_end=0.30;
@@ -99,8 +99,8 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 p=0.1
-r=9;
-t=3;
+r=5;
+t=2;
 WHEN="0124"
 FREQ_POINT=size(HH_s_time_result1,3);
 lambda=0.7

@@ -74,14 +74,14 @@ s_VV_re=s_VV(CUT_SIZE+1:end-CUT_SIZE,CUT_SIZE+1:end-CUT_SIZE,:);
 s_HV_re=s_HV(1:end-CUT_SIZE*2,1:end-CUT_SIZE*2-CUT_SIZE_RE,:);
 s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
-window_size=7
+window_size=2
 IF_RANGE=true
-depth_start=0.2;
-depth_end=0.4;
+depth_start=0.25;
+depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
-FREQ_POINT=201;
+% FREQ_POINT=201;
 
 %% plot
 IF_PLOT=false
@@ -116,16 +116,16 @@ s_use = data_fill(s_sample,sample_list);
 
 %% モデル作成
 
-r=1;
-t=1;
+r=5;
+t=2;
 
-FREQ_POINT=68
+FREQ_POINT=size(input_data_array,3)/4;
 Z_NUM=7;
 % model=make_model_sphere(r,t);
- [r,t,model]=make_square_model(r,t);
+%  [r,t,model]=make_square_model(r,t);
 % [r,t,model]=make_model_transpose(r,t,model);
 %model=make_model_sphere(r,t);
-% [r,t,model]=make_square_model_without_diretion(r,t);
+[r,t,model]=make_square_model_without_diretion(r,t);
 %% 普通の圧縮センシング
 % tic
 % [s_result,s_his,h_his,alpha_his,df_his]=gradient_descent(s_use,sample,model,p);
@@ -146,49 +146,50 @@ Z_NUM=7;
 % p=0.1
 % WHEN="0116"
 lambda=0.7
-alpha_size=10^-4
+alpha_size=5*10^-4
 % experiment_content=  "gradient_descent_window="+window_size+",r="+r+",t="+t+",lambda="+lambda
 experiment_content=  "hill_climbing_method_test_speed="+window_size+",r="+r+",t="+t;
 IF_RANGE
 window_size
+%% execution
 tic
 %     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
 % [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
-  [s_list,h_list,f_list]=atodekesu(input_data_array,model,p,alpha_size);
+  [s_list,h_list,f_list]=atodekesu_re(input_data_array,model,p,alpha_size);
 % [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 %% hlist
-
-target_point=1;
-% target_point=10;
-s_his_re=s_his(:,:,:,target_point);
-
-df1=df_his(:,:,:,1,target_point);
-df2=df_his(:,:,:,2,target_point);
-f_his_re=f_list(target_point);
-c=10e-3
-d=-10:0.1:30;
-% df_degree=zeros(size(df_his_re));
-% df_degree(1,1,end)=1;
-% df_change=f_his_re+d*squeeze(df1(1,1,1).*df_degree(1,1,1));
-df_degree=ones(size(df1));
-df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all')+sum(df2.*conj(df_degree),'all'))*c;
-% df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all'));
-f_function=[];
-for e=-10:0.1:30
-    f_function(end+1)=calc_f_gradient_descent(s_his_re+e*df_degree,model,p);
-end
-figure(2);
-plot(d,df_change,'r')
-hold on
-plot(d,f_function,'b')
-hold off
-legend('傾き','評価関数');
-% plot(d,df_change,'b',d,f_function,'r')
+% 
+% target_point=1;
+% % target_point=10;
+% s_his_re=s_his(:,:,:,target_point);
+% 
+% df1=df_his(:,:,:,1,target_point);
+% df2=df_his(:,:,:,2,target_point);
+% f_his_re=f_list(target_point);
+% c=10e-3
+% d=-10:0.1:30;
+% % df_degree=zeros(size(df_his_re));
+% % df_degree(1,1,end)=1;
+% % df_change=f_his_re+d*squeeze(df1(1,1,1).*df_degree(1,1,1));
+% df_degree=ones(size(df1));
+% df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all')+sum(df2.*conj(df_degree),'all'))*c;
+% % df_change=f_his_re+d*squeeze(sum(df1.*df_degree,'all'));
+% f_function=[];
+% for e=-10:0.1:30
+%     f_function(end+1)=calc_f_gradient_descent(s_his_re+e*df_degree,model,p);
+% end
+% figure(2);
+% plot(d,df_change,'r')
+% hold on
+% plot(d,f_function,'b')
+% hold off
+% legend('傾き','評価関数');
+% % plot(d,df_change,'b',d,f_function,'r')
 %% plot
 figure(3)
-plot(f_list)
-title('評価関数通常')
+plot(f_list(:,1))
+title(['評価関数'])
 xlabel('試行回数')
 ylabel('f')
 %% 
@@ -202,11 +203,11 @@ ylabel('alpha')
 %% 最適化後の結果表示
 
 input_string=horzcat(dataFolder,experiment_content,"")
- h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
+ h_most_count=show_history_10_scaled_takahara(h_list(:,:,1:6),1,model,r,t,input_string,0);
 
-%  h_most_count=show_history_10_scaled_takahara(h_list,1,model,r,t,input_string,0);
+ h_most_count=show_history_10_scaled_takahara(h_list(:,:,7:end),1,model,r,t,input_string,6);
 %% testplot
 % migration_and_plot(s_VV,f_VV,'VV_result');
 
 s1=s_list(:,:,:,1);
-s6=s_list(:,:,:,6);
+s6=s_list(:,:,:,2);
