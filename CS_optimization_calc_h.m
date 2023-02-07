@@ -12,13 +12,13 @@ function [h,K]= ...
     S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
 
     % データの比率を一緒にしている
-%     [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
-%   K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
-%     K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
-%     K_only_S=K(:,:,1:4*FREQ_POINT);
-%  K_only_S=K(:,:,1:4*FREQ_POINT);
-%     h_only_feature_vector=calc_h(K_only_feature_vector,model);
-%     h_only_S=calc_h(K_only_S,model);
+    [K,s]=create_feature_vector_full_polarimetry(s,0,1,FREQ_POINT,IF_NORMALIZATION,WHEN,lambda);
+  K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
+    K_only_feature_vector=K(:,:,4*FREQ_POINT+1:end);
+    K_only_S=K(:,:,1:4*FREQ_POINT);
+ K_only_S=K(:,:,1:4*FREQ_POINT);
+    h_only_feature_vector=calc_h(K_only_feature_vector,model);
+    h_only_S=calc_h(K_only_S,model);
 %     h=calc_h(K,model);
 
     h_HH=calc_h(S_HH,model);
@@ -29,18 +29,18 @@ function [h,K]= ...
     
 
 
-%     figure(1)
-%     imagesc(h_HH)
-%     title("散乱行列SHH")
-%     figure(2)
-%     imagesc(h_HV)
-%     title("散乱行列SHV")
-%     figure(3)
-%     imagesc(h_VH)
-%     title("散乱行列SVH")
-%     figure(4)
-%     imagesc(h_VV)
-%      title("散乱行列SVV")
+    figure(1)
+    imagesc(h_HH)
+    title("散乱行列SHH")
+    figure(2)
+    imagesc(h_HV)
+    title("散乱行列SHV")
+    figure(3)
+    imagesc(h_VH)
+    title("散乱行列SVH")
+    figure(4)
+    imagesc(h_VV)
+     title("散乱行列SVV")
 
 
 %     figure(7)
@@ -49,9 +49,9 @@ function [h,K]= ...
 %     figure(8)
 %     imagesc(h_only_feature_vector)
 %      title("特徴量行列S'")
-%     figure(9)
-%     imagesc(h_only_S)
-%     title("散乱行列S")
+    figure(9)
+    imagesc(h_only_S)
+    title("散乱行列S")
 
 
 %     s_dash1= K(:,:,4*FREQ_POINT+1:5*FREQ_POINT);

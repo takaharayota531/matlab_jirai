@@ -24,30 +24,30 @@ set(0,'defaultTextInterpreter','latex');
 % data_hosei_HV_name='data1218\0112\direct_9to19GHz\HV';
 % data_hosei_VV_name='data1218\0112\direct_9to19GHz\VV';
 
-% dataFolder='data1218\0119_5to15GHZ_45degree\';
-% HH_name='HH_60_120';
-% HV_name='HV_60_120';
-% VH_name='VH_60_120';
-% VV_name='VV_60_120';
-% 
-% 
-% data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
-% data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
-% data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
-% data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
-
-dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+dataFolder='data1218\0119_5to15GHZ_45degree\';
 HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
 
+data_hosei_HH_name='data1218\0124_5to15GHz_direct_coupling\HH_direct';
+data_hosei_VH_name='data1218\0124_5to15GHz_direct_coupling\VH_direct';
+data_hosei_HV_name='data1218\0124_5to15GHz_direct_coupling\HV_direct';
+data_hosei_VV_name='data1218\0124_5to15GHz_direct_coupling\VV_direct';
 
-data_hosei_HH_name='data1218\0205_direct\HH_direct';
-data_hosei_HV_name='data1218\0205_direct\HV_direct';
-data_hosei_VH_name='data1218\0205_direct\VH_direct';
-data_hosei_VV_name='data1218\0205_direct\VV_direct';
+% dataFolder='data1218\0202\pipe(30cm_0cm_5cm)\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
+% 
+% 
+% 
+% data_hosei_HH_name='data1218\0205_direct\HH_direct';
+% data_hosei_HV_name='data1218\0205_direct\HV_direct';
+% data_hosei_VH_name='data1218\0205_direct\VH_direct';
+% data_hosei_VV_name='data1218\0205_direct\VV_direct';
 
 data_HH_name = append(dataFolder,HH_name);
 data_VV_name = append(dataFolder,VV_name);
@@ -112,7 +112,7 @@ x_right_45_re,y_right_45_re,z_right_45_re]=poincare_sphere_plot(HH_s_time_result
 %% input actual data
 input_before_data=cat(3,HH_s_time_result1,HV_s_time_result1,VH_s_time_result1,VV_s_time_result1);
 %% 
-WHEN="0";
+WHEN="0125";
 % CS_optimization_calc_h(input_before_data,model,p,WHEN,lambda);
 %% find_nearestの改訂版を作成する
 % [ans_array_S_HH,ans_array_S_HV,ans_array_S_VH,ans_array_S_VV] = find_nearest_stokes_vector_full_polarimetry(input_data_array,FREQ_POINT,false,4);
@@ -174,9 +174,9 @@ window_size
 %% execution
 tic
 %     [s,s_his,h_his,alpha_his,df_his,f_list]  =gradient_descent(input_data_array, model, p);
-% [s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
+[s_list,h_list,f_list,K_list]=mountain_climbing_method_re(input_data_array,model,p,alpha_size);
 %   [s_list,h_list,f_list]=atodekesu_hill_climbing(input_data_array,model,p,alpha_size);
-  [s_list,h_list,f_list]=atodekesu_hill_climbing(input_interpolate_array,model,p,alpha_size);
+%   [s_list,h_list,f_list]=atodekesu_hill_climbing(input_interpolate_array,model,p,alpha_size);
 % [s,s_his,h_his,alpha_his,df_his,K_list,f_list]=gradient_descent_full_polarimetry(input_data_array,model,p,FREQ_POINT,Z_NUM,E_iH,E_iV,WHEN,lambda);
 ans_tim=toc
 %% hlist

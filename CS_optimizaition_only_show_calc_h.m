@@ -7,11 +7,7 @@ set(0,'defaultTextInterpreter','latex');
 
 
 %% HV偏波プロット
-% dataFolder='data1218\0113_newsand\LR\';
-% HH_name='HH_40_120';
-% VV_name='VV';
-% HV_name='HV_40_120';
-% VH_name='VH_40_120';
+
 % dataFolder='data1218\0116\';
 % HH_name='HH_60_120';
 % HV_name='HV_60_120';
@@ -54,6 +50,12 @@ HH_name='HH_60_120';
 HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
+% 
+% dataFolder='data1218\0202\pipe(30_30-12.5_7cm)\';
+% HH_name='HH_60_120';
+% HV_name='HV_60_120';
+% VH_name='VH_60_120';
+% VV_name='VV_60_120';
 
 
 
@@ -69,7 +71,7 @@ data_HV_name = append(dataFolder,HV_name);
 data_VH_name = append(dataFolder,VH_name);
 
 %% data_hosei
-IF_DIFF=true;
+IF_DIFF=false;
 [s_HH,f_HH] = data_load_py_another(data_HH_name,data_hosei_HH_name,IF_DIFF);
 [s_VV,f_VV] = data_load_py_another(data_VV_name,data_hosei_VV_name,IF_DIFF);
 [s_HV,f_HV] = data_load_py_another(data_HV_name,data_hosei_HV_name,IF_DIFF);
@@ -102,15 +104,15 @@ s_VH_re=s_VH(1+CUT_SIZE*2:end,1+CUT_SIZE*2:end-CUT_SIZE_RE,:);
 %% 定数値 
 window_size=2
 IF_RANGE=true
-depth_start=0.23;
-depth_end=0.28;
+depth_start=0.25;
+depth_end=0.3;
 X_SIZE=size(s_HH_re,1);
 Y_SIZE=size(s_HH_re,2);
 Z_SIZE=size(s_HH_re,3);
 % FREQ_POINT=201;
 
 %% plot
-IF_PLOT=false
+IF_PLOT=true
 [HH_s_time_result1,index_distance]=migration_and_plot_polarization_full_polarimetry(s_HH_re,f, horzcat(HH_name,'_HH'),depth_start,depth_end,IF_RANGE,IF_PLOT);
 [VV_s_time_result1,~]=migration_and_plot_polarization_full_polarimetry(s_VV_re,f, horzcat(VV_name,'_VV'),depth_start,depth_end,IF_RANGE,IF_PLOT); 
 [HV_s_time_result1 ,~]=migration_and_plot_polarization_full_polarimetry(s_HV_re,f, horzcat(HV_name,'_HV'),depth_start,depth_end,IF_RANGE,IF_PLOT);
@@ -149,4 +151,4 @@ lambda=0.7
 
 %% only calc h
 % [h,K]= ...
-CS_optimization_calc_h(input_data_array,model,p,WHEN,lambda);
+CS_optimization_calc_h(s_use,model,p,WHEN,lambda);

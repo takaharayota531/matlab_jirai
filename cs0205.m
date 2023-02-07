@@ -13,6 +13,12 @@ HV_name='HV_60_120';
 VH_name='VH_60_120';
 VV_name='VV_60_120';
 
+dataFolder='data1218\0202\pipe(30_30-12.5_7cm)\';
+HH_name='HH_60_120';
+HV_name='HV_60_120';
+VH_name='VH_60_120';
+VV_name='VV_60_120';
+
 
 
 data_hosei_HH_name='data1218\0205_direct\HH_direct';

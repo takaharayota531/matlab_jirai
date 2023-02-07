@@ -85,9 +85,22 @@ end
 
 function K=calc_K(S)
     % K=calc_reflection_symmetry(S);
-    K=ReflectionSymmetry(S);
+%     K=ReflectionSymmetry(S);
+K=calc_corre_im(S);
 end
 
+function corre_im=calc_corre_im(s)
+     FREQ_POINT=size(s,3)/4;
+    % IF_NORMALIZATION=false
+
+    S_HH=s(:,:,1:FREQ_POINT);
+    S_HV=s(:,:,FREQ_POINT+1:2*FREQ_POINT);
+    S_VH=s(:,:,2*FREQ_POINT+1:3*FREQ_POINT);
+    S_VV=s(:,:,3*FREQ_POINT+1:4*FREQ_POINT);
+    S_HV_re=S_HV;
+
+    corre_im=(real(conj(S_HV_re).*(S_HH-S_VV)));
+end
 
 function s_reflection_symmetry= ReflectionSymmetry(S)
 FREQ_POINT=size(S,3)/4;
